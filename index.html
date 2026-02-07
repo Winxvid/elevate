@@ -1,0 +1,291 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+    <title>Elevated Auto Wraps | San Antonio Vehicle Customization</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link href="https://fonts.googleapis.com/css2?family=Archivo:ital,wght@1,900&family=Inter:wght@300;400;500;600;700;800;900&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+  <style>
+    :root {
+      --purple-neon: #a855f7;
+      --purple-light: #e9d5ff;
+    }
+    body {
+      font-family: 'Inter', sans-serif;
+      background-color: #08070b;
+      background-image: 
+        radial-gradient(circle at 20% 0%, rgba(255, 255, 255, 0.15) 0%, transparent 40%),
+        radial-gradient(circle at 80% 20%, rgba(168, 85, 247, 0.2) 0%, transparent 50%),
+        radial-gradient(circle at 50% 100%, rgba(233, 213, 255, 0.15) 0%, transparent 60%),
+        linear-gradient(to bottom, #08070b 0%, #0c0b14 100%);
+      color: #fff;
+      margin: 0;
+      overflow-x: hidden;
+      -webkit-font-smoothing: antialiased;
+      -moz-osx-font-smoothing: grayscale;
+      scroll-behavior: smooth;
+    }
+    .porsche-font {
+      font-family: 'Archivo', sans-serif;
+      font-weight: 900;
+      font-style: italic;
+      text-transform: uppercase;
+      letter-spacing: -0.05em;
+    }
+    .bg-aura-purple {
+      background: radial-gradient(circle at 50% 50%, rgba(168, 85, 247, 0.25) 0%, transparent 70%);
+    }
+    .bg-aura-white {
+      background: radial-gradient(circle at 50% 50%, rgba(255, 255, 255, 0.12) 0%, transparent 70%);
+    }
+    .bg-mesh {
+      background-image: 
+        radial-gradient(at 0% 0%, rgba(255, 255, 255, 0.05) 0px, transparent 50%),
+        radial-gradient(at 100% 0%, rgba(168, 85, 247, 0.1) 0px, transparent 50%),
+        radial-gradient(at 100% 100%, rgba(255, 255, 255, 0.05) 0px, transparent 50%),
+        radial-gradient(at 0% 100%, rgba(168, 85, 247, 0.1) 0px, transparent 50%);
+      background-size: cover;
+    }
+    .glass-panel {
+      background: rgba(255, 255, 255, 0.03);
+      backdrop-filter: blur(20px);
+      border: 1px solid rgba(255, 255, 255, 0.1);
+    }
+    .btn-solid { 
+      background: #7c3aed; 
+      color: white; 
+      padding: 18px 45px; 
+      font-weight: 800; 
+      display: inline-block; 
+      transition: all 0.3s cubic-bezier(0.2, 1, 0.3, 1);
+      text-decoration: none !important;
+      cursor: pointer;
+      box-shadow: 0 0 30px rgba(124, 58, 237, 0.3);
+    }
+    .btn-solid:hover {
+      transform: scale(1.05);
+      background: #fff;
+      color: #000;
+      box-shadow: 0 0 40px rgba(255, 255, 255, 0.5);
+    }
+  </style>
+  </style>
+  <!-- GSAP and ScrollTrigger -->
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.5/gsap.min.js"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.5/ScrollTrigger.min.js"></script>
+</head>
+<body>
+  <!-- Navbar -->
+  <nav class="fixed top-0 left-0 right-0 z-[100] flex items-center px-4 md:px-12 h-24 md:h-36 bg-black/20 backdrop-blur-2xl border-b border-white/5 transition-all duration-500">
+    <div class="max-w-screen-2xl mx-auto w-full flex items-center justify-between relative">
+      <div class="flex-1 hidden md:flex flex-col items-start justify-center gap-1 opacity-80 hover:opacity-100 transition-opacity duration-500">
+        <a href="tel:2102014999" class="text-[11px] font-black uppercase tracking-[0.4em] text-white hover:text-purple-300 transition-colors">
+          (210) 201-4999
+        </a>
+        <button class="text-[11px] font-black uppercase tracking-[0.4em] text-purple-400 hover:text-white transition-colors duration-300 text-left">
+          Schedule Consult
+        </button>
+      </div>
+      <div class="absolute left-1/2 top-1/2 -translate-x-1/2 -translate-y-1/2">
+        <a href="index.html"><img alt="Elevated Wraps" class="h-14 md:h-28 w-auto object-contain relative z-10 drop-shadow-[0_0_20px_rgba(255,255,255,0.1)]" src="https://ogautocc.com/ElevatedWraps/logo.PNG" decoding="async"></a>
+      </div>
+      <div class="flex-1 flex justify-end">
+        <div class="z-[110] relative flex items-center gap-4 md:gap-6 group focus:outline-none bg-white/5 p-3 md:p-4 px-5 md:px-8 rounded-full border border-white/10 hover:border-white/30 transition-all shadow-xl">
+          <a href="index.html" class="text-white mx-2">Home</a>
+          <a href="about.html" class="text-white mx-2">About</a>
+          <a href="services.html" class="text-white mx-2">Services</a>
+          <a href="wraps.html" class="text-white mx-2">Wraps</a>
+          <a href="PPFPage.html" class="text-white mx-2">PPF</a>
+          <a href="quote.html" class="text-white mx-2">Quote</a>
+        </div>
+      </div>
+      <div class="md:hidden absolute left-0 top-1/2 -translate-y-1/2 flex items-center">
+        <a href="tel:2102014999" class="text-white opacity-90 p-3.5 bg-white/5 rounded-full border border-white/10 active:bg-purple-600 transition-colors">
+          <i class="fa-solid fa-phone text-sm"></i>
+        </a>
+      </div>
+    </div>
+  </nav>
+
+  <!-- Home Section -->
+  <div class="bg-[#08070b] relative overflow-hidden hero" style="margin-top: 100px;">
+    <div class="absolute inset-0 bg-mesh opacity-40 pointer-events-none"></div>
+    <div class="absolute top-0 left-0 w-full h-[600px] md:h-[1000px] bg-gradient-to-b from-white/10 to-transparent pointer-events-none"></div>
+    <div class="absolute top-1/4 -left-1/4 w-[600px] md:w-[1200px] h-[600px] md:h-[1200px] bg-purple-500/15 blur-[150px] md:blur-[300px] rounded-full pointer-events-none"></div>
+    <canvas id="hero-canvas" style="position:absolute;top:0;left:0;width:100vw;height:100vh;z-index:1;"></canvas>
+    <section class="relative h-[100dvh] w-full flex items-center justify-center overflow-hidden" style="z-index:2;">
+      <div class="relative z-20 text-center px-4 w-full max-w-[1600px] mx-auto pt-24">
+        <h1 class="porsche-font text-[clamp(2.5rem,14vw,8.5rem)] leading-[0.75] text-white tracking-[-0.05em] parallax-text" data-speed="0.5">
+          <span class="block mb-2 md:mb-4 drop-shadow-[0_10px_40px_rgba(0,0,0,1)]">ELEVATED</span>
+          <span class="text-white drop-shadow-[0_0_60px_rgba(168,85,247,0.5)] italic">AUTO <span class="text-purple-400">WRAPS.</span></span>
+        </h1>
+        <div class="flex flex-col gap-4 mt-10 md:mt-16 mb-12 md:mb-20 text-white uppercase font-bold tracking-widest parallax-text" data-speed="0.8">
+          <span class="text-purple-300 text-[10px] md:text-sm tracking-[0.5em] md:tracking-[0.8em] font-black drop-shadow-2xl">Woman owned and operated</span>
+          <span class="text-[11px] md:text-lg tracking-[0.3em] md:tracking-[0.5em] opacity-80 font-medium px-4 max-w-2xl mx-auto italic leading-relaxed">SAN ANTONIO’S PREMIER DESTINATION FOR AUTOMOTIVE EXCELLENCE</span>
+        </div>
+        <div class="flex flex-col sm:flex-row items-center justify-center gap-5 md:gap-8 px-8 sm:px-0 parallax-text" data-speed="1.2">
+          <a href="tel:2102014999" class="btn-solid py-5 md:py-6 px-12 md:px-14 uppercase tracking-[0.4em] text-[10px] md:text-[11px] w-full sm:w-auto text-center rounded-full bg-white !text-black hover:!bg-purple-600 hover:!text-white shadow-none transition-all duration-500">Call Direct</a>
+          <a href="quote.html" class="btn-solid py-5 md:py-6 px-12 md:px-14 uppercase tracking-[0.4em] text-[10px] md:text-[11px] w-full sm:w-auto text-center rounded-full transition-all duration-500">Get a Quote</a>
+        </div>
+      </div>
+    </section>
+  </div>
+  <!-- Inserted Image After Hero Section -->
+  <div class="w-full flex flex-col md:flex-row justify-center items-center py-12 gap-12 md:gap-20 max-w-6xl mx-auto parallax-section" data-speed="0.7">
+    <div class="md:w-1/2 w-full flex flex-col justify-center items-start px-4 md:px-0">
+      <h2 class="porsche-font text-[clamp(2rem,5vw,3.6rem)] text-purple-500 leading-tight mb-6 reveal-on-scroll">ELEVATE YOUR VEHICLE</h2>
+      <p class="text-white text-lg md:text-xl font-medium leading-relaxed mb-4 reveal-on-scroll">Elevated Auto Wraps is San Antonio’s premier studio for Vehicle Customization and Auto Styling.</p>
+      <p class="text-zinc-300 text-base md:text-lg leading-loose reveal-on-scroll">With a foundation built on a passion for cars, our specialists have evolved into artisans of automotive aesthetics, with a commitment to mastering the art of film installation and custom wraps, and an unyielding dedication to enhancing every vehicle we touch and elevate.</p>
+    </div>
+    <div class="md:w-1/2 w-full flex justify-center items-center">
+      <img src="https://images.squarespace-cdn.com/content/v1/67053ead069230112a5e9280/4edcf25b-3f11-4a85-84c5-0ffa204d7867/IMG_9219.jpeg?format=2500w" alt="Elevated Auto Wraps Shop" class="rounded-2xl shadow-2xl max-w-4xl w-full reveal-on-scroll" />
+    </div>
+  </div>
+  <!-- Professional CTA Section -->
+  <div class="w-full flex flex-col items-center text-center py-8 md:py-12 relative overflow-hidden parallax-section reveal-on-scroll" style="background: linear-gradient(to bottom, #08070b 80%, #0c0b14 100%); min-height: 400px;" data-speed="0.4">
+    <img src="https://images.squarespace-cdn.com/content/v1/67053ead069230112a5e9280/4300286e-4fbb-4695-89d1-84b69c504fdd/IMG_0754.png?format=2500w" alt="Auto Styling Studio" class="absolute inset-0 w-full h-full object-cover opacity-20 z-0" style="pointer-events:none;" />
+    <div class="relative z-10 max-w-4xl mx-auto">
+      <h3 class="porsche-font text-[clamp(1.5rem,4vw,2.5rem)] text-purple-500 mb-4">WE FOCUS ON HIGH-QUALITY RESULTS AND RAISING THE STANDARD</h3>
+      <p class="text-white text-lg md:text-xl font-bold mb-2">WOMAN OWNED AND OPERATED IN SAN ANTONIO, TEXAS.</p>
+      <p class="text-zinc-300 text-base md:text-lg mb-6">Discover the difference at our auto styling studio by scheduling your appointment today.</p>
+      <a href="quote.html" class="btn-solid py-5 px-12 text-lg rounded-full uppercase tracking-[0.4em] font-black shadow-[0_0_30px_rgba(124,58,237,0.4)] hover:bg-white hover:text-black transition-all duration-500">GET IN TOUCH</a>
+    </div>
+  </div>
+
+  <!-- Footer -->
+  <div id="footer-container" class="reveal-on-scroll"></div>
+  <script>
+    fetch('footer.html')
+      .then(response => response.text())
+      .then(html => {
+        document.getElementById('footer-container').innerHTML = html;
+        // After footer loads, initialize UnicornStudio
+        (function(){
+          var u = window.UnicornStudio;
+          if(u && u.init){
+            if(document.readyState === "loading"){
+              document.addEventListener("DOMContentLoaded", function(){u.init()});
+            }else{
+              u.init();
+            }
+          }else{
+            window.UnicornStudio = {isInitialized:!1};
+            var i = document.createElement("script");
+            i.src = "https://cdn.jsdelivr.net/gh/hiunicornstudio/unicornstudio.js@v2.0.5/dist/unicornStudio.umd.js";
+            i.onload = function(){
+              if(document.readyState === "loading"){
+                document.addEventListener("DOMContentLoaded", function(){UnicornStudio.init()});
+              }else{
+                UnicornStudio.init();
+              }
+            };
+            (document.head||document.body).appendChild(i);
+          }
+        })();
+      });
+  </script>
+  <script>
+    // Dynamically load the navbar from navbar.html
+    fetch('navbar.html')
+      .then(response => response.text())
+      .then(html => {
+        const navContainer = document.createElement('div');
+        navContainer.innerHTML = html;
+        document.body.insertBefore(navContainer, document.body.firstChild);
+      });
+  </script>
+  <script>
+    // Hero Image Sequence
+    const heroCanvas = document.getElementById('hero-canvas');
+    if (heroCanvas) {
+      const ctx = heroCanvas.getContext('2d');
+      const frameCount = 145;
+      const images = [];
+      let imagesLoaded = 0;
+      const playhead = { frame: 0 };
+
+      const currentFrame = index => `hero/${(index + 1).toString().padStart(5, '0')}.png`;
+
+      const renderHero = () => {
+        let frameToShow = Math.round(playhead.frame);
+        if (images[frameToShow]) {
+          ctx.clearRect(0, 0, heroCanvas.width, heroCanvas.height);
+          ctx.drawImage(images[frameToShow], 0, 0, heroCanvas.width, heroCanvas.height);
+        }
+      };
+
+      for (let i = 0; i < frameCount; i++) {
+        const img = new Image();
+        img.src = currentFrame(i);
+        img.onload = () => {
+          imagesLoaded++;
+          if (imagesLoaded === frameCount) {
+            renderHero();
+          }
+        };
+        images.push(img);
+      }
+
+      heroCanvas.width = window.innerWidth;
+      heroCanvas.height = window.innerHeight;
+
+      window.addEventListener('resize', () => {
+        heroCanvas.width = window.innerWidth;
+        heroCanvas.height = window.innerHeight;
+        renderHero();
+      });
+
+      gsap.to(playhead, {
+        frame: frameCount - 1,
+        snap: 'frame',
+        ease: 'none',
+        scrollTrigger: {
+          scrub: 4, // Further increase scrub for even slower animation
+          trigger: '.hero',
+          start: 'top top',
+          end: '+=145vh',
+          pin: true,
+          anticipatePin: 1,
+        },
+        onUpdate: renderHero
+      });
+    }
+  </script>
+  <script>
+    // Parallax scroll effect for text and sections
+    document.addEventListener('DOMContentLoaded', function() {
+      const parallaxElements = document.querySelectorAll('.parallax-text, .parallax-section');
+      parallaxElements.forEach(el => {
+        const speed = parseFloat(el.getAttribute('data-speed')) || 1;
+        gsap.to(el, {
+          y: () => -(window.innerHeight * speed * 0.15),
+          ease: 'power1.out',
+          scrollTrigger: {
+            trigger: el,
+            start: 'top bottom',
+            end: 'bottom top',
+            scrub: true,
+          }
+        });
+      });
+      // Reveal-on-scroll animation for text and image after hero
+      gsap.utils.toArray('.reveal-on-scroll').forEach((el, i) => {
+        gsap.from(el, {
+          opacity: 0,
+          y: 40,
+          duration: 0.8,
+          delay: i * 0.2,
+          ease: 'power2.out',
+          scrollTrigger: {
+            trigger: el,
+            start: 'top 80%',
+            toggleActions: 'play none none none',
+          }
+        });
+      });
+    });
+  </script>
+</body>
+</html>

@@ -1,0 +1,207 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+    <title>Elevated Auto Wraps | About</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link href="https://fonts.googleapis.com/css2?family=Archivo:ital,wght@1,900&family=Inter:wght@300;400;500;600;700;800;900&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <style>
+      :root {
+        --purple-neon: #a855f7;
+        --purple-light: #e9d5ff;
+      }
+      body {
+        font-family: 'Inter', sans-serif;
+        background-color: #08070b;
+        background-image: 
+          radial-gradient(circle at 20% 0%, rgba(255, 255, 255, 0.15) 0%, transparent 40%),
+          radial-gradient(circle at 80% 20%, rgba(168, 85, 247, 0.2) 0%, transparent 50%),
+          radial-gradient(circle at 50% 100%, rgba(233, 213, 255, 0.15) 0%, transparent 60%),
+          linear-gradient(to bottom, #08070b 0%, #0c0b14 100%);
+        color: #fff;
+        margin: 0;
+        overflow-x: hidden;
+        -webkit-font-smoothing: antialiased;
+        -moz-osx-font-smoothing: grayscale;
+        scroll-behavior: smooth;
+      }
+      .porsche-font {
+        font-family: 'Archivo', sans-serif;
+        font-weight: 900;
+        font-style: italic;
+        text-transform: uppercase;
+        letter-spacing: -0.05em;
+      }
+      .bg-aura-purple {
+        background: radial-gradient(circle at 50% 50%, rgba(168, 85, 247, 0.25) 0%, transparent 70%);
+      }
+      .bg-aura-white {
+        background: radial-gradient(circle at 50% 50%, rgba(255, 255, 255, 0.12) 0%, transparent 70%);
+      }
+      .bg-mesh {
+        background-image: 
+          radial-gradient(at 0% 0%, rgba(255, 255, 255, 0.05) 0px, transparent 50%),
+          radial-gradient(at 100% 0%, rgba(168, 85, 247, 0.1) 0px, transparent 50%),
+          radial-gradient(at 100% 100%, rgba(255, 255, 255, 0.05) 0px, transparent 50%),
+          radial-gradient(at 0% 100%, rgba(168, 85, 247, 0.1) 0px, transparent 50%);
+        background-size: cover;
+      }
+      .glass-panel {
+        background: rgba(255, 255, 255, 0.03);
+        backdrop-filter: blur(20px);
+        border: 1px solid rgba(255, 255, 255, 0.1);
+      }
+      .btn-solid { 
+        background: #7c3aed; 
+        color: white; 
+        padding: 18px 45px; 
+        font-weight: 800; 
+        display: inline-block; 
+        transition: all 0.3s cubic-bezier(0.2, 1, 0.3, 1);
+        text-decoration: none !important;
+        cursor: pointer;
+        box-shadow: 0 0 30px rgba(124, 58, 237, 0.3);
+      }
+      .btn-solid:hover {
+        transform: scale(1.05);
+        background: #fff;
+        color: #000;
+        box-shadow: 0 0 40px rgba(255, 255, 255, 0.5);
+      }
+    </style>
+    <!-- GSAP and ScrollTrigger -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.5/gsap.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.5/ScrollTrigger.min.js"></script>
+</head>
+<body class="bg-[#08070b] text-white antialiased">
+  <div id="navbar-container"></div>
+  <main class="min-h-screen flex flex-col justify-center items-center">
+    <section class="w-full pt-32 md:pt-48 pb-20 md:pb-32 bg-[#08070b] relative overflow-hidden">
+      <div class="absolute inset-0 bg-mesh opacity-50 pointer-events-none"></div>
+      <div class="absolute top-0 left-1/4 w-[1200px] h-[1200px] bg-purple-500/20 blur-[250px] rounded-full pointer-events-none"></div>
+      <div class="absolute top-1/2 right-0 w-[1000px] h-[1000px] bg-white/15 blur-[200px] rounded-full pointer-events-none translate-x-1/2"></div>
+      <div class="absolute bottom-0 left-0 w-[800px] h-[800px] bg-purple-300/15 blur-[180px] rounded-full pointer-events-none -translate-x-1/2"></div>
+      <div class="max-w-6xl mx-auto px-6 relative z-10">
+        <div style="opacity: 1;">
+          <!-- OUR STORY SECTION (unchanged) -->
+          <h1 class="porsche-font text-5xl md:text-[9rem] text-white mb-12 md:mb-16 italic uppercase leading-none tracking-tighter" style="opacity: 1; transform: none;">OUR <span class="text-white drop-shadow-[0_0_40px_rgba(255,255,255,0.4)]">STORY</span></h1>
+          <div class="grid grid-cols-1 lg:grid-cols-12 gap-10 md:gap-16 items-start mb-20 md:mb-32">
+            <div class="lg:col-span-7 space-y-8 md:space-y-12 text-zinc-200 text-base md:text-xl font-light leading-relaxed italic">
+              <div class="space-y-6 md:space-y-8" style="opacity: 1;">
+                <p class="bg-white/5 p-8 md:p-10 rounded-[2rem] md:rounded-[3rem] border border-white/10 backdrop-blur-xl reveal-letters">Founded in November 2024 by car and art enthusiast Miranda Reyes, Elevated Auto Wraps represents a significant milestone in the Texas automotive landscape as the state's first woman-owned and operated vehicle wrap studio.</p>
+                <p class="pl-6 md:pl-10 border-l-4 border-purple-400 reveal-letters">Miranda launched Elevated with a singular vision: to redefine automotive customization through a lens of artistic precision and technical excellence. Her background as a lifelong car enthusiast, combined with a meticulous eye for detail, has quickly established the studio as a premier destination for San Antonio’s most discerning owners.</p>
+                <p class="text-purple-200 font-medium reveal-letters">Recently featured in VOYAGE SAN ANTONIO MAGAZINE, Miranda’s journey is rooted in breaking barriers within the industry. From complex color-change PPF on high-performance raptors to bespoke livery designs, her hands-on approach ensures that every vehicle leaving our studio reflects an uncompromising standard of craft.</p>
+              </div>
+              <div class="pt-6 md:pt-12" style="opacity: 1; transform: none;">
+                <div class="flex items-center gap-4 md:gap-6 mb-6 md:mb-8">
+                  <div class="w-12 h-12 md:w-16 md:h-16 rounded-full bg-white flex items-center justify-center shadow-[0_0_30px_rgba(255,255,255,0.4)]">
+                    <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="lucide lucide-star w-6 h-6 md:w-8 md:h-8 text-black fill-black" aria-hidden="true"><path d="M11.525 2.295a.53.53 0 0 1 .95 0l2.31 4.679a2.123 2.123 0 0 0 1.595 1.16l5.166.756a.53.53 0 0 1 .294.904l-3.736 3.638a2.123 2.123 0 0 0-.611 1.878l.882 5.14a.53.53 0 0 1-.771.56l-4.618-2.428a2.122 2.122 0 0 0-1.973 0L6.396 21.01a.53.53 0 0 1-.77-.56l.881-5.139a2.122 2.122 0 0 0-.611-1.879L2.16 9.795a.53.53 0 0 1 .294-.906l5.165-.755a2.122 2.122 0 0 0 1.597-1.16z"></path></svg>
+                  </div>
+                  <div>
+                    <h4 class="text-sm md:text-base font-black uppercase tracking-widest text-white">Miranda Reyes</h4>
+                    <span class="text-[9px] md:text-[10px] text-purple-300 uppercase font-bold tracking-[0.2em]">Founder & Lead Installer</span>
+                  </div>
+                </div>
+              </div>
+            </div>
+            <div class="lg:col-span-5 space-y-6 md:space-y-10">
+              <div class="aspect-[4/5] rounded-[2.5rem] md:rounded-[4rem] overflow-hidden border border-white/20 relative group shadow-2xl" style="opacity: 1; transform: none;">
+                <img class="w-full h-full object-cover object-right group-hover:scale-105 transition-all duration-1000" alt="Miranda Reyes at work" src="https://ogautocc.com/ElevatedWraps/Social.jpg">
+                <div class="absolute inset-0 bg-gradient-to-t from-black/60 via-transparent to-white/10"></div>
+              </div>
+              <a href="https://www.instagram.com/mirandareyes_007" target="_blank" rel="noopener noreferrer" class="flex items-center justify-between p-8 md:p-10 bg-white text-black rounded-[2rem] md:rounded-[3rem] hover:bg-purple-400 hover:text-white transition-all group relative overflow-hidden font-black uppercase tracking-[0.4em] text-[10px] md:text-xs shadow-2xl" style="opacity: 1; transform: none;">
+                <span>Follow the Journey</span>
+                <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="lucide lucide-external-link w-5 h-5 md:w-6 h-6 group-hover:translate-x-1 group-hover:-translate-y-1 transition-transform" aria-hidden="true"><path d="M15 3h6v6"></path><path d="M10 14 21 3"></path><path d="M18 13v6a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2h6"></path></svg>
+              </a>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+  </main>
+
+  <div id="footer-container"></div>
+  <script>
+    fetch('navbar.html')
+      .then(res => res.text())
+      .then(html => {
+        document.getElementById('navbar-container').innerHTML = html;
+      });
+    fetch('footer.html')
+      .then(res => res.text())
+      .then(html => {
+        document.getElementById('footer-container').innerHTML = html;
+      });
+  </script>
+  <script>
+    // UnicornStudio initialization
+    (function(){
+      var u = window.UnicornStudio;
+      if(u && u.init){
+        if(document.readyState === "loading"){
+          document.addEventListener("DOMContentLoaded", function(){u.init()});
+        }else{
+          u.init();
+        }
+      }else{
+        window.UnicornStudio = {isInitialized:!1};
+        var i = document.createElement("script");
+        i.src = "https://cdn.jsdelivr.net/gh/hiunicornstudio/unicornstudio.js@v2.0.5/dist/unicornStudio.umd.js";
+        i.onload = function(){
+          if(document.readyState === "loading"){
+            document.addEventListener("DOMContentLoaded", function(){UnicornStudio.init()});
+          }else{
+            UnicornStudio.init();
+          }
+        };
+        (document.head||document.body).appendChild(i);
+      }
+    })();
+  </script>
+  <script>
+      // GSAP letter-by-letter reveal for about page (fix: only animate text, preserve HTML tags, faster speed)
+      document.addEventListener('DOMContentLoaded', function() {
+        gsap.utils.toArray('.reveal-letters').forEach((el) => {
+          const originalHTML = el.innerHTML;
+          // Helper: split text nodes into spans, keep tags intact
+          function wrapTextNodes(node) {
+            if (node.nodeType === Node.TEXT_NODE) {
+              return node.textContent.split('').map(char => {
+                const span = document.createElement('span');
+                span.textContent = char;
+                span.style.opacity = '0';
+                return span;
+              });
+            } else if (node.nodeType === Node.ELEMENT_NODE) {
+              const clone = node.cloneNode(false);
+              Array.from(node.childNodes).forEach(child => {
+                wrapTextNodes(child).forEach(span => clone.appendChild(span));
+              });
+              return [clone];
+            } else {
+              return [];
+            }
+          }
+          // Parse original HTML
+          const temp = document.createElement('div');
+          temp.innerHTML = originalHTML;
+          let spans = [];
+          Array.from(temp.childNodes).forEach(node => {
+            spans = spans.concat(wrapTextNodes(node));
+          });
+          el.innerHTML = '';
+          spans.forEach(span => el.appendChild(span));
+          // Animate each span (faster)
+          gsap.to(spans, {
+            opacity: 1,
+            stagger: 0.015,
+            duration: 0.2,
+            ease: 'power1.out'
+          });
+        });
+      });
+    </script>
+</body>
+</html>
