@@ -70,10 +70,21 @@
         color: #000;
         box-shadow: 0 0 40px rgba(255, 255, 255, 0.5);
       }
+      
+    /* Epic Ken Burns Effect */
+    @keyframes epicZoom {
+      0% { transform: scale(1); }
+      100% { transform: scale(1.1); }
+    }
+    .ken-burns {
+      animation: epicZoom 15s ease-in-out infinite alternate;
+      will-change: transform;
+    }
     </style>
     <!-- GSAP and ScrollTrigger -->
     <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.5/gsap.min.js"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.5/ScrollTrigger.min.js"></script>
+    <script src="navbar.js"></script>
 </head>
 <body class="bg-[#08070b] text-white antialiased">
   <div id="navbar-container"></div>
@@ -188,10 +199,9 @@
             background: #fff;
           }
         </style>
-        <div class="max-w-screen-2xl mx-auto px-6 mb-12 md:mb-24">
-          <div class="w-full max-w-[1400px] aspect-[1440/600] md:aspect-[1440/500] relative mx-auto overflow-hidden rounded-[2rem] md:rounded-[3rem] border border-white/5 shadow-2xl" style="opacity: 1; transform: none;">
-            <div data-us-project="cb1pg5ymSzmJuCnPEkTP" class="w-full h-full" data-us-initialized="true" data-scene-id="id-0izbh6eb7x1uqbs5k0o24a9"><canvas width="825" height="346" aria-label="Unicorn Studio Scene" role="img" style="width: 550px; height: 231px;"></canvas><div data-us-text="id-bx59xs7y5gwyk0epsety9" style="width: 398.75px; top: 92.623592px; left: 75.735125px; font-size: 45.65px; line-height: 45.900824px; letter-spacing: -1.448134px; font-family: Outfit; font-weight: 400; text-align: center; position: absolute; word-break: break-word; transform: rotateZ(0deg); color: transparent; z-index: 2;">WHAT WE OFFER</div></div>
-          </div>
+        <div id="services-hero-title" class="max-w-screen-2xl mx-auto px-6 mb-12 md:mb-24 flex justify-center origin-center">
+             <div data-us-project="cb1pg5ymSzmJuCnPEkTP" style="width:1920px; height: 850px; max-width: 100%; height: auto; aspect-ratio: 1920/850;"></div>
+             <script type="text/javascript">!function(){var u=window.UnicornStudio;if(u&&u.init){if(document.readyState==="loading"){document.addEventListener("DOMContentLoaded",function(){u.init()})}else{u.init()}}else{window.UnicornStudio={isInitialized:!1};var i=document.createElement("script");i.src="https://cdn.jsdelivr.net/gh/hiunicornstudio/unicornstudio.js@v2.0.5/dist/unicornStudio.umd.js",i.onload=function(){if(document.readyState==="loading"){document.addEventListener("DOMContentLoaded",function(){UnicornStudio.init()})}else{UnicornStudio.init()}},(document.head||document.body).appendChild(i)}}();</script>
         </div>
         <div class="max-w-[1400px] mx-auto px-6">
           <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6">
@@ -218,8 +228,11 @@
           </div>
         </div>
       </section>
-      <section class="py-24 md:py-48 relative bg-transparent border-t border-white/5">
-        <div class="absolute inset-0 bg-aura-white opacity-40 pointer-events-none"></div>
+      <section class="py-24 md:py-48 relative border-t border-white/5 overflow-hidden">
+        <div class="absolute inset-0 z-0">
+          <img src="https://images.squarespace-cdn.com/content/v1/67053ead069230112a5e9280/15a2f83f-a017-4178-9273-17f19da9677a/unsplash-image-ZNkiEWL02mI.jpg?format=2500w" alt="Tailored Excellence Background" class="w-full h-full object-cover opacity-50">
+          <div class="absolute inset-0 bg-black/60"></div>
+        </div>
         <div class="max-w-7xl mx-auto px-6 text-center relative z-10">
           <div style="opacity: 1; transform: none;">
             <h3 class="porsche-font text-3xl md:text-6xl text-white mb-8 md:mb-10">Tailored <span class="text-purple-500">Excellence.</span></h3>
@@ -245,6 +258,10 @@
       .then(res => res.text())
       .then(html => {
         document.getElementById('footer-container').innerHTML = html;
+        // Re-init Unicorn Studio if it's already loaded to catch the new footer elements
+        if (window.UnicornStudio) {
+          window.UnicornStudio.init();
+        }
       });
   </script>
   <script>
@@ -271,6 +288,184 @@
         (document.head||document.body).appendChild(i);
       }
     })();
+  </script>
+  <!-- Service Detail Modal -->
+  <div id="service-modal" class="fixed inset-0 z-[11000] hidden opacity-0 font-sans">
+    <div class="absolute inset-0 bg-black/95 transition-opacity" id="modal-backdrop"></div>
+    <div class="absolute inset-0 bg-cover bg-center opacity-30 blur-sm scale-105 transition-all duration-700" id="modal-bg-image"></div>
+    
+    <button id="modal-close" class="absolute top-6 right-6 z-50 group flex items-center gap-2 text-white hover:text-purple-500 transition-colors p-2 pl-4 bg-black/50 rounded-full border border-white/10 hover:border-purple-500/50 backdrop-blur-md">
+      <span class="text-xs font-black uppercase tracking-widest hidden md:block">Close</span>
+      <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12" />
+      </svg>
+    </button>
+
+    <!-- Navigation Arrows -->
+    <button id="modal-prev" class="absolute left-2 md:left-8 top-1/2 -translate-y-1/2 z-50 text-white/50 hover:text-purple-400 transition-all p-3 hover:bg-white/10 rounded-full group">
+      <svg xmlns="http://www.w3.org/2000/svg" class="h-8 w-8 md:h-12 md:w-12 transform group-hover:-translate-x-1 transition-transform" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 19l-7-7 7-7" />
+      </svg>
+    </button>
+    <button id="modal-next" class="absolute right-2 md:right-8 top-1/2 -translate-y-1/2 z-50 text-white/50 hover:text-purple-400 transition-all p-3 hover:bg-white/10 rounded-full group">
+      <svg xmlns="http://www.w3.org/2000/svg" class="h-8 w-8 md:h-12 md:w-12 transform group-hover:translate-x-1 transition-transform" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5l7 7-7 7" />
+      </svg>
+    </button>
+
+    <div class="relative z-10 flex flex-col items-center justify-center h-full px-12 md:px-24 max-w-5xl mx-auto text-center">
+      <h2 id="modal-title" class="text-4xl md:text-6xl font-bold mb-8 text-white porsche-font tracking-wide uppercase drop-shadow-2xl"></h2>
+      <div id="modal-description" class="text-xl md:text-2xl text-gray-100 leading-relaxed font-light whitespace-pre-line drop-shadow-lg max-w-2xl"></div>
+    </div>
+  </div>
+
+  <script>
+    document.addEventListener("DOMContentLoaded", (event) => {
+      gsap.registerPlugin(ScrollTrigger);
+      
+      // Hero Title Scroll Animation
+      gsap.fromTo("#services-hero-title", 
+        { 
+          scale: 2, 
+        },
+        {
+          scale: 1, 
+          ease: "none",
+          scrollTrigger: {
+            trigger: "#services-hero-title",
+            start: "center center", 
+            end: "+=800",
+            scrub: true,
+            pin: true
+          }
+        }
+      );
+
+      // Services Modal Logic
+      const servicesData = {
+        "Paint Protection Film": "Protect and enhance your vehicle with PPF wraps available in gloss, satin, track film, and custom colors or patterns.\n\nShields against scratches, chips, and paint damage.",
+        "Vinyl Wraps": "Transform your vehicle with vinyl wraps in custom colors, finishes, and designs.\n\nFrom accents to full body wraps, the options are endless.",
+        "Window Tint": "Ride in style and comfort with our premium window tint.\n\nChoose from a range of shades that reduce glare, block UV rays, and protect your interior.",
+        "Auto Detail": "Refresh your vehicle inside and out with our premium detailing service.\n\nRestore shine, protect surfaces, and hit the road looking your best."
+      };
+
+      const modal = document.getElementById('service-modal');
+      const modalBg = document.getElementById('modal-bg-image');
+      const modalTitle = document.getElementById('modal-title');
+      const modalDesc = document.getElementById('modal-description');
+      const closeBtn = document.getElementById('modal-close');
+      const prevBtn = document.getElementById('modal-prev');
+      const nextBtn = document.getElementById('modal-next');
+      
+      let isModalOpen = false;
+      let currentIndex = 0;
+      let serviceItems = [];
+
+      // Initialize Data Structure
+      function initServiceItems() {
+        const cards = document.querySelectorAll('.offer-card');
+        serviceItems = Array.from(cards).map(card => {
+          const title = card.querySelector('.card-title-overlay').textContent.trim();
+          const img = card.querySelector('img').src;
+          const desc = servicesData[title] || "";
+          return { title, img, desc };
+        });
+      }
+
+      function updateModalContent(index) {
+        if(index < 0 || index >= serviceItems.length) return;
+        const item = serviceItems[index];
+        
+        // Update Content
+        modalTitle.textContent = item.title;
+        modalDesc.textContent = item.desc;
+        modalBg.style.backgroundImage = `url('${item.img}')`;
+        
+        // Animate Content Change (Subtle pulse)
+        gsap.fromTo([modalTitle, modalDesc], 
+          { opacity: 0.5, y: 5 }, 
+          { opacity: 1, y: 0, duration: 0.3, ease: "power2.out" }
+        );
+      }
+
+      function openModal(index) {
+        if (isModalOpen) return;
+        isModalOpen = true;
+        currentIndex = index;
+        
+        updateModalContent(currentIndex);
+        
+        // Show Modal
+        modal.classList.remove('hidden');
+        document.body.style.overflow = 'hidden'; // Prevent background scrolling
+        
+        const tl = gsap.timeline();
+        tl.to(modal, { opacity: 1, duration: 0.4 })
+          .fromTo(modalTitle, { y: 50, opacity: 0 }, { y: 0, opacity: 1, duration: 0.6, ease: "power3.out" }, "-=0.2")
+          .fromTo(modalDesc, { y: 30, opacity: 0 }, { y: 0, opacity: 1, duration: 0.6, ease: "power3.out" }, "-=0.4");
+      }
+
+      function closeModal() {
+        if (!isModalOpen) return;
+        
+        gsap.to(modal, { 
+          opacity: 0, 
+          duration: 0.3, 
+          onComplete: () => {
+            modal.classList.add('hidden');
+            document.body.style.overflow = '';
+            isModalOpen = false;
+          } 
+        });
+      }
+
+      function nextService() {
+        currentIndex = (currentIndex + 1) % serviceItems.length;
+        updateModalContent(currentIndex);
+      }
+
+      function prevService() {
+        currentIndex = (currentIndex - 1 + serviceItems.length) % serviceItems.length;
+        updateModalContent(currentIndex);
+      }
+
+      // Initialize
+      initServiceItems();
+
+      // Attach Event Listeners
+      document.querySelectorAll('.offer-card').forEach((card, index) => {
+        const toggleBtn = card.querySelector('.plus-toggle');
+        if (toggleBtn) {
+          toggleBtn.addEventListener('click', (e) => {
+            e.preventDefault();
+            e.stopPropagation();
+            openModal(index); // Use index instead of title/src
+          });
+        }
+      });
+
+      if (closeBtn) closeBtn.addEventListener('click', closeModal);
+      if (prevBtn) prevBtn.addEventListener('click', (e) => { e.stopPropagation(); prevService(); });
+      if (nextBtn) nextBtn.addEventListener('click', (e) => { e.stopPropagation(); nextService(); });
+      
+      // Close on background click
+      if (modal) {
+        modal.addEventListener('click', (e) => {
+          if (e.target === modal || e.target.id === 'modal-backdrop') {
+            closeModal();
+          }
+        });
+      }
+      
+      // Keyboard Navigation
+      document.addEventListener('keydown', (e) => {
+        if (!isModalOpen) return;
+        
+        if (e.key === 'Escape') closeModal();
+        if (e.key === 'ArrowRight') nextService();
+        if (e.key === 'ArrowLeft') prevService();
+      });
+    });
   </script>
 </body>
 </html>

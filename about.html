@@ -70,6 +70,16 @@
         color: #000;
         box-shadow: 0 0 40px rgba(255, 255, 255, 0.5);
       }
+      
+    /* Epic Ken Burns Effect */
+    @keyframes epicZoom {
+      0% { transform: scale(1); }
+      100% { transform: scale(1.1); }
+    }
+    .ken-burns {
+      animation: epicZoom 15s ease-in-out infinite alternate;
+      will-change: transform;
+    }
     </style>
     <!-- GSAP and ScrollTrigger -->
     <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.5/gsap.min.js"></script>
@@ -108,7 +118,7 @@
             </div>
             <div class="lg:col-span-5 space-y-6 md:space-y-10">
               <div class="aspect-[4/5] rounded-[2.5rem] md:rounded-[4rem] overflow-hidden border border-white/20 relative group shadow-2xl" style="opacity: 1; transform: none;">
-                <img class="w-full h-full object-cover object-right group-hover:scale-105 transition-all duration-1000" alt="Miranda Reyes at work" src="https://ogautocc.com/ElevatedWraps/Social.jpg">
+                <img class="w-full h-full object-cover object-right group-hover:scale-105 transition-all duration-1000 ken-burns" alt="Miranda Reyes at work" src="https://ogautocc.com/ElevatedWraps/Social.jpg">
                 <div class="absolute inset-0 bg-gradient-to-t from-black/60 via-transparent to-white/10"></div>
               </div>
               <a href="https://www.instagram.com/mirandareyes_007" target="_blank" rel="noopener noreferrer" class="flex items-center justify-between p-8 md:p-10 bg-white text-black rounded-[2rem] md:rounded-[3rem] hover:bg-purple-400 hover:text-white transition-all group relative overflow-hidden font-black uppercase tracking-[0.4em] text-[10px] md:text-xs shadow-2xl" style="opacity: 1; transform: none;">
@@ -133,6 +143,10 @@
       .then(res => res.text())
       .then(html => {
         document.getElementById('footer-container').innerHTML = html;
+        // Re-init Unicorn Studio if it's already loaded to catch the new footer elements
+        if (window.UnicornStudio) {
+          window.UnicornStudio.init();
+        }
       });
   </script>
   <script>
@@ -160,6 +174,7 @@
       }
     })();
   </script>
+  <script src="navbar.js"></script>
   <script>
       // GSAP letter-by-letter reveal for about page (fix: only animate text, preserve HTML tags, faster speed)
       document.addEventListener('DOMContentLoaded', function() {

@@ -22,6 +22,7 @@
 </script>
     <script type="module" src="https://unpkg.com/@google/model-viewer/dist/model-viewer.min.js"></script>
     <script type="text/javascript" src="https://cdn.jsdelivr.net/gh/hiunicornstudio/unicornstudio.js@v2.0.3/dist/unicornStudio.umd.js"></script>
+    <script src="navbar.js"></script>
     <style>
         :root {
             --purple-neon: #a855f7;
@@ -87,16 +88,23 @@
             cursor: pointer;
             box-shadow: 0 0 30px rgba(124, 58, 237, 0.3);
         }
-        .btn-solid:hover {
-            transform: scale(1.05);
-            background: #fff;
-            color: #000;
-            box-shadow: 0 0 40px rgba(255, 255, 255, 0.5);
-        }
-    </style>
+    .btn-solid:hover {
+      transform: scale(1.05);
+      background: #fff;
+      color: #000;
+      box-shadow: 0 0 40px rgba(255, 255, 255, 0.5);
+    }
 
-<link rel="stylesheet" href="/index.css">
-  <script type="module" crossorigin="" src="/assets/index-D5QoO0zv.js"></script>
+    /* Epic Ken Burns Effect */
+    @keyframes epicZoom {
+      0% { transform: scale(1); }
+      100% { transform: scale(1.1); }
+    }
+    .ken-burns {
+      animation: epicZoom 15s ease-in-out infinite alternate;
+      will-change: transform;
+    }
+    </style>
 </head>
 <body class="bg-[#08070b] text-white antialiased">
   <div id="navbar-container"></div>
@@ -172,24 +180,35 @@
               <p class="text-zinc-300 text-xl md:text-2xl font-light leading-relaxed italic mb-8 md:mb-10 border-l-2 border-purple-500/20 pl-6 md:pl-8">Whether you’re after a sleek color change, bold graphics, or a one-of-a-kind design, our vinyl wraps turn your vision into reality.</p>
               <p class="text-zinc-500 text-base md:text-lg font-light leading-relaxed italic opacity-80">From custom decals to racing stripes to full vehicle liveries, our creative team at Elevated Auto Wraps is passionate about bringing your ideas to life. We utilize premium materials from 3M, Avery Dennison, and Inozetek to provide a finish that rivals factory paint.</p>
             </div>
-            <div class="grid grid-cols-2 gap-4 md:gap-6" style="opacity: 1; transform: none;">
-              <div class="flex flex-col items-center justify-center p-6 md:p-10 bg-zinc-950/50 border border-white/5 rounded-[1.5rem] md:rounded-[2.5rem] group hover:border-purple-500/30 transition-all duration-1000 backdrop-blur-md" style="opacity: 1; transform: none;">
-                <div class="text-purple-500 mb-4 md:mb-6 transform group-hover:scale-110 transition-transform duration-1000">
-                  <svg xmlns="http://www.w3.org/2000/svg" width="32" height="32" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="lucide lucide-palette" aria-hidden="true"><path d="M12 22a1 1 0 0 1 0-20 10 9 0 0 1 10 9 5 5 0 0 1-5 5h-2.25a1.75 1.75 0 0 0-1.4 2.8l.3.4a1.75 1.75 0 0 1-1.4 2.8z"></path><circle cx="13.5" cy="6.5" r=".5" fill="currentColor"></circle><circle cx="17.5" cy="10.5" r=".5" fill="currentColor"></circle><circle cx="6.5" cy="12.5" r=".5" fill="currentColor"></circle><circle cx="8.5" cy="7.5" r=".5" fill="currentColor"></circle></svg>
-                </div>
-                <span class="text-[8px] md:text-[10px] font-black uppercase tracking-[0.2em] md:tracking-[0.4em] text-zinc-500 group-hover:text-white transition-colors text-center">Color Change</span>
+            <div class="flex flex-col gap-8" style="opacity: 1; transform: none;">
+              <!-- Video Feature -->
+              <div class="rounded-[2rem] md:rounded-[3rem] overflow-hidden border border-white/10 shadow-2xl relative group aspect-video bg-black/50">
+                <div class="absolute inset-0 bg-purple-500/10 group-hover:bg-transparent transition-colors z-10 pointer-events-none"></div>
+                <video autoplay muted loop playsinline class="w-full h-full object-cover opacity-90 group-hover:opacity-100 transition-opacity duration-700">
+                  <source src="Vinyl_wrap_video.mp4" type="video/mp4">
+                </video>
               </div>
-              <div class="flex flex-col items-center justify-center p-6 md:p-10 bg-zinc-950/50 border border-white/5 rounded-[1.5rem] md:rounded-[2.5rem] group hover:border-purple-500/30 transition-all duration-1000 backdrop-blur-md" style="opacity: 1; transform: none;">
-                <div class="text-purple-500 mb-4 md:mb-6 transform group-hover:scale-110 transition-transform duration-1000">
-                  <svg xmlns="http://www.w3.org/2000/svg" width="32" height="32" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="lucide lucide-scissors" aria-hidden="true"><circle cx="6" cy="6" r="3"></circle><path d="M8.12 8.12 12 12"></path><path d="M20 4 8.12 15.88"></path><circle cx="6" cy="18" r="3"></circle><path d="M14.8 14.8 20 20"></path></svg>
+
+              <!-- Condensed Feature Grid -->
+              <div class="grid grid-cols-3 gap-3 md:gap-4">
+                <div class="flex flex-col items-center justify-center p-4 md:p-6 bg-zinc-950/50 border border-white/5 rounded-[1.5rem] md:rounded-[2rem] group hover:border-purple-500/30 transition-all duration-500 backdrop-blur-md hover:-translate-y-1">
+                  <div class="text-purple-500 mb-3 transform group-hover:scale-110 transition-transform duration-500">
+                    <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="lucide lucide-palette"><path d="M12 22a1 1 0 0 1 0-20 10 9 0 0 1 10 9 5 5 0 0 1-5 5h-2.25a1.75 1.75 0 0 0-1.4 2.8l.3.4a1.75 1.75 0 0 1-1.4 2.8z"></path><circle cx="13.5" cy="6.5" r=".5" fill="currentColor"></circle><circle cx="17.5" cy="10.5" r=".5" fill="currentColor"></circle><circle cx="6.5" cy="12.5" r=".5" fill="currentColor"></circle><circle cx="8.5" cy="7.5" r=".5" fill="currentColor"></circle></svg>
+                  </div>
+                  <span class="text-[9px] md:text-[10px] font-black uppercase tracking-wider text-zinc-500 group-hover:text-white transition-colors text-center block">Color Change</span>
                 </div>
-                <span class="text-[8px] md:text-[10px] font-black uppercase tracking-[0.2em] md:tracking-[0.4em] text-zinc-500 group-hover:text-white transition-colors text-center">Custom Graphics</span>
-              </div>
-              <div class="flex flex-col items-center justify-center p-6 md:p-10 bg-zinc-950/50 border border-white/5 rounded-[1.5rem] md:rounded-[2.5rem] group hover:border-purple-500/30 transition-all duration-1000 backdrop-blur-md" style="opacity: 1; transform: none;">
-                <div class="text-purple-500 mb-4 md:mb-6 transform group-hover:scale-110 transition-transform duration-1000">
-                  <svg xmlns="http://www.w3.org/2000/svg" width="32" height="32" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="lucide lucide-panels-top-left" aria-hidden="true"><rect width="18" height="18" x="3" y="3" rx="2"></rect><path d="M3 9h18"></path><path d="M9 21V9"></path></svg>
+                <div class="flex flex-col items-center justify-center p-4 md:p-6 bg-zinc-950/50 border border-white/5 rounded-[1.5rem] md:rounded-[2rem] group hover:border-purple-500/30 transition-all duration-500 backdrop-blur-md hover:-translate-y-1">
+                  <div class="text-purple-500 mb-3 transform group-hover:scale-110 transition-transform duration-500">
+                    <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="lucide lucide-scissors"><circle cx="6" cy="6" r="3"></circle><path d="M8.12 8.12 12 12"></path><path d="M20 4 8.12 15.88"></path><circle cx="6" cy="18" r="3"></circle><path d="M14.8 14.8 20 20"></path></svg>
+                  </div>
+                  <span class="text-[9px] md:text-[10px] font-black uppercase tracking-wider text-zinc-500 group-hover:text-white transition-colors text-center block">Graphics</span>
                 </div>
-                <span class="text-[8px] md:text-[10px] font-black uppercase tracking-[0.2em] md:tracking-[0.4em] text-zinc-500 group-hover:text-white transition-colors text-center">Full Liveries</span>
+                <div class="flex flex-col items-center justify-center p-4 md:p-6 bg-zinc-950/50 border border-white/5 rounded-[1.5rem] md:rounded-[2rem] group hover:border-purple-500/30 transition-all duration-500 backdrop-blur-md hover:-translate-y-1">
+                  <div class="text-purple-500 mb-3 transform group-hover:scale-110 transition-transform duration-500">
+                    <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="lucide lucide-panels-top-left"><rect width="18" height="18" x="3" y="3" rx="2"></rect><path d="M3 9h18"></path><path d="M9 21V9"></path></svg>
+                  </div>
+                  <span class="text-[9px] md:text-[10px] font-black uppercase tracking-wider text-zinc-500 group-hover:text-white transition-colors text-center block">Liveries</span>
+                </div>
               </div>
             </div>
           </div>
@@ -207,21 +226,21 @@
                 <h3 class="text-2xl md:text-4xl mb-3 md:mb-6 italic leading-none">Custom Decals</h3>
                 <p class="text-zinc-300 text-[10px] md:text-xs font-light lowercase tracking-[0.1em] md:tracking-[0.15em] leading-relaxed max-w-xs opacity-0 group-hover:opacity-100 transition-all duration-1000 transform translate-y-6 group-hover:translate-y-0 italic hidden md:block">From subtle branding to bold graphics, we design and apply custom decals that reflect your style or promote your business.</p>
               </div>
-              <img alt="Custom Decals" class="w-full h-full object-cover grayscale-[0.4] transition-all duration-[2.5s]" loading="lazy" src="https://images.squarespace-cdn.com/content/v1/67053ead069230112a5e9280/1754853196638-KVU76ZB1SZWYRA038TX5/unsplash-image-f_SDCASisgs.jpg">
+              <img alt="Custom Decals" class="w-full h-full object-cover grayscale-[0.4] transition-all duration-[2.5s] ken-burns" loading="lazy" src="https://images.squarespace-cdn.com/content/v1/67053ead069230112a5e9280/1754853196638-KVU76ZB1SZWYRA038TX5/unsplash-image-f_SDCASisgs.jpg">
             </div>
             <div class="offer-card group shadow-2xl">
               <div class="card-title-overlay porsche-font">
                 <h3 class="text-2xl md:text-4xl mb-3 md:mb-6 italic leading-none">Vehicle Accents</h3>
                 <p class="text-zinc-300 text-[10px] md:text-xs font-light lowercase tracking-[0.1em] md:tracking-[0.15em] leading-relaxed max-w-xs opacity-0 group-hover:opacity-100 transition-all duration-1000 transform translate-y-6 group-hover:translate-y-0 italic hidden md:block">Add personality and detail with precision-applied accents — racing stripes, roof wraps, mirror caps, hood designs, and more.</p>
               </div>
-              <img alt="Vehicle Accents" class="w-full h-full object-cover grayscale-[0.4] transition-all duration-[2.5s]" loading="lazy" src="https://images.squarespace-cdn.com/content/v1/67053ead069230112a5e9280/1754853093004-4BK732F7ATDF18IR26VK/unsplash-image-FOypaOT2IIw.jpg">
+              <img alt="Vehicle Accents" class="w-full h-full object-cover grayscale-[0.4] transition-all duration-[2.5s] ken-burns" loading="lazy" src="https://images.squarespace-cdn.com/content/v1/67053ead069230112a5e9280/1754853093004-4BK732F7ATDF18IR26VK/unsplash-image-FOypaOT2IIw.jpg">
             </div>
             <div class="offer-card group shadow-2xl">
               <div class="card-title-overlay porsche-font">
                 <h3 class="text-2xl md:text-4xl mb-3 md:mb-6 italic leading-none">Livery Design</h3>
                 <p class="text-zinc-300 text-[10px] md:text-xs font-light lowercase tracking-[0.1em] md:tracking-[0.15em] leading-relaxed max-w-xs opacity-0 group-hover:opacity-100 transition-all duration-1000 transform translate-y-6 group-hover:translate-y-0 italic hidden md:block">Ideal for motorsports, brand promotion, or making a one-of-a-kind statement. Fully custom-designed from scratch.</p>
               </div>
-              <img alt="Livery Design" class="w-full h-full object-cover grayscale-[0.4] transition-all duration-[2.5s]" loading="lazy" src="https://images.squarespace-cdn.com/content/v1/67053ead069230112a5e9280/1754853141286-4A6T8LW8D7ZEC82VYRIB/unsplash-image-am_5yUa-ieE.jpg">
+              <img alt="Livery Design" class="w-full h-full object-cover grayscale-[0.4] transition-all duration-[2.5s] ken-burns" loading="lazy" src="https://images.squarespace-cdn.com/content/v1/67053ead069230112a5e9280/1754853141286-4A6T8LW8D7ZEC82VYRIB/unsplash-image-am_5yUa-ieE.jpg">
             </div>
           </div>
         </div>
@@ -238,24 +257,28 @@
                 <p class="text-white font-black uppercase tracking-[0.2em] text-[10px] md:text-sm">It’s not just about covering a surface — it’s about crafting a look that’s uniquely yours.</p>
               </div>
               <div class="mt-10 md:mt-16">
-                <a class="btn-solid py-5 md:py-6 px-10 md:px-14 text-[9px] md:text-[10px] rounded-full uppercase tracking-[0.5em] font-black shadow-xl w-full sm:w-auto text-center" href="#/quote" data-discover="true">Schedule a Consult</a>
+                <a class="btn-solid py-5 md:py-6 px-10 md:px-14 text-[9px] md:text-[10px] rounded-full uppercase tracking-[0.5em] font-black shadow-xl w-full sm:w-auto text-center" href="quote.html" data-discover="true">Schedule a Consult</a>
               </div>
             </div>
             <div class="flex-1 w-full h-full min-h-[400px] md:min-h-[600px] relative group">
-              <img class="absolute inset-0 w-full h-full object-cover grayscale-[0.5] transition-all duration-[2s] group-hover:grayscale-0" alt="Installation process" src="https://images.squarespace-cdn.com/content/v1/67053ead069230112a5e9280/648c588b-09ac-468f-aac6-2cd4c103d745/IMG_0741.JPG">
+              <img class="absolute inset-0 w-full h-full object-cover grayscale-[0.5] transition-all duration-[2s] group-hover:grayscale-0 ken-burns" alt="Installation process" src="https://images.squarespace-cdn.com/content/v1/67053ead069230112a5e9280/648c588b-09ac-468f-aac6-2cd4c103d745/IMG_0741.JPG">
               <div class="absolute inset-0 bg-purple-900/10 mix-blend-overlay"></div>
             </div>
           </div>
         </div>
       </section>
-      <section class="py-24 md:py-48 text-center bg-black relative z-10">
-        <div class="absolute inset-0 bg-[radial-gradient(circle_at_center,rgba(168,85,247,0.1)_0%,transparent_80%)] pointer-events-none"></div>
+      <section class="py-24 md:py-48 text-center bg-black relative z-10 overflow-hidden">
+        <div class="absolute inset-0 z-0">
+          <img src="Vinyl_wrap_statement.png" alt="Statement Background" class="w-full h-full object-cover opacity-40 ken-burns">
+          <div class="absolute inset-0 bg-black/60"></div>
+        </div>
+        <div class="absolute inset-0 bg-[radial-gradient(circle_at_center,rgba(168,85,247,0.2)_0%,transparent_80%)] pointer-events-none z-0"></div>
         <div class="max-w-4xl mx-auto px-6 relative z-10">
           <h3 class="porsche-font text-3xl md:text-8xl text-white mb-8 md:mb-12 italic tracking-tighter">Ready to make a <br><span class="text-purple-500">statement?</span></h3>
           <p class="text-zinc-500 text-lg md:text-xl italic mb-12 md:mb-16 font-light">Contact San Antonio's premier wrap specialists for a curated color consultation.</p>
           <div class="flex flex-col md:flex-row items-center justify-center gap-6 md:gap-10">
             <a href="tel:2102014999" class="btn-solid py-5 md:py-7 px-10 md:px-16 text-[9px] md:text-[10px] tracking-[0.4em] md:tracking-[0.6em] rounded-full bg-white !text-black hover:!bg-purple-600 hover:!text-white shadow-none w-full md:w-auto text-center">Direct Line</a>
-            <a class="btn-solid py-5 md:py-7 px-10 md:px-16 text-[9px] md:text-[10px] tracking-[0.4em] md:tracking-[0.6em] rounded-full shadow-[0_0_30px_rgba(124,58,237,0.4)] w-full md:w-auto text-center" href="#/quote" data-discover="true">Schedule a Consult</a>
+            <a class="btn-solid py-5 md:py-7 px-10 md:px-16 text-[9px] md:text-[10px] tracking-[0.4em] md:tracking-[0.6em] rounded-full shadow-[0_0_30px_rgba(124,58,237,0.4)] w-full md:w-auto text-center" href="quote.html" data-discover="true">Schedule a Consult</a>
           </div>
         </div>
       </section>
@@ -274,6 +297,9 @@
       .then(res => res.text())
       .then(html => {
         document.getElementById('footer-container').innerHTML = html;
+        if (window.UnicornStudio) {
+          window.UnicornStudio.init();
+        }
       });
   </script>
   <script>
@@ -292,7 +318,7 @@
         i.src = "https://cdn.jsdelivr.net/gh/hiunicornstudio/unicornstudio.js@v2.0.5/dist/unicornStudio.umd.js";
         i.onload = function(){
           if(document.readyState === "loading"){
-            document.addEventListener("DOMContentDOMContentLoaded", function(){UnicornStudio.init()});
+            document.addEventListener("DOMContentLoaded", function(){UnicornStudio.init()});
           }else{
             UnicornStudio.init();
           }

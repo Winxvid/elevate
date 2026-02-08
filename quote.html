@@ -22,6 +22,7 @@
 </script>
     <script type="module" src="https://unpkg.com/@google/model-viewer/dist/model-viewer.min.js"></script>
     <script type="text/javascript" src="https://cdn.jsdelivr.net/gh/hiunicornstudio/unicornstudio.js@v2.0.3/dist/unicornStudio.umd.js"></script>
+    <script src="navbar.js"></script>
     <style>
         :root {
             --purple-neon: #a855f7;
@@ -95,8 +96,7 @@
         }
     </style>
 
-<link rel="stylesheet" href="/index.css">
-  <script type="module" crossorigin="" src="/assets/index-D5QoO0zv.js"></script>
+
 </head>
 <body class="bg-[#08070b] text-white min-h-screen">
   <div id="navbar-container"></div>
@@ -137,7 +137,7 @@
                         <label class="text-[9px] text-purple-400 uppercase font-black tracking-[0.3em] md:tracking-[0.4em] block pl-1">First Name <span class="text-purple-600">*</span></label>
                       </div>
                       <div class="relative group">
-                        <input required class="w-full bg-white/5 border border-white/20 rounded-xl md:rounded-3xl p-5 md:p-8 text-white text-sm md:text-base focus:border-purple-500 outline-none transition-all italic font-light shadow-inner pl-6 md:pl-8" placeholder="EX: JOHN" type="text">
+                        <input required class="w-full bg-white/5 border border-white/20 rounded-xl md:rounded-3xl p-5 md:p-8 text-white text-base focus:border-purple-500 outline-none transition-all italic font-light shadow-inner pl-6 md:pl-8" placeholder="EX: JOHN" type="text">
                       </div>
                     </div>
                     <div class="space-y-4">
@@ -145,7 +145,7 @@
                         <label class="text-[9px] text-purple-400 uppercase font-black tracking-[0.3em] md:tracking-[0.4em] block pl-1">Last Name <span class="text-purple-600">*</span></label>
                       </div>
                       <div class="relative group">
-                        <input required class="w-full bg-white/5 border border-white/20 rounded-xl md:rounded-3xl p-5 md:p-8 text-white text-sm md:text-base focus:border-purple-500 outline-none transition-all italic font-light shadow-inner pl-6 md:pl-8" placeholder="EX: DOE" type="text">
+                        <input required class="w-full bg-white/5 border border-white/20 rounded-xl md:rounded-3xl p-5 md:p-8 text-white text-base focus:border-purple-500 outline-none transition-all italic font-light shadow-inner pl-6 md:pl-8" placeholder="EX: DOE" type="text">
                       </div>
                     </div>
                     <div class="space-y-4">
@@ -156,7 +156,7 @@
                         <div class="absolute left-6 md:left-8 top-1/2 -translate-y-1/2 text-zinc-600 group-focus-within:text-purple-500 transition-colors pointer-events-none">
                           <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="lucide lucide-mail w-4 h-4" aria-hidden="true"><path d="m22 7-8.991 5.727a2 2 0 0 1-2.009 0L2 7"></path><rect x="2" y="4" width="20" height="16" rx="2"></rect></svg>
                         </div>
-                        <input required class="w-full bg-white/5 border border-white/20 rounded-xl md:rounded-3xl p-5 md:p-8 text-white text-sm md:text-base focus:border-purple-500 outline-none transition-all italic font-light shadow-inner pl-12 md:pl-20" placeholder="EX: CLIENT@DOMAIN.COM" type="email">
+                        <input required class="w-full bg-white/5 border border-white/20 rounded-xl md:rounded-3xl p-5 md:p-8 text-white text-base focus:border-purple-500 outline-none transition-all italic font-light shadow-inner pl-12 md:pl-20" placeholder="EX: CLIENT@DOMAIN.COM" type="email">
                       </div>
                     </div>
                     <div class="space-y-4">
@@ -167,7 +167,7 @@
                         <div class="absolute left-6 md:left-8 top-1/2 -translate-y-1/2 text-zinc-600 group-focus-within:text-purple-500 transition-colors pointer-events-none">
                           <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="lucide lucide-phone w-4 h-4" aria-hidden="true"><path d="M13.832 16.568a1 1 0 0 0 1.213-.303l.355-.465A2 2 0 0 1 17 15h3a2 2 0 0 1 2 2v3a2 2 0 0 1-2 2A18 18 0 0 1 2 4a2 2 0 0 1 2-2h3a2 2 0 0 1 2 2v3a2 2 0 0 1-.8 1.6l-.468.351a1 1 0 0 0-.292 1.233 14 14 0 0 0 6.392 6.384"></path></svg>
                         </div>
-                        <input class="w-full bg-white/5 border border-white/20 rounded-xl md:rounded-3xl p-5 md:p-8 text-white text-sm md:text-base focus:border-purple-500 outline-none transition-all italic font-light shadow-inner pl-12 md:pl-20" placeholder="EX: (210) 201-4999" type="tel">
+                        <input class="w-full bg-white/5 border border-white/20 rounded-xl md:rounded-3xl p-5 md:p-8 text-white text-base focus:border-purple-500 outline-none transition-all italic font-light shadow-inner pl-12 md:pl-20" placeholder="EX: (210) 201-4999" type="tel">
                       </div>
                     </div>
                   </div>
@@ -198,7 +198,7 @@
                         <div class="absolute left-6 md:left-8 top-1/2 -translate-y-1/2 text-zinc-600 group-focus-within:text-purple-500 transition-colors pointer-events-none">
                           <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="lucide lucide-calendar w-4 h-4" aria-hidden="true"><path d="M8 2v4"></path><path d="M16 2v4"></path><rect width="18" height="18" x="3" y="4" rx="2"></rect><path d="M3 10h18"></path></svg>
                         </div>
-                        <input class="w-full bg-white/5 border border-white/20 rounded-xl md:rounded-3xl p-5 md:p-8 text-white text-sm md:text-base focus:border-purple-500 outline-none transition-all italic font-light shadow-inner pl-12 md:pl-20" type="date">
+                        <input class="w-full bg-white/5 border border-white/20 rounded-xl md:rounded-3xl p-5 md:p-8 text-white text-base focus:border-purple-500 outline-none transition-all italic font-light shadow-inner pl-12 md:pl-20" type="date">
                       </div>
                     </div>
                     <div class="space-y-4">
@@ -209,13 +209,13 @@
                         <div class="absolute left-6 md:left-8 top-1/2 -translate-y-1/2 text-zinc-600 group-focus-within:text-purple-500 transition-colors pointer-events-none">
                           <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="lucide lucide-dollar-sign w-4 h-4" aria-hidden="true"><line x1="12" x2="12" y1="2" y2="22"></line><path d="M17 5H9.5a3.5 3.5 0 0 0 0 7h5a3.5 3.5 0 0 1 0 7H6"></path></svg>
                         </div>
-                        <input class="w-full bg-white/5 border border-white/20 rounded-xl md:rounded-3xl p-5 md:p-8 text-white text-sm md:text-base focus:border-purple-500 outline-none transition-all italic font-light shadow-inner pl-12 md:pl-20" placeholder="EX: $2,500 - $5,000" type="text">
+                        <input class="w-full bg-white/5 border border-white/20 rounded-xl md:rounded-3xl p-5 md:p-8 text-white text-base focus:border-purple-500 outline-none transition-all italic font-light shadow-inner pl-12 md:pl-20" placeholder="EX: $2,500 - $5,000" type="text">
                       </div>
                     </div>
                     <div class="space-y-4 md:col-span-2">
                       <label class="text-[9px] text-purple-400 uppercase font-black tracking-[0.3em] md:tracking-[0.4em] block pl-1">How did you hear about us?</label>
                       <div class="relative group">
-                        <select class="w-full bg-white/5 border border-white/20 rounded-xl md:rounded-3xl p-5 md:p-8 text-white text-sm md:text-base focus:border-purple-500 outline-none transition-all appearance-none italic font-light cursor-pointer">
+                        <select class="w-full bg-white/5 border border-white/20 rounded-xl md:rounded-3xl p-5 md:p-8 text-white text-base focus:border-purple-500 outline-none transition-all appearance-none italic font-light cursor-pointer">
                           <option class="bg-zinc-950" value="">Select Source</option>
                           <option class="bg-zinc-950" value="instagram">Instagram</option>
                           <option class="bg-zinc-950" value="facebook">Facebook</option>
@@ -229,7 +229,7 @@
                     </div>
                     <div class="md:col-span-2 space-y-4">
                       <label class="text-[9px] text-purple-400 uppercase font-black tracking-[0.3em] md:tracking-[0.4em] block pl-1">Message (required)</label>
-                      <textarea required rows="5" placeholder="TELL US ABOUT YOUR VEHICLE GOALS..." class="w-full bg-white/5 border border-white/20 rounded-[1.5rem] md:rounded-[3rem] p-6 md:p-10 text-white text-sm md:text-base focus:border-purple-500 outline-none transition-all italic font-light shadow-inner resize-none leading-relaxed"></textarea>
+                      <textarea required rows="5" placeholder="TELL US ABOUT YOUR VEHICLE GOALS..." class="w-full bg-white/5 border border-white/20 rounded-[1.5rem] md:rounded-[3rem] p-6 md:p-10 text-white text-base focus:border-purple-500 outline-none transition-all italic font-light shadow-inner resize-none leading-relaxed"></textarea>
                     </div>
                   </div>
                 </div>
@@ -256,6 +256,9 @@
       .then(res => res.text())
       .then(html => {
         document.getElementById('footer-container').innerHTML = html;
+        if (window.UnicornStudio) {
+          window.UnicornStudio.init();
+        }
       });
   </script>
   <script>

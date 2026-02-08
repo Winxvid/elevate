@@ -70,6 +70,20 @@
       color: #000;
       box-shadow: 0 0 40px rgba(255, 255, 255, 0.5);
     }
+    
+    /* Epic Ken Burns Effect */
+    @keyframes epicZoom {
+      0% { transform: scale(1); }
+      100% { transform: scale(1.1); }
+    }
+    .ken-burns {
+      animation: epicZoom 15s ease-in-out infinite alternate;
+      will-change: transform;
+    }
+    /* Ensure containers hide the zoom overflow */
+    .overflow-hidden-fix {
+        overflow: hidden;
+    }
   </style>
   </style>
   <!-- GSAP and ScrollTrigger -->
@@ -78,36 +92,7 @@
 </head>
 <body>
   <!-- Navbar -->
-  <nav class="fixed top-0 left-0 right-0 z-[100] flex items-center px-4 md:px-12 h-24 md:h-36 bg-black/20 backdrop-blur-2xl border-b border-white/5 transition-all duration-500">
-    <div class="max-w-screen-2xl mx-auto w-full flex items-center justify-between relative">
-      <div class="flex-1 hidden md:flex flex-col items-start justify-center gap-1 opacity-80 hover:opacity-100 transition-opacity duration-500">
-        <a href="tel:2102014999" class="text-[11px] font-black uppercase tracking-[0.4em] text-white hover:text-purple-300 transition-colors">
-          (210) 201-4999
-        </a>
-        <button class="text-[11px] font-black uppercase tracking-[0.4em] text-purple-400 hover:text-white transition-colors duration-300 text-left">
-          Schedule Consult
-        </button>
-      </div>
-      <div class="absolute left-1/2 top-1/2 -translate-x-1/2 -translate-y-1/2">
-        <a href="index.html"><img alt="Elevated Wraps" class="h-14 md:h-28 w-auto object-contain relative z-10 drop-shadow-[0_0_20px_rgba(255,255,255,0.1)]" src="https://ogautocc.com/ElevatedWraps/logo.PNG" decoding="async"></a>
-      </div>
-      <div class="flex-1 flex justify-end">
-        <div class="z-[110] relative flex items-center gap-4 md:gap-6 group focus:outline-none bg-white/5 p-3 md:p-4 px-5 md:px-8 rounded-full border border-white/10 hover:border-white/30 transition-all shadow-xl">
-          <a href="index.html" class="text-white mx-2">Home</a>
-          <a href="about.html" class="text-white mx-2">About</a>
-          <a href="services.html" class="text-white mx-2">Services</a>
-          <a href="wraps.html" class="text-white mx-2">Wraps</a>
-          <a href="PPFPage.html" class="text-white mx-2">PPF</a>
-          <a href="quote.html" class="text-white mx-2">Quote</a>
-        </div>
-      </div>
-      <div class="md:hidden absolute left-0 top-1/2 -translate-y-1/2 flex items-center">
-        <a href="tel:2102014999" class="text-white opacity-90 p-3.5 bg-white/5 rounded-full border border-white/10 active:bg-purple-600 transition-colors">
-          <i class="fa-solid fa-phone text-sm"></i>
-        </a>
-      </div>
-    </div>
-  </nav>
+  <div id="navbar-container"></div>
 
   <!-- Home Section -->
   <div class="bg-[#08070b] relative overflow-hidden hero" style="margin-top: 100px;">
@@ -139,13 +124,15 @@
       <p class="text-white text-lg md:text-xl font-medium leading-relaxed mb-4 reveal-on-scroll">Elevated Auto Wraps is San Antonio’s premier studio for Vehicle Customization and Auto Styling.</p>
       <p class="text-zinc-300 text-base md:text-lg leading-loose reveal-on-scroll">With a foundation built on a passion for cars, our specialists have evolved into artisans of automotive aesthetics, with a commitment to mastering the art of film installation and custom wraps, and an unyielding dedication to enhancing every vehicle we touch and elevate.</p>
     </div>
-    <div class="md:w-1/2 w-full flex justify-center items-center">
-      <img src="https://images.squarespace-cdn.com/content/v1/67053ead069230112a5e9280/4edcf25b-3f11-4a85-84c5-0ffa204d7867/IMG_9219.jpeg?format=2500w" alt="Elevated Auto Wraps Shop" class="rounded-2xl shadow-2xl max-w-4xl w-full reveal-on-scroll" />
+    <div class="md:w-1/2 w-full flex justify-center items-center overflow-hidden rounded-2xl">
+      <img src="https://images.squarespace-cdn.com/content/v1/67053ead069230112a5e9280/4edcf25b-3f11-4a85-84c5-0ffa204d7867/IMG_9219.jpeg?format=2500w" alt="Elevated Auto Wraps Shop" class="rounded-2xl shadow-2xl max-w-4xl w-full reveal-on-scroll ken-burns" />
     </div>
   </div>
   <!-- Professional CTA Section -->
   <div class="w-full flex flex-col items-center text-center py-8 md:py-12 relative overflow-hidden parallax-section reveal-on-scroll" style="background: linear-gradient(to bottom, #08070b 80%, #0c0b14 100%); min-height: 400px;" data-speed="0.4">
-    <img src="https://images.squarespace-cdn.com/content/v1/67053ead069230112a5e9280/4300286e-4fbb-4695-89d1-84b69c504fdd/IMG_0754.png?format=2500w" alt="Auto Styling Studio" class="absolute inset-0 w-full h-full object-cover opacity-20 z-0" style="pointer-events:none;" />
+    <div class="absolute inset-0 w-full h-full overflow-hidden">
+        <img src="https://images.squarespace-cdn.com/content/v1/67053ead069230112a5e9280/4300286e-4fbb-4695-89d1-84b69c504fdd/IMG_0754.png?format=2500w" alt="Auto Styling Studio" class="w-full h-full object-cover opacity-20 z-0 ken-burns" style="pointer-events:none;" />
+    </div>
     <div class="relative z-10 max-w-4xl mx-auto">
       <h3 class="porsche-font text-[clamp(1.5rem,4vw,2.5rem)] text-purple-500 mb-4">WE FOCUS ON HIGH-QUALITY RESULTS AND RAISING THE STANDARD</h3>
       <p class="text-white text-lg md:text-xl font-bold mb-2">WOMAN OWNED AND OPERATED IN SAN ANTONIO, TEXAS.</p>
@@ -161,39 +148,42 @@
       .then(response => response.text())
       .then(html => {
         document.getElementById('footer-container').innerHTML = html;
-        // After footer loads, initialize UnicornStudio
-        (function(){
-          var u = window.UnicornStudio;
-          if(u && u.init){
-            if(document.readyState === "loading"){
-              document.addEventListener("DOMContentLoaded", function(){u.init()});
-            }else{
-              u.init();
-            }
-          }else{
-            window.UnicornStudio = {isInitialized:!1};
-            var i = document.createElement("script");
-            i.src = "https://cdn.jsdelivr.net/gh/hiunicornstudio/unicornstudio.js@v2.0.5/dist/unicornStudio.umd.js";
-            i.onload = function(){
-              if(document.readyState === "loading"){
-                document.addEventListener("DOMContentLoaded", function(){UnicornStudio.init()});
-              }else{
-                UnicornStudio.init();
-              }
-            };
-            (document.head||document.body).appendChild(i);
-          }
-        })();
+        if (window.UnicornStudio) {
+          window.UnicornStudio.init();
+        }
       });
+  </script>
+  <script>
+    // UnicornStudio initialization
+    (function(){
+      var u = window.UnicornStudio;
+      if(u && u.init){
+        if(document.readyState === "loading"){
+          document.addEventListener("DOMContentLoaded", function(){u.init()});
+        }else{
+          u.init();
+        }
+      }else{
+        window.UnicornStudio = {isInitialized:!1};
+        var i = document.createElement("script");
+        i.src = "https://cdn.jsdelivr.net/gh/hiunicornstudio/unicornstudio.js@v2.0.5/dist/unicornStudio.umd.js";
+        i.onload = function(){
+          if(document.readyState === "loading"){
+            document.addEventListener("DOMContentLoaded", function(){UnicornStudio.init()});
+          }else{
+            UnicornStudio.init();
+          }
+        };
+        (document.head||document.body).appendChild(i);
+      }
+    })();
   </script>
   <script>
     // Dynamically load the navbar from navbar.html
     fetch('navbar.html')
       .then(response => response.text())
       .then(html => {
-        const navContainer = document.createElement('div');
-        navContainer.innerHTML = html;
-        document.body.insertBefore(navContainer, document.body.firstChild);
+        document.getElementById('navbar-container').innerHTML = html;
       });
   </script>
   <script>
@@ -287,5 +277,6 @@
       });
     });
   </script>
+  <script src="navbar.js"></script>
 </body>
 </html>

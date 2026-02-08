@@ -1,26 +1,67 @@
-<nav class="fixed top-0 left-0 right-0 z-[100] flex items-center px-4 md:px-12 h-24 md:h-36 bg-black/20 backdrop-blur-2xl border-b border-white/5 transition-all duration-500">
+<nav id="main-nav" class="fixed top-0 left-0 right-0 z-[900] flex items-center px-4 md:px-12 h-24 md:h-36 bg-black/20 backdrop-blur-2xl border-b border-white/5 transition-all duration-500">
+  <style>
+    .roll-letter {
+      display: inline-block;
+      position: relative;
+      height: 1.15em; 
+      line-height: 1.15em;
+      overflow: hidden;
+      /* Significantly increased padding for italic overflow */
+      padding-right: 0.25em; 
+      /* Clean positive spacing between letters */
+      margin-right: 0.05em;
+      /* Align to baseline to better handle mix */
+      vertical-align: baseline;
+    }
+    .roll-inner {
+      display: block;
+      transition: transform 0.8s cubic-bezier(0.16, 1, 0.3, 1); /* Slower luxurious easing */
+      will-change: transform;
+    }
+    .mobile-link:hover .roll-inner {
+      /* Hover state: scroll up to show purple text */
+      transform: translateY(-50%);
+    }
+    /* Force child spans to match parent height for perfect scroll alignment */
+    .roll-inner > span {
+      height: 1.15em;
+      line-height: 1.15em;
+      display: block;
+    }
+  </style>
   <div class="max-w-screen-2xl mx-auto w-full flex items-center justify-between relative">
     <div class="flex-1 hidden md:flex flex-col items-start justify-center gap-1 opacity-80 hover:opacity-100 transition-opacity duration-500">
       <a href="tel:2102014999" class="text-[11px] font-black uppercase tracking-[0.4em] text-white hover:text-purple-300 transition-colors">
         (210) 201-4999
       </a>
-      <button class="text-[11px] font-black uppercase tracking-[0.4em] text-purple-400 hover:text-white transition-colors duration-300 text-left">
+      <a href="quote.html" class="text-[11px] font-black uppercase tracking-[0.4em] text-purple-400 hover:text-white transition-colors duration-300 text-left">
         Schedule Consult
-      </button>
+      </a>
     </div>
     <div class="absolute left-1/2 top-1/2 -translate-x-1/2 -translate-y-1/2">
       <a href="index.html"><img alt="Elevated Wraps" class="h-14 md:h-28 w-auto object-contain relative z-10 drop-shadow-[0_0_20px_rgba(255,255,255,0.1)]" src="https://ogautocc.com/ElevatedWraps/logo.PNG" decoding="async"></a>
     </div>
     <div class="flex-1 flex justify-end">
-      <div class="z-[110] relative flex items-center gap-4 md:gap-6 group focus:outline-none bg-white/5 p-3 md:p-4 px-5 md:px-8 rounded-full border border-white/10 hover:border-white/30 transition-all shadow-xl">
-        <a href="index.html" class="text-white mx-2">Home</a>
-        <a href="about.html" class="text-white mx-2">About</a>
-        <a href="services.html" class="text-white mx-2">Services</a>
-        <a href="wraps.html" class="text-white mx-2">Wraps</a>
-        <a href="PPFPage.html" class="text-white mx-2">PPF</a>
-        <a href="quote.html" class="text-white mx-2">Quote</a>
+      <!-- Desktop Navigation (Hidden, replaced by hamburger) -->
+      <div class="hidden z-[110] relative items-center gap-6 group bg-white/5 p-4 px-8 rounded-full border border-white/10 hover:border-white/30 transition-all shadow-xl">
+        <a href="index.html" class="text-white mx-2 text-sm font-medium tracking-wide hover:text-purple-400 transition-colors">Home</a>
+        <a href="about.html" class="text-white mx-2 text-sm font-medium tracking-wide hover:text-purple-400 transition-colors">About</a>
+        <a href="services.html" class="text-white mx-2 text-sm font-medium tracking-wide hover:text-purple-400 transition-colors">Services</a>
+        <a href="wraps.html" class="text-white mx-2 text-sm font-medium tracking-wide hover:text-purple-400 transition-colors">Wraps</a>
+        <a href="PPFPage.html" class="text-white mx-2 text-sm font-medium tracking-wide hover:text-purple-400 transition-colors">PPF</a>
+        <a href="quote.html" class="text-white mx-2 text-sm font-medium tracking-wide hover:text-purple-400 transition-colors">Quote</a>
       </div>
+
+      <!-- Hamburger Button (Visible on all screens) -->
+      <button id="mobile-menu-btn" class="group z-[10000] relative p-2 text-white focus:outline-none">
+        <div class="w-8 h-8 flex flex-col items-end justify-center gap-1.5">
+          <div class="w-8 h-0.5 bg-white group-hover:bg-purple-400 transition-all duration-300 origin-right shadow-sm border border-transparent"></div>
+          <div class="w-6 h-0.5 bg-white group-hover:bg-purple-400 transition-all duration-300 origin-right shadow-sm border border-transparent"></div>
+          <div class="w-4 h-0.5 bg-white group-hover:bg-purple-400 transition-all duration-300 origin-right shadow-sm border border-transparent"></div>
+        </div>
+      </button>
     </div>
+    
     <div class="md:hidden absolute left-0 top-1/2 -translate-y-1/2 flex items-center">
       <a href="tel:2102014999" class="text-white opacity-90 p-3.5 bg-white/5 rounded-full border border-white/10 active:bg-purple-600 transition-colors">
         <i class="fa-solid fa-phone text-sm"></i>
@@ -28,3 +69,30 @@
     </div>
   </div>
 </nav>
+
+<!-- Full Screen Navigation Overlay (Moved outside Nav) -->
+<div id="mobile-menu" class="fixed inset-0 z-[9999] bg-black translate-x-full transition-transform duration-500 ease-[cubic-bezier(0.87,0,0.13,1)] flex items-center justify-center">
+  <div class="absolute inset-0 bg-black z-0"></div>
+  <!-- Dynamic Background Image Container -->
+  <div id="menu-bg" class="absolute inset-0 bg-cover bg-center bg-no-repeat opacity-0 transition-opacity duration-500 z-0 pointer-events-none"></div>
+  <div class="absolute inset-0 bg-black/60 z-0 pointer-events-none transition-opacity duration-500" id="menu-overlay"></div>
+  <div class="absolute inset-0 bg-mesh opacity-20 pointer-events-none z-0"></div>
+  
+  <div class="relative z-10 w-full h-full flex flex-col items-center justify-center gap-0 md:gap-2 overflow-y-auto pt-40 pb-12">
+    <a href="index.html" data-bg="Hamburger_1.png" class="mobile-link text-3xl md:text-5xl font-black uppercase italic tracking-wider text-white hover:text-white transition-all duration-500 opacity-0 translate-y-8 delay-100 block py-1 group-hover:opacity-50 hover:!opacity-100">Home</a>
+    <a href="about.html" data-bg="Hamburger_2.png" class="mobile-link text-3xl md:text-5xl font-black uppercase italic tracking-wider text-white hover:text-white transition-all duration-500 opacity-0 translate-y-8 delay-150 block py-1 group-hover:opacity-50 hover:!opacity-100">About</a>
+    <a href="services.html" data-bg="Hamburger_3.png" class="mobile-link text-3xl md:text-5xl font-black uppercase italic tracking-wider text-white hover:text-white transition-all duration-500 opacity-0 translate-y-8 delay-200 block py-1 group-hover:opacity-50 hover:!opacity-100">Services</a>
+    <a href="wraps.html" data-bg="Hamburger_4.png" class="mobile-link text-3xl md:text-5xl font-black uppercase italic tracking-wider text-white hover:text-white transition-all duration-500 opacity-0 translate-y-8 delay-250 block py-1 group-hover:opacity-50 hover:!opacity-100">Wraps</a>
+    <a href="PPFPage.html" data-bg="Hamburger_5.png" class="mobile-link text-3xl md:text-5xl font-black uppercase italic tracking-wider text-white hover:text-white transition-all duration-500 opacity-0 translate-y-8 delay-300 block py-1 group-hover:opacity-50 hover:!opacity-100">PPF</a>
+    <a href="quote.html" data-bg="Hamburger_6.png" class="mobile-link text-3xl md:text-5xl font-black uppercase italic tracking-wider text-white hover:text-white transition-all duration-500 opacity-0 translate-y-8 delay-350 block py-1 group-hover:opacity-50 hover:!opacity-100">Quote</a>
+    
+    <div class="mt-6 flex flex-col items-center gap-4 opacity-0 translate-y-8 transition-all duration-500 delay-[400ms] contact-info">
+      <a href="tel:2102014999" class="text-sm font-bold uppercase tracking-widest text-zinc-400 hover:text-white transition-colors">(210) 201-4999</a>
+      <div class="flex gap-6">
+        <a href="https://www.instagram.com/elevated.autowraps?utm_source=ig_web_button_share_sheet&igsh=ZDNlZDc0MzIxNw==" target="_blank" rel="noopener noreferrer" class="text-zinc-500 hover:text-purple-500 transition-colors"><i class="fa-brands fa-instagram text-2xl"></i></a>
+        <a href="https://www.facebook.com/profile.php?id=61568499445264" target="_blank" rel="noopener noreferrer" class="text-zinc-500 hover:text-purple-500 transition-colors"><i class="fa-brands fa-facebook text-2xl"></i></a>
+        <a href="https://www.tiktok.com/@elevatedautowraps?is_from_webapp=1&sender_device=pc" target="_blank" rel="noopener noreferrer" class="text-zinc-500 hover:text-purple-500 transition-colors"><i class="fa-brands fa-tiktok text-2xl"></i></a>
+      </div>
+    </div>
+  </div>
+</div>
