@@ -101,16 +101,16 @@
     <div class="absolute top-1/4 -left-1/4 w-[600px] md:w-[1200px] h-[600px] md:h-[1200px] bg-purple-500/15 blur-[150px] md:blur-[300px] rounded-full pointer-events-none"></div>
     <canvas id="hero-canvas" style="position:absolute;top:0;left:0;width:100vw;height:100vh;z-index:1;"></canvas>
     <section class="relative h-[100dvh] w-full flex items-center justify-center overflow-hidden" style="z-index:2;">
-      <div class="relative z-20 text-center px-4 w-full max-w-[1600px] mx-auto pt-24">
-        <h1 class="porsche-font text-[clamp(2.5rem,14vw,8.5rem)] leading-[0.75] text-white tracking-[-0.05em] parallax-text" data-speed="0.5">
+      <div class="hero-content opacity-0 relative z-20 text-center px-4 w-full max-w-[1600px] mx-auto pt-24">
+        <h1 class="porsche-font text-[clamp(2.5rem,14vw,8.5rem)] leading-[0.75] text-white tracking-[-0.05em]">
           <span class="block mb-2 md:mb-4 drop-shadow-[0_10px_40px_rgba(0,0,0,1)]">ELEVATED</span>
           <span class="text-white drop-shadow-[0_0_60px_rgba(168,85,247,0.5)] italic">AUTO <span class="text-purple-400">WRAPS.</span></span>
         </h1>
-        <div class="flex flex-col gap-4 mt-10 md:mt-16 mb-12 md:mb-20 text-white uppercase font-bold tracking-widest parallax-text" data-speed="0.8">
+        <div class="flex flex-col gap-4 mt-10 md:mt-16 mb-12 md:mb-20 text-white uppercase font-bold tracking-widest">
           <span class="text-purple-300 text-[10px] md:text-sm tracking-[0.5em] md:tracking-[0.8em] font-black drop-shadow-2xl">Woman owned and operated</span>
           <span class="text-[11px] md:text-lg tracking-[0.3em] md:tracking-[0.5em] opacity-80 font-medium px-4 max-w-2xl mx-auto italic leading-relaxed">SAN ANTONIO’S PREMIER DESTINATION FOR AUTOMOTIVE EXCELLENCE</span>
         </div>
-        <div class="flex flex-col sm:flex-row items-center justify-center gap-5 md:gap-8 px-8 sm:px-0 parallax-text" data-speed="1.2">
+        <div class="flex flex-col sm:flex-row items-center justify-center gap-5 md:gap-8 px-8 sm:px-0">
           <a href="tel:2102014999" class="btn-solid py-5 md:py-6 px-12 md:px-14 uppercase tracking-[0.4em] text-[10px] md:text-[11px] w-full sm:w-auto text-center rounded-full bg-white !text-black hover:!bg-purple-600 hover:!text-white shadow-none transition-all duration-500">Call Direct</a>
           <a href="quote.html" class="btn-solid py-5 md:py-6 px-12 md:px-14 uppercase tracking-[0.4em] text-[10px] md:text-[11px] w-full sm:w-auto text-center rounded-full transition-all duration-500">Get a Quote</a>
         </div>
@@ -251,20 +251,30 @@
         renderHero();
       });
 
-      gsap.to(playhead, {
+      const heroTl = gsap.timeline({
+        scrollTrigger: {
+          scrub: 1,
+          trigger: '.hero',
+          start: 'top top',
+          end: '+=400%', 
+          pin: true,
+          anticipatePin: 1,
+        }
+      });
+
+      heroTl.to(playhead, {
         frame: frameCount - 1,
         snap: 'frame',
         ease: 'none',
-        scrollTrigger: {
-          scrub: 4, // Further increase scrub for even slower animation
-          trigger: '.hero',
-          start: 'top top',
-          end: '+=145vh',
-          pin: true,
-          anticipatePin: 1,
-        },
+        duration: 3,
         onUpdate: renderHero
       });
+
+      heroTl.to('.hero-content', {
+        opacity: 1,
+        duration: 1,
+        ease: 'power2.out'
+      }, ">-0.5"); // Overlap slightly or start after. ">" means start after. ">-0.5" means overlap last 0.5s. Let's do ">" for distinct.
     }
   </script>
   <script>
