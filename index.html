@@ -200,9 +200,33 @@
 
       const renderHero = () => {
         let frameToShow = Math.round(playhead.frame);
-        if (images[frameToShow]) {
+        const img = images[frameToShow];
+        if (img) {
           ctx.clearRect(0, 0, heroCanvas.width, heroCanvas.height);
-          ctx.drawImage(images[frameToShow], 0, 0, heroCanvas.width, heroCanvas.height);
+          
+          // Calculate "cover" dimensions
+          const canvasRatio = heroCanvas.width / heroCanvas.height;
+          // Use natural dimensions if available, otherwise assume loaded image has properties
+          // Note: img.width/img.height on an HTMLImageElement are reliable after onload
+          const imgRatio = img.width / img.height;
+          
+          let drawWidth, drawHeight, offsetX, offsetY;
+
+          if (canvasRatio > imgRatio) {
+            // Canvas is wider than image ratio -> scale to match width
+            drawWidth = heroCanvas.width;
+            drawHeight = heroCanvas.width / imgRatio;
+            offsetX = 0;
+            offsetY = (heroCanvas.height - drawHeight) / 2;
+          } else {
+            // Canvas is taller than image ratio -> scale to match height
+            drawHeight = heroCanvas.height;
+            drawWidth = heroCanvas.height * imgRatio;
+            offsetX = (heroCanvas.width - drawWidth) / 2;
+            offsetY = 0;
+          }
+
+          ctx.drawImage(img, offsetX, offsetY, drawWidth, drawHeight);
         }
       };
 

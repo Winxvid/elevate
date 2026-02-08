@@ -199,9 +199,11 @@
             background: #fff;
           }
         </style>
-        <div id="services-hero-title" class="max-w-screen-2xl mx-auto px-6 mb-12 md:mb-24 flex justify-center origin-center">
+        <div id="services-hero-trigger" class="max-w-screen-2xl mx-auto px-6 mb-12 md:mb-24 flex justify-center h-[fit-content]">
+            <div id="services-hero-title" class="origin-center opacity-0 w-full flex justify-center">
              <div data-us-project="cb1pg5ymSzmJuCnPEkTP" style="width:1920px; height: 850px; max-width: 100%; height: auto; aspect-ratio: 1920/850;"></div>
              <script type="text/javascript">!function(){var u=window.UnicornStudio;if(u&&u.init){if(document.readyState==="loading"){document.addEventListener("DOMContentLoaded",function(){u.init()})}else{u.init()}}else{window.UnicornStudio={isInitialized:!1};var i=document.createElement("script");i.src="https://cdn.jsdelivr.net/gh/hiunicornstudio/unicornstudio.js@v2.0.5/dist/unicornStudio.umd.js",i.onload=function(){if(document.readyState==="loading"){document.addEventListener("DOMContentLoaded",function(){UnicornStudio.init()})}else{UnicornStudio.init()}},(document.head||document.body).appendChild(i)}}();</script>
+            </div>
         </div>
         <div class="max-w-[1400px] mx-auto px-6">
           <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6">
@@ -320,26 +322,43 @@
   </div>
 
   <script>
-    document.addEventListener("DOMContentLoaded", (event) => {
+    // Wait for everything to be fully loaded, including external scripts and assets
+    window.addEventListener("load", (event) => {
       gsap.registerPlugin(ScrollTrigger);
-      
+
+      // Force a ScrollTrigger refresh to ensure positions are calculated correctly
+      // after all dynamic content (like Unicorn Studio) has settled.
+      ScrollTrigger.refresh();
+
       // Hero Title Scroll Animation
-      gsap.fromTo("#services-hero-title", 
+      // We pin the wrapper (#services-hero-trigger) but animate the inner content (#services-hero-title)
+      // This ensures the layout is calculated correctly before the scale transform skews it.
+      const animation = gsap.fromTo("#services-hero-title", 
         { 
-          scale: 2, 
+          scale: 0.2,
+          autoAlpha: 0,
+          transformOrigin: "center center" // Explicitly define transform origin
         },
         {
-          scale: 1, 
+          scale: 1,
+          autoAlpha: 1, 
           ease: "none",
           scrollTrigger: {
-            trigger: "#services-hero-title",
+            trigger: "#services-hero-trigger", // Pin the wrapper
+            pin: true,
             start: "center center", 
             end: "+=800",
             scrub: true,
-            pin: true
+            // Recalculate on refresh
+            invalidateOnRefresh: true
           }
         }
       );
+      
+      // Additional safety: Refresh ScrollTrigger after a short delay
+      // to handle any late-loading content or layout shifts
+      setTimeout(() => ScrollTrigger.refresh(), 500);
+    });
 
       // Services Modal Logic
       const servicesData = {
@@ -465,7 +484,6 @@
         if (e.key === 'ArrowRight') nextService();
         if (e.key === 'ArrowLeft') prevService();
       });
-    });
   </script>
 </body>
 </html>
