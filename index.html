@@ -84,11 +84,82 @@
     .overflow-hidden-fix {
         overflow: hidden;
     }
+
+    /* Text Reveal Animation */
+    .text-reveal {
+      overflow: hidden;
+    }
+    
+    .text-reveal .word {
+      display: inline-block;
+      opacity: 0;
+      transform: translateY(15px);
+    }
+    
+    .text-reveal.animate .word {
+      animation: textReveal 0.6s ease-out forwards;
+    }
+    
+    @keyframes textReveal {
+      0% {
+        opacity: 0;
+        transform: translateY(15px);
+      }
+      100% {
+        opacity: 1;
+        transform: translateY(0);
+      }
+    }
+
+    /* Encrypted Text Animation */
+    .encrypted-text, .encrypted-inline {
+      font-family: 'Courier New', monospace;
+      position: relative;
+      display: inline-block;
+    }
+    
+    .encrypted-text .char, .encrypted-inline .char {
+      display: inline-block;
+      transition: all 0.1s ease;
+      position: relative;
+    }
+    
+    .encrypted-text.scrambling .char, .encrypted-inline.scrambling .char {
+      animation: scramble 2.5s ease-in-out;
+    }
+    
+    .encrypted-inline {
+      color: #a855f7; /* Purple accent for encrypted portions */
+      font-weight: 600;
+    }
+    
+    @keyframes scramble {
+      0% {
+        transform: translateY(0);
+        opacity: 1;
+      }
+      10%, 20%, 30%, 40%, 50%, 60%, 70%, 80%, 90% {
+        transform: translateY(-1px) scale(1.05);
+        opacity: 0.8;
+      }
+      100% {
+        transform: translateY(0);
+        opacity: 1;
+      }
+    }
   </style>
   </style>
   <!-- GSAP and ScrollTrigger -->
   <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.5/gsap.min.js"></script>
   <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.5/ScrollTrigger.min.js"></script>
+  
+  <!-- IntersectionObserver Polyfill for older browsers -->
+  <script>
+    if (!('IntersectionObserver' in window)) {
+      // Load polyfill if needed
+      document.write('<script src="https://polyfill.io/v3/polyfill.min.js?features=IntersectionObserver"><\/script>');
+    }
+  </script>
 </head>
 <body>
   <!-- Preloader -->
@@ -116,21 +187,41 @@
     // Immediate check to prevent flash on repeat visits
     if (sessionStorage.getItem('elevated_preloader_shown')) {
       const preloader = document.getElementById('preloader');
-      if (preloader) preloader.style.display = 'none';
+      if (preloader) {
+        preloader.style.display = 'none';
+      }
+    } else {
+      // Lock scroll while preloader is active to prevent user from scrolling on mobile
+      document.body.style.overflow = 'hidden';
+      // Fallback: Force remove preloader after 10s if load hangs (e.g. slow network)
+      setTimeout(() => {
+        const preloader = document.getElementById('preloader');
+        if (preloader && preloader.style.display !== 'none') {
+           preloader.style.opacity = '0';
+           setTimeout(() => {
+             preloader.style.display = 'none';
+             document.body.style.overflow = '';
+             sessionStorage.setItem('elevated_preloader_shown', 'true');
+           }, 700);
+        }
+      }, 10000);
     }
 
     window.addEventListener('load', function() {
       const preloader = document.getElementById('preloader');
       // Only run animation if preloader is still visible
       if (preloader && preloader.style.display !== 'none') {
+        const loadingTime = 4000; // Reduced from 6000 for better mobile UX
         setTimeout(() => {
           preloader.style.opacity = '0';
           setTimeout(() => {
             preloader.style.display = 'none';
+            // Unlock scroll
+            document.body.style.overflow = '';
             // Mark as shown for this session
             sessionStorage.setItem('elevated_preloader_shown', 'true');
           }, 700);
-        }, 6000);
+        }, loadingTime);
       }
     });
   </script>
@@ -151,7 +242,7 @@
           <span class="text-white drop-shadow-[0_0_60px_rgba(168,85,247,0.5)] italic">AUTO <span class="text-purple-400">WRAPS.</span></span>
         </h1>
         <div class="flex flex-col gap-4 mt-10 md:mt-16 mb-12 md:mb-20 text-white uppercase font-bold tracking-widest">
-          <span class="text-purple-300 text-[10px] md:text-sm tracking-[0.5em] md:tracking-[0.8em] font-black drop-shadow-2xl">Woman owned and operated</span>
+          <span class="text-purple-300 text-[10px] md:text-sm tracking-[0.5em] md:tracking-[0.8em] font-black drop-shadow-2xl encrypted-text" id="encrypted-subtitle">Woman owned and operated</span>
           <span class="text-[11px] md:text-lg tracking-[0.3em] md:tracking-[0.5em] opacity-80 font-medium px-4 max-w-2xl mx-auto italic leading-relaxed">SAN ANTONIO’S PREMIER DESTINATION FOR AUTOMOTIVE EXCELLENCE</span>
         </div>
         <div class="flex flex-col sm:flex-row items-center justify-center gap-5 md:gap-8 px-8 sm:px-0">
@@ -164,24 +255,35 @@
   <!-- Inserted Image After Hero Section -->
   <div class="w-full flex flex-col md:flex-row justify-center items-center py-12 gap-12 md:gap-20 max-w-6xl mx-auto parallax-section" data-speed="0.7">
     <div class="md:w-1/2 w-full flex flex-col justify-center items-start px-4 md:px-0">
-      <h2 class="porsche-font text-[clamp(2rem,5vw,3.6rem)] text-purple-500 leading-tight mb-6 reveal-on-scroll">ELEVATE YOUR VEHICLE</h2>
-      <p class="text-white text-lg md:text-xl font-medium leading-relaxed mb-4 reveal-on-scroll">Elevated Auto Wraps is San Antonio’s premier studio for Vehicle Customization and Auto Styling.</p>
-      <p class="text-zinc-300 text-base md:text-lg leading-loose reveal-on-scroll">With a foundation built on a passion for cars, our specialists have evolved into artisans of automotive aesthetics, with a commitment to mastering the art of film installation and custom wraps, and an unyielding dedication to enhancing every vehicle we touch and elevate.</p>
+      <h2 class="porsche-font text-[clamp(2rem,5vw,3.6rem)] text-purple-500 leading-tight mb-6 text-reveal" id="elevate-text">ELEVATE YOUR VEHICLE</h2>
+      <p class="text-white text-lg md:text-xl font-medium leading-relaxed mb-4 text-reveal">Elevated Auto Wraps is San Antonio's premier studio for <span class="encrypted-inline">Vehicle Customization and Auto Styling</span>.</p>
+      <p class="text-zinc-300 text-base md:text-lg leading-loose text-reveal">With a foundation built on a passion for cars, our specialists have evolved into <span class="encrypted-inline">artisans of automotive aesthetics</span>, with a commitment to mastering the art of film installation and custom wraps, and an <span class="encrypted-inline">unyielding dedication to enhancing every vehicle</span> we touch and elevate.</p>
     </div>
-    <div class="md:w-1/2 w-full flex justify-center items-center overflow-hidden rounded-2xl">
-      <img src="https://images.squarespace-cdn.com/content/v1/67053ead069230112a5e9280/4edcf25b-3f11-4a85-84c5-0ffa204d7867/IMG_9219.jpeg?format=2500w" alt="Elevated Auto Wraps Shop" class="rounded-2xl shadow-2xl max-w-4xl w-full reveal-on-scroll ken-burns" />
+    <div class="md:w-1/2 w-full perspective-scroll-container h-[400px] md:h-[600px] relative flex items-center justify-center">
+      <div class="scroll-animation-card w-full h-full relative overflow-hidden rounded-2xl shadow-2xl origin-center border border-white/10 bg-zinc-900 group">
+         <img src="https://images.squarespace-cdn.com/content/v1/67053ead069230112a5e9280/4edcf25b-3f11-4a85-84c5-0ffa204d7867/IMG_9219.jpeg?format=2500w" alt="Elevated Auto Wraps Shop" class="absolute inset-0 w-full h-full object-cover grayscale-[0.2] transition-all duration-700 group-hover:grayscale-0" />
+         <div class="absolute inset-0 bg-gradient-to-tr from-black/40 to-transparent pointer-events-none"></div>
+      </div>
     </div>
   </div>
   <!-- Professional CTA Section -->
-  <div class="w-full flex flex-col items-center text-center py-8 md:py-12 relative overflow-hidden parallax-section reveal-on-scroll" style="background: linear-gradient(to bottom, #08070b 80%, #0c0b14 100%); min-height: 400px;" data-speed="0.4">
+  <div class="w-full min-h-[500px] flex items-center justify-center relative overflow-hidden parallax-section reveal-on-scroll" style="background: linear-gradient(to bottom, #08070b 80%, #0c0b14 100%);" data-speed="0.4">
     <div class="absolute inset-0 w-full h-full overflow-hidden">
         <img src="https://images.squarespace-cdn.com/content/v1/67053ead069230112a5e9280/4300286e-4fbb-4695-89d1-84b69c504fdd/IMG_0754.png?format=2500w" alt="Auto Styling Studio" class="w-full h-full object-cover opacity-20 z-0 ken-burns" style="pointer-events:none;" />
     </div>
-    <div class="relative z-10 max-w-4xl mx-auto">
-      <h3 class="porsche-font text-[clamp(1.5rem,4vw,2.5rem)] text-purple-500 mb-4">WE FOCUS ON HIGH-QUALITY RESULTS AND RAISING THE STANDARD</h3>
-      <p class="text-white text-lg md:text-xl font-bold mb-2">WOMAN OWNED AND OPERATED IN SAN ANTONIO, TEXAS.</p>
-      <p class="text-zinc-300 text-base md:text-lg mb-6">Discover the difference at our auto styling studio by scheduling your appointment today.</p>
-      <a href="quote.html" class="btn-solid py-5 px-12 text-lg rounded-full uppercase tracking-[0.4em] font-black shadow-[0_0_30px_rgba(124,58,237,0.4)] hover:bg-white hover:text-black transition-all duration-500">GET IN TOUCH</a>
+    <div class="relative z-10 w-full max-w-[90%] md:max-w-7xl mx-auto px-4 sm:px-6 text-center">
+      <div class="space-y-6">
+        <h3 class="porsche-font text-[clamp(1.5rem,4vw,3.5rem)] text-purple-500 leading-tight">
+          <span class="encrypted-text block md:inline-block">WE FOCUS ON HIGH-QUALITY RESULTS</span>
+          <span class="block md:inline-block md:hidden hidden"><br></span>
+          <span class="encrypted-text block md:inline-block">AND RAISING THE STANDARD</span>
+        </h3>
+        <p class="text-white text-xl md:text-2xl font-bold tracking-wide encrypted-text">WOMAN OWNED AND OPERATED IN SAN ANTONIO, TEXAS.</p>
+        <p class="text-zinc-300 text-lg md:text-xl max-w-2xl mx-auto leading-relaxed encrypted-text">Discover the difference at our auto styling studio by scheduling your appointment today.</p>
+        <div class="pt-4">
+          <a href="quote.html" class="inline-block btn-solid py-6 px-16 text-lg rounded-full uppercase tracking-[0.4em] font-black shadow-[0_0_30px_rgba(124,58,237,0.4)] hover:bg-white hover:text-black transition-all duration-500">GET IN TOUCH</a>
+        </div>
+      </div>
     </div>
   </div>
 
@@ -316,9 +418,9 @@
 
       heroTl.to('.hero-content', {
         opacity: 1,
-        duration: 1,
+        duration: 1.5,
         ease: 'power2.out'
-      }, ">-0.5"); // Overlap slightly or start after. ">" means start after. ">-0.5" means overlap last 0.5s. Let's do ">" for distinct.
+      });
     }
   </script>
   <script>
@@ -355,6 +457,277 @@
       });
     });
   </script>
+  
+  <!-- Encrypted Text Animation -->
+  <script>
+    class EncryptedText {
+      constructor(element, options = {}) {
+        this.element = element;
+        this.originalText = element.textContent;
+        this.duration = options.duration || 2000;
+        this.chars = options.chars || 'ABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789!@#$%^&*()';
+        this.isAnimating = false;
+        
+        this.init();
+      }
+      
+      init() {
+        this.element.innerHTML = '';
+        this.originalText.split('').forEach(char => {
+          const span = document.createElement('span');
+          span.className = 'char';
+          span.textContent = char === ' ' ? '\u00A0' : char; // Non-breaking space
+          this.element.appendChild(span);
+        });
+      }
+      
+      animate() {
+        if (this.isAnimating) return;
+        this.isAnimating = true;
+        this.element.classList.add('scrambling');
+        
+        const chars = this.element.querySelectorAll('.char');
+        const charArray = this.chars.split('');
+        
+        chars.forEach((char, index) => {
+          if (char.textContent === '\u00A0') return; // Skip spaces
+          
+          const originalChar = this.originalText[index];
+          let scrambleCount = 0;
+          const maxScrambles = Math.floor(this.duration / 100); // More scrambles for longer duration
+          
+          const scrambleInterval = setInterval(() => {
+            if (scrambleCount < maxScrambles) {
+              char.textContent = charArray[Math.floor(Math.random() * charArray.length)];
+              scrambleCount++;
+            } else {
+              char.textContent = originalChar;
+              clearInterval(scrambleInterval);
+              
+              // Check if all characters are done
+              const allDone = Array.from(chars).every((c, i) => 
+                c.textContent === '\u00A0' || c.textContent === this.originalText[i]
+              );
+              
+              if (allDone) {
+                setTimeout(() => {
+                  this.element.classList.remove('scrambling');
+                  this.isAnimating = false;
+                }, 200);
+              }
+            }
+          }, this.duration / (chars.length * maxScrambles));
+        });
+      }
+    }
+    
+    // Initialize encrypted text elements
+    document.addEventListener('DOMContentLoaded', function() {
+      console.log('DOM loaded, initializing animations...');
+      
+      // Text Reveal Animation for paragraphs
+      const textRevealElements = document.querySelectorAll('.text-reveal');
+      console.log('Found text-reveal elements:', textRevealElements.length);
+      
+      textRevealElements.forEach((element, elementIndex) => {
+        // Skip elements that are encrypted-inline (they have their own animation)
+        if (element.classList.contains('encrypted-inline')) return;
+        
+        console.log('Processing text-reveal element:', element.id || elementIndex);
+        
+        // Split text into words and spaces
+        const text = element.textContent;
+        const parts = text.split(/(\s+)/); // Split on whitespace but keep the whitespace
+        
+        // Clear original text
+        element.innerHTML = '';
+        
+        // Create spans for each word/space
+        parts.forEach((part, partIndex) => {
+          if (part.trim() === '') {
+            // This is whitespace - create a non-animated space
+            const spaceSpan = document.createElement('span');
+            spaceSpan.textContent = part;
+            spaceSpan.style.display = 'inline';
+            element.appendChild(spaceSpan);
+          } else {
+            // This is a word - create animated span
+            const wordSpan = document.createElement('span');
+            wordSpan.textContent = part;
+            wordSpan.classList.add('word');
+            
+            // Count only words for animation delay (not spaces)
+            const wordCount = parts.filter(p => p.trim() !== '').indexOf(part);
+            const delay = (wordCount * 0.08) + (elementIndex * 0.3); // Faster word stagger, element delay
+            wordSpan.style.animationDelay = `${delay}s`;
+            
+            element.appendChild(wordSpan);
+          }
+        });
+        
+        // Trigger animation when element comes into view
+        const observer = new IntersectionObserver((entries) => {
+          entries.forEach(entry => {
+            if (entry.isIntersecting) {
+              console.log('Text-reveal element in view, animating:', element.id || elementIndex);
+              // Add animation class to trigger CSS animations
+              entry.target.classList.add('animate');
+              observer.unobserve(entry.target);
+            }
+          });
+        }, { threshold: 0.1 });
+        
+        observer.observe(element);
+        
+        // Also check if element is already in view on load
+        const rect = element.getBoundingClientRect();
+        const isInView = rect.top < window.innerHeight && rect.bottom > 0;
+        if (isInView) {
+          console.log('Text-reveal element already in view on load:', element.id || elementIndex);
+          element.classList.add('animate');
+        }
+      });
+      
+      // Initialize encrypted subtitle
+      const encryptedElement = document.getElementById('encrypted-subtitle');
+      if (encryptedElement) {
+        console.log('Initializing encrypted subtitle');
+        const encrypted = new EncryptedText(encryptedElement, { 
+          duration: 2500,
+          chars: 'ABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789!@#$%^&*()_+-=[]{}|;:,.<>?' 
+        });
+        
+        // Trigger animation when element comes into view
+        const observer = new IntersectionObserver((entries) => {
+          entries.forEach(entry => {
+            if (entry.isIntersecting) {
+              console.log('Encrypted subtitle in view, animating');
+              encrypted.animate();
+              observer.unobserve(entry.target);
+            }
+          });
+        }, { threshold: 0.5 });
+        
+        observer.observe(encryptedElement);
+        
+        // Check if already in view
+        const rect = encryptedElement.getBoundingClientRect();
+        const isInView = rect.top < window.innerHeight && rect.bottom > 0;
+        if (isInView) {
+          console.log('Encrypted subtitle already in view on load');
+          encrypted.animate();
+        }
+      }
+      
+      // Initialize encrypted-text elements
+      const encryptedTextElements = document.querySelectorAll('.encrypted-text');
+      console.log('Found encrypted-text elements:', encryptedTextElements.length);
+      
+      encryptedTextElements.forEach((element, index) => {
+        console.log('Initializing encrypted-text element:', index);
+        const encrypted = new EncryptedText(element, { 
+          duration: 5000,
+          chars: 'ABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789!@#$%^&*()_+-=[]{}|;:,.<>?' 
+        });
+        
+        // Trigger animation when element comes into view
+        const observer = new IntersectionObserver((entries) => {
+          entries.forEach(entry => {
+            if (entry.isIntersecting) {
+              console.log('Encrypted-text element in view, animating:', index);
+              setTimeout(() => encrypted.animate(), index * 500); // Stagger animations
+              observer.unobserve(entry.target);
+            }
+          });
+        }, { threshold: 0.3 });
+        
+        observer.observe(element);
+        
+        // Check if already in view
+        const rect = element.getBoundingClientRect();
+        const isInView = rect.top < window.innerHeight && rect.bottom > 0;
+        if (isInView) {
+          console.log('Encrypted-text element already in view on load:', index);
+          setTimeout(() => encrypted.animate(), index * 500);
+        }
+      });
+      
+      // Initialize inline encrypted text portions
+      const inlineEncryptedElements = document.querySelectorAll('.encrypted-inline');
+      console.log('Found encrypted-inline elements:', inlineEncryptedElements.length);
+      
+      inlineEncryptedElements.forEach(element => {
+        console.log('Initializing encrypted-inline element');
+        const encrypted = new EncryptedText(element, { 
+          duration: 3000,
+          chars: 'ABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789!@#$%^&*()_+-=[]{}|;:,.<>?' 
+        });
+        
+        // Trigger animation when parent paragraph comes into view
+        const observer = new IntersectionObserver((entries) => {
+          entries.forEach(entry => {
+            if (entry.isIntersecting) {
+              console.log('Encrypted-inline parent in view, animating after delay');
+              setTimeout(() => encrypted.animate(), 1000); // Delay for dramatic effect
+              observer.unobserve(entry.target);
+            }
+          });
+        }, { threshold: 0.3 });
+        
+        const parentElement = element.closest('p') || element;
+        observer.observe(parentElement);
+        
+        // Check if already in view
+        const rect = parentElement.getBoundingClientRect();
+        const isInView = rect.top < window.innerHeight && rect.bottom > 0;
+        if (isInView) {
+          console.log('Encrypted-inline parent already in view on load');
+          setTimeout(() => encrypted.animate(), 1000);
+        }
+      });
+    });
+  </script>
+  
   <script src="navbar.js"></script>
+  <script>
+    document.addEventListener('DOMContentLoaded', () => {
+      // Register ScrollTrigger
+      gsap.registerPlugin(ScrollTrigger);
+
+      // Section Scroll Animation (Aceternity UI Container Scroll effect)
+      const card = document.querySelector('.scroll-animation-card');
+      const container = document.querySelector('.perspective-scroll-container');
+      
+      if(card && container) {
+        // Set initial perspective on container
+        gsap.set(container, { perspective: 1000 });
+        
+        // Animate the card
+        gsap.fromTo(card, 
+          { 
+            rotateX: 20, 
+            scale: 0.9, 
+            y: 50,
+            transformOrigin: "center center",
+            boxShadow: '0 20px 50px -10px rgba(0,0,0,0.5)'
+          },
+          {
+            rotateX: 0, 
+            scale: 1, 
+            y: 0,
+            // opacity: 1, // Keep opacity handled by CSS or start at 1
+            boxShadow: '0 0 0 0 rgba(0,0,0,0)',
+            ease: "none",
+            scrollTrigger: {
+              trigger: container,
+              start: "top bottom", // when top of container hits bottom of viewport
+              end: "center center", // when center of container hits center of viewport
+              scrub: 1 // smooth scrubbing
+            }
+          }
+        );
+      }
+    });
+  </script>
 </body>
 </html>
