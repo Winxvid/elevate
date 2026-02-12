@@ -1,13 +1,48 @@
-<div class="fixed inset-0 z-[1000] bg-black flex flex-col items-center justify-center overflow-hidden">
+<div id="preloader" class="fixed inset-0 z-[9999] bg-black flex flex-col items-center justify-center overflow-hidden transition-opacity duration-700">
   <div class="relative flex flex-col items-center">
+    <!-- Logo/Gif -->
     <img src="https://ogautocc.com/ElevatedWraps/Elevated_preloader.GIF" class="h-32 md:h-48 w-auto mb-8" alt="Elevated Wraps Loading...">
+    
+    <!-- Loading Line -->
     <div class="w-48 h-[1px] bg-zinc-900 relative overflow-hidden">
-      <div class="w-full h-full bg-gradient-to-r from-transparent via-purple-500 to-transparent"></div>
+      <div class="absolute inset-0 bg-gradient-to-r from-transparent via-purple-500 to-transparent w-full h-full animate-[loading_1.5s_ease-in-out_infinite] -translate-x-full"></div>
     </div>
   </div>
+  
   <div class="mt-12 overflow-hidden">
     <span class="porsche-font text-[10px] tracking-[1em] text-zinc-500 block animate-pulse">
       PREPARING EXCELLENCE
     </span>
   </div>
 </div>
+
+<style>
+@keyframes loading {
+  0% { transform: translateX(-100%); }
+  50% { transform: translateX(100%); }
+  100% { transform: translateX(100%); }
+}
+</style>
+
+  <script>
+    // Immediate check to prevent flash on repeat visits
+    if (sessionStorage.getItem('elevated_preloader_shown')) {
+      const preloader = document.getElementById('preloader');
+      if (preloader) preloader.style.display = 'none';
+    }
+
+    window.addEventListener('load', function() {
+      const preloader = document.getElementById('preloader');
+      // Only run animation if preloader is still visible
+      if (preloader && preloader.style.display !== 'none') {
+        setTimeout(() => {
+          preloader.style.opacity = '0';
+          setTimeout(() => {
+            preloader.style.display = 'none';
+            // Mark as shown for this session
+            sessionStorage.setItem('elevated_preloader_shown', 'true');
+          }, 700);
+        }, 6000);
+      }
+    });
+  </script>
