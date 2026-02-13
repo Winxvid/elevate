@@ -146,7 +146,7 @@
               <div class="space-y-6 md:space-y-8" style="opacity: 1;">
                 <p class="bg-white/5 p-8 md:p-10 rounded-[2rem] md:rounded-[3rem] border border-white/10 backdrop-blur-xl reveal-letters">Founded in November 2024 by car and art enthusiast Miranda Reyes, Elevated Auto Wraps represents a significant milestone in the Texas automotive landscape as the state's first woman-owned and operated vehicle wrap studio.</p>
                 <p class="pl-6 md:pl-10 border-l-4 border-purple-400 reveal-letters">Miranda launched Elevated with a singular vision: to redefine automotive customization through a lens of artistic precision and technical excellence. Her background as a lifelong car enthusiast, combined with a meticulous eye for detail, has quickly established the studio as a premier destination for San Antonio’s most discerning owners.</p>
-                <p class="text-purple-200 font-medium reveal-letters">Recently featured in VOYAGE SAN ANTONIO MAGAZINE, Miranda’s journey is rooted in breaking barriers within the industry. From complex color-change PPF on high-performance raptors to bespoke livery designs, her hands-on approach ensures that every vehicle leaving our studio reflects an uncompromising standard of craft.</p>
+                <p class="text-purple-200 font-medium reveal-letters">Recently featured in <a href="https://voyagesanantonio.com/interview/meet-miranda-reyes-of-elevated-auto-wraps" target="_blank" class="text-white hover:text-purple-300 transition-colors border-b border-white/30 hover:border-purple-300 pb-0.5" rel="noopener noreferrer">VOYAGE SAN ANTONIO MAGAZINE</a>, Miranda’s journey is rooted in breaking barriers within the industry. From complex color-change PPF on high-performance raptors to bespoke livery designs, her hands-on approach ensures that every vehicle leaving our studio reflects an uncompromising standard of craft.</p>
               </div>
               <div class="pt-6 md:pt-12" style="opacity: 1; transform: none;">
                 <div class="flex items-center gap-4 md:gap-6 mb-6 md:mb-8">
@@ -161,9 +161,13 @@
               </div>
             </div>
             <div class="lg:col-span-5 space-y-6 md:space-y-10">
-              <div class="aspect-[4/5] rounded-[2.5rem] md:rounded-[4rem] overflow-hidden border border-white/20 relative group shadow-2xl" style="opacity: 1; transform: none;">
-                <img class="w-full h-full object-cover object-right group-hover:scale-105 transition-all duration-1000 ken-burns" alt="Miranda Reyes at work" src="https://ogautocc.com/ElevatedWraps/Social.jpg">
-                <div class="absolute inset-0 bg-gradient-to-t from-black/60 via-transparent to-white/10"></div>
+              <div class="aspect-[4/5] rounded-[2.5rem] md:rounded-[4rem] overflow-hidden border border-white/20 relative group shadow-2xl pixel-image-wrapper" style="opacity: 1; transform: none;">
+                <div class="pixel-image-container w-full h-full relative flex flex-wrap bg-zinc-900" 
+                     data-src="https://ogautocc.com/ElevatedWraps/Social.jpg" 
+                     data-rows="4" 
+                     data-cols="6">
+                </div>
+                <div class="absolute inset-0 bg-gradient-to-t from-black/60 via-transparent to-white/10 pointer-events-none z-20"></div>
               </div>
               <a href="https://www.instagram.com/mirandareyes_007" target="_blank" rel="noopener noreferrer" class="flex items-center justify-between p-8 md:p-10 bg-white text-black rounded-[2rem] md:rounded-[3rem] hover:bg-purple-400 hover:text-white transition-all group relative overflow-hidden font-black uppercase tracking-[0.4em] text-[10px] md:text-xs shadow-2xl" style="opacity: 1; transform: none;">
                 <span>Follow the Journey</span>
@@ -220,40 +224,49 @@
   </script>
   <script src="navbar.js"></script>
   <script>
-      // GSAP letter-by-letter reveal for about page (fix: only animate text, preserve HTML tags, faster speed)
+      // GSAP letter-by-letter reveal for about page
       document.addEventListener('DOMContentLoaded', function() {
         gsap.utils.toArray('.reveal-letters').forEach((el) => {
           const originalHTML = el.innerHTML;
-          // Helper: split text nodes into spans, keep tags intact
+          const allLetters = []; // Collection of all letter spans to animate
+
+          // Helper: wrapTextNodes function (unchanged)
           function wrapTextNodes(node) {
             if (node.nodeType === Node.TEXT_NODE) {
               return node.textContent.split('').map(char => {
                 const span = document.createElement('span');
                 span.textContent = char;
                 span.style.opacity = '0';
+                allLetters.push(span); // Add to animation queue
                 return span;
               });
             } else if (node.nodeType === Node.ELEMENT_NODE) {
               const clone = node.cloneNode(false);
+              // Recursively process children
               Array.from(node.childNodes).forEach(child => {
-                wrapTextNodes(child).forEach(span => clone.appendChild(span));
+                const children = wrapTextNodes(child);
+                children.forEach(childNode => clone.appendChild(childNode));
               });
-              return [clone];
+              return [clone]; // Return the wrapper element structure
             } else {
               return [];
             }
           }
-          // Parse original HTML
+
+          // Parse original HTML (unchanged)
           const temp = document.createElement('div');
           temp.innerHTML = originalHTML;
-          let spans = [];
+          
+          const newChildren = [];
           Array.from(temp.childNodes).forEach(node => {
-            spans = spans.concat(wrapTextNodes(node));
+            newChildren.push(...wrapTextNodes(node));
           });
+          
           el.innerHTML = '';
-          spans.forEach(span => el.appendChild(span));
-          // Animate each span (faster)
-          gsap.to(spans, {
+          newChildren.forEach(child => el.appendChild(child));
+          
+          // Animate each letter span found recursively (unchanged)
+          gsap.to(allLetters, {
             opacity: 1,
             stagger: 0.015,
             duration: 0.2,
@@ -262,5 +275,80 @@
         });
       });
     </script>
+  <script>
+    // Magic UI Pixel Image Effect Implementation
+    document.addEventListener('DOMContentLoaded', () => {
+       const containers = document.querySelectorAll('.pixel-image-container');
+       
+       containers.forEach(container => {
+           const src = container.dataset.src;
+           const rows = parseInt(container.dataset.rows || 4);
+           const cols = parseInt(container.dataset.cols || 6);
+           
+           // Clear container
+           container.innerHTML = '';
+           
+           const cellWidth = 100 / cols;
+           const cellHeight = 100 / rows;
+           
+           const cells = [];
+           
+           for(let r = 0; r < rows; r++) {
+               for(let c = 0; c < cols; c++) {
+                   const cell = document.createElement('div');
+                   cell.className = 'pixel-cell relative overflow-hidden bg-zinc-800';
+                   cell.style.width = `${cellWidth}%`;
+                   cell.style.height = `${cellHeight}%`;
+                   // Start state
+                   cell.style.opacity = '0';
+                   
+                   const img = document.createElement('img');
+                   img.src = src;
+                   img.className = 'absolute max-w-none object-cover';
+                   // Calculate dimensions and position for the inner image
+                   img.style.width = `${cols * 100}%`;
+                   img.style.height = `${rows * 100}%`;
+                   img.style.left = `-${c * 100}%`;
+                   img.style.top = `-${r * 100}%`;
+                   
+                   cell.appendChild(img);
+                   container.appendChild(cell);
+                   cells.push(cell);
+               }
+           }
+           
+           // Animation with GSAP
+           gsap.registerPlugin(ScrollTrigger);
+           
+           const tl = gsap.timeline({
+               scrollTrigger: {
+                   trigger: container,
+                   start: "top 80%",
+                   toggleActions: "play none none reverse"
+               }
+           });
+           
+           // 1. Fade in pixels randomly with grayscale
+           tl.to(cells, {
+               opacity: 1,
+               duration: 0.05, // very fast appearance like digital pixels
+               stagger: {
+                   amount: 1.5,
+                   from: "random",
+                   grid: [rows, cols]
+               },
+               onStart: () => {
+                   cells.forEach(c => c.querySelector('img').style.filter = 'grayscale(100%)');
+               }
+           })
+           // 2. Remove grayscale
+           .to(cells.map(c => c.querySelector('img')), {
+               filter: 'grayscale(0%)',
+               duration: 1.5,
+               ease: "power2.out"
+           }, "-=0.5");
+       });
+    });
+  </script>
 </body>
 </html>
