@@ -72,27 +72,77 @@
         }
 
         .glass-panel {
-            background: rgba(255, 255, 255, 0.03);
-            backdrop-filter: blur(20px);
-            border: 1px solid rgba(255, 255, 255, 0.1);
-        }
-
-        .btn-solid { 
-            background: #7c3aed; 
-            color: white; 
+        background: rgba(255, 255, 255, 0.03);
+        backdrop-filter: blur(20px);
+        border: 1px solid rgba(255, 255, 255, 0.1);
+      }
+      .btn-solid { 
+            position: relative;
+            background: transparent !important;
+            color: #a855f7 !important; 
             padding: 18px 45px; 
             font-weight: 800; 
-            display: inline-block; 
-            transition: all 0.3s cubic-bezier(0.2, 1, 0.3, 1);
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
             text-decoration: none !important;
             cursor: pointer;
-            box-shadow: 0 0 30px rgba(124, 58, 237, 0.3);
+            border-radius: 9999px;
+            overflow: hidden;
+            border: 1px solid rgba(168, 85, 247, 0.1);
+            transition: all 0.3s ease;
+            box-shadow: 0 0 10px rgba(168, 85, 247, 0.1);
+            z-index: 1;
         }
+
+        .btn-solid::before {
+            content: "";
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            width: 400%; 
+            height: 400%;
+            background: conic-gradient(
+                from 0deg at 50% 50%,
+                transparent 50%,
+                #a855f7 70%,
+                #ffffff 100%
+            );
+            z-index: -2;
+            animation: borderRotate 2s linear infinite; 
+            opacity: 0;
+            transition: opacity 0.3s ease;
+        }
+
+        .btn-solid::after {
+            content: "";
+            position: absolute;
+            inset: 3px; 
+            background: #ffffff;
+            border-radius: 9999px;
+            z-index: -1;
+        }
+
+        .btn-solid:hover::before {
+           opacity: 1; 
+        }
+
         .btn-solid:hover {
             transform: scale(1.05);
-            background: #fff;
-            color: #000;
-            box-shadow: 0 0 40px rgba(255, 255, 255, 0.5);
+            color: #7e22ce !important;
+            box-shadow: 0 0 50px rgba(168, 85, 247, 0.7); 
+            border-color: transparent;
+        }
+        
+        .btn-solid span {
+            position: relative;
+            z-index: 10;
+        }
+
+        @keyframes borderRotate {
+            from { transform: translate(-50%, -50%) rotate(0deg); }
+            to { transform: translate(-50%, -50%) rotate(360deg); }
         }
     </style>
 
@@ -182,12 +232,86 @@
                     <h3 class="text-[9px] md:text-[14px] font-black uppercase tracking-[0.4em] md:tracking-[0.5em] text-white">Services Required</h3>
                   </div>
                   <div class="grid grid-cols-1 sm:grid-cols-2 gap-4 md:gap-8">
-                    <button type="button" class="flex items-center justify-between p-6 md:p-10 rounded-2xl md:rounded-3xl border transition-all duration-700 bg-white/5 border-white/10 text-zinc-500 hover:border-white/30"><span class="text-[9px] md:text-[12px] font-black uppercase tracking-[0.2em] md:tracking-[0.3em]">PAINT PROTECTION FILM</span><div class="p-2 md:p-4 rounded-xl transition-colors duration-700 bg-white/5"><svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="lucide lucide-shield w-5 h-5 md:w-8 md:h-8" aria-hidden="true"><path d="M20 13c0 5-3.5 7.5-7.66 8.95a1 1 0 0 1-.67-.01C7.5 20.5 4 18 4 13V6a1 1 0 0 1 1-1c2 0 4.5-1.2 6.24-2.72a1.17 1.17 0 0 1 1.52 0C14.51 3.81 17 5 19 5a1 1 0 0 1 1 1z"></path></svg></div></button>
-                    <button type="button" class="flex items-center justify-between p-6 md:p-10 rounded-2xl md:rounded-3xl border transition-all duration-700 bg-white/5 border-white/10 text-zinc-500 hover:border-white/30"><span class="text-[9px] md:text-[12px] font-black uppercase tracking-[0.2em] md:tracking-[0.3em]">VINYL WRAPS</span><div class="p-2 md:p-4 rounded-xl transition-colors duration-700 bg-white/5"><svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="lucide lucide-palette w-5 h-5 md:w-8 md:h-8" aria-hidden="true"><path d="M12 22a1 1 0 0 1 0-20 10 9 0 0 1 10 9 5 5 0 0 1-5 5h-2.25a1.75 1.75 0 0 0-1.4 2.8l.3.4a1.75 1.75 0 0 1-1.4 2.8z"></path><circle cx="13.5" cy="6.5" r=".5" fill="currentColor"></circle><circle cx="17.5" cy="10.5" r=".5" fill="currentColor"></circle><circle cx="6.5" cy="12.5" r=".5" fill="currentColor"></circle><circle cx="8.5" cy="7.5" r=".5" fill="currentColor"></circle></svg></div></button>
-                    <button type="button" class="flex items-center justify-between p-6 md:p-10 rounded-2xl md:rounded-3xl border transition-all duration-700 bg-white/5 border-white/10 text-zinc-500 hover:border-white/30"><span class="text-[9px] md:text-[12px] font-black uppercase tracking-[0.2em] md:tracking-[0.3em]">WINDOW TINT</span><div class="p-2 md:p-4 rounded-xl transition-colors duration-700 bg-white/5"><svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="lucide lucide-sun w-5 h-5 md:w-8 md:h-8" aria-hidden="true"><circle cx="12" cy="12" r="4"></circle><path d="M12 2v2"></path><path d="M12 20v2"></path><path d="m4.93 4.93 1.41 1.41"></path><path d="m17.66 17.66 1.41 1.41"></path><path d="M2 12h2"></path><path d="M20 12h2"></path><path d="m6.34 17.66-1.41 1.41"></path><path d="m19.07 4.93-1.41 1.41"></path></svg></div></button>
-                    <button type="button" class="flex items-center justify-between p-6 md:p-10 rounded-2xl md:rounded-3xl border transition-all duration-700 bg-white/5 border-white/10 text-zinc-500 hover:border-white/30"><span class="text-[9px] md:text-[12px] font-black uppercase tracking-[0.2em] md:tracking-[0.3em]">AUTO DETAIL</span><div class="p-2 md:p-4 rounded-xl transition-colors duration-700 bg-white/5"><svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="lucide lucide-sparkles w-5 h-5 md:w-8 md:h-8" aria-hidden="true"><path d="M11.017 2.814a1 1 0 0 1 1.966 0l1.051 5.558a2 2 0 0 0 1.594 1.594l5.558 1.051a1 1 0 0 1 0 1.966l-5.558 1.051a2 2 0 0 0-1.594 1.594l-1.051 5.558a1 1 0 0 1-1.966 0l-1.051-5.558a2 2 0 0 0-1.594-1.594l-5.558-1.051a1 1 0 0 1 0-1.966l5.558-1.051a2 2 0 0 0 1.594-1.594z"></path><path d="M20 2v4"></path><path d="M22 4h-4"></path><circle cx="4" cy="20" r="2"></circle></svg></div></button>
-                    <button type="button" class="flex items-center justify-between p-6 md:p-10 rounded-2xl md:rounded-3xl border transition-all duration-700 bg-white/5 border-white/10 text-zinc-500 hover:border-white/30 col-span-1 sm:col-span-2 md:col-span-1"><span class="text-[9px] md:text-[12px] font-black uppercase tracking-[0.2em] md:tracking-[0.3em]">OTHER</span><div class="p-2 md:p-4 rounded-xl transition-colors duration-700 bg-white/5"><svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="lucide lucide-plus w-5 h-5 md:w-8 md:h-8" aria-hidden="true"><path d="M5 12h14"></path><path d="M12 5v14"></path></svg></div></button>
+                    <button type="button" class="service-select-btn flex items-center justify-between p-6 md:p-10 rounded-2xl md:rounded-3xl border transition-all duration-700 bg-white/10 border-white/20 text-white hover:border-white/40 hover:bg-white/20" data-service="PAINT PROTECTION FILM">
+                      <span class="text-[9px] md:text-[12px] font-black uppercase tracking-[0.2em] md:tracking-[0.3em]">PAINT PROTECTION FILM</span>
+                      <div class="p-2 md:p-4 rounded-xl transition-colors duration-700 bg-white/10">
+                        <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="lucide lucide-shield w-5 h-5 md:w-8 md:h-8" aria-hidden="true"><path d="M20 13c0 5-3.5 7.5-7.66 8.95a1 1 0 0 1-.67-.01C7.5 20.5 4 18 4 13V6a1 1 0 0 1 1-1c2 0 4.5-1.2 6.24-2.72a1.17 1.17 0 0 1 1.52 0C14.51 3.81 17 5 19 5a1 1 0 0 1 1 1z"></path></svg>
+                      </div>
+                    </button>
+                    <button type="button" class="service-select-btn flex items-center justify-between p-6 md:p-10 rounded-2xl md:rounded-3xl border transition-all duration-700 bg-white/10 border-white/20 text-white hover:border-white/40 hover:bg-white/20" data-service="VINYL WRAPS">
+                      <span class="text-[9px] md:text-[12px] font-black uppercase tracking-[0.2em] md:tracking-[0.3em]">VINYL WRAPS</span>
+                      <div class="p-2 md:p-4 rounded-xl transition-colors duration-700 bg-white/10">
+                        <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="lucide lucide-palette w-5 h-5 md:w-8 md:h-8" aria-hidden="true"><path d="M12 22a1 1 0 0 1 0-20 10 9 0 0 1 10 9 5 5 0 0 1-5 5h-2.25a1.75 1.75 0 0 0-1.4 2.8l.3.4a1.75 1.75 0 0 1-1.4 2.8z"></path><circle cx="13.5" cy="6.5" r=".5" fill="currentColor"></circle><circle cx="17.5" cy="10.5" r=".5" fill="currentColor"></circle><circle cx="6.5" cy="12.5" r=".5" fill="currentColor"></circle><circle cx="8.5" cy="7.5" r=".5" fill="currentColor"></circle></svg>
+                      </div>
+                    </button>
+                    <button type="button" class="service-select-btn flex items-center justify-between p-6 md:p-10 rounded-2xl md:rounded-3xl border transition-all duration-700 bg-white/10 border-white/20 text-white hover:border-white/40 hover:bg-white/20" data-service="WINDOW TINT">
+                      <span class="text-[9px] md:text-[12px] font-black uppercase tracking-[0.2em] md:tracking-[0.3em]">WINDOW TINT</span>
+                      <div class="p-2 md:p-4 rounded-xl transition-colors duration-700 bg-white/10">
+                        <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="lucide lucide-sun w-5 h-5 md:w-8 md:h-8" aria-hidden="true"><circle cx="12" cy="12" r="4"></circle><path d="M12 2v2"></path><path d="M12 20v2"></path><path d="m4.93 4.93 1.41 1.41"></path><path d="m17.66 17.66 1.41 1.41"></path><path d="M2 12h2"></path><path d="M20 12h2"></path><path d="m6.34 17.66-1.41 1.41"></path><path d="m19.07 4.93-1.41 1.41"></path></svg>
+                      </div>
+                    </button>
+                    <button type="button" class="service-select-btn flex items-center justify-between p-6 md:p-10 rounded-2xl md:rounded-3xl border transition-all duration-700 bg-white/10 border-white/20 text-white hover:border-white/40 hover:bg-white/20" data-service="AUTO DETAIL">
+                      <span class="text-[9px] md:text-[12px] font-black uppercase tracking-[0.2em] md:tracking-[0.3em]">AUTO DETAIL</span>
+                      <div class="p-2 md:p-4 rounded-xl transition-colors duration-700 bg-white/10">
+                        <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="lucide lucide-sparkles w-5 h-5 md:w-8 md:h-8" aria-hidden="true"><path d="M11.017 2.814a1 1 0 0 1 1.966 0l1.051 5.558a2 2 0 0 0 1.594 1.594l5.558 1.051a1 1 0 0 1 0 1.966l-5.558 1.051a2 2 0 0 0-1.594 1.594l-1.051 5.558a1 1 0 0 1-1.966 0l-1.051-5.558a2 2 0 0 0-1.594-1.594l-5.558-1.051a1 1 0 0 1 0-1.966l5.558-1.051a2 2 0 0 0 1.594-1.594z"></path><path d="M20 2v4"></path><path d="M22 4h-4"></path><circle cx="4" cy="20" r="2"></circle></svg>
+                      </div>
+                    </button>
+                    <button type="button" class="service-select-btn flex items-center justify-between p-6 md:p-10 rounded-2xl md:rounded-3xl border transition-all duration-700 bg-white/10 border-white/20 text-white hover:border-white/40 hover:bg-white/20 col-span-1 sm:col-span-2 md:col-span-1" data-service="OTHER">
+                      <span class="text-[9px] md:text-[12px] font-black uppercase tracking-[0.2em] md:tracking-[0.3em]">OTHER</span>
+                      <div class="p-2 md:p-4 rounded-xl transition-colors duration-700 bg-white/10">
+                        <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="lucide lucide-plus w-5 h-5 md:w-8 md:h-8" aria-hidden="true"><path d="M5 12h14"></path><path d="M12 5v14"></path></svg>
+                      </div>
+                    </button>
                   </div>
+                  <input type="hidden" name="services" id="services-input">
+                  <script>
+                    document.addEventListener('DOMContentLoaded', () => {
+                      const serviceButtons = document.querySelectorAll('.service-select-btn');
+                      const servicesInput = document.getElementById('services-input');
+                      const selectedServices = new Set();
+                  
+                      serviceButtons.forEach(btn => {
+                        btn.addEventListener('click', () => {
+                          const serviceName = btn.getAttribute('data-service');
+                          const isSelected = btn.classList.contains('border-purple-500');
+                          
+                          if (isSelected) {
+                             // Deselect
+                             btn.classList.remove('border-purple-500', 'bg-purple-500/10');
+                             btn.classList.add('border-white/20', 'bg-white/10'); 
+                             
+                             // Reset icon background
+                             const iconContainer = btn.querySelector('div');
+                             if(iconContainer) {
+                               iconContainer.classList.remove('bg-purple-500/20', 'text-purple-400');
+                               iconContainer.classList.add('bg-white/10');
+                             }
+                             
+                             // Reset text color if needed, currently white
+                             
+                             selectedServices.delete(serviceName);
+                          } else {
+                             // Select
+                             btn.classList.remove('border-white/20', 'bg-white/10');
+                             btn.classList.add('border-purple-500', 'bg-purple-500/10');
+                             
+                             // Highlight icon background
+                             const iconContainer = btn.querySelector('div');
+                             if(iconContainer) {
+                               iconContainer.classList.remove('bg-white/10');
+                               iconContainer.classList.add('bg-purple-500/20', 'text-purple-400');
+                             }
+
+                             selectedServices.add(serviceName);
+                          }
+                          
+                          // Update hidden input
+                          servicesInput.value = Array.from(selectedServices).join(', ');
+                          console.log('Services selected:', servicesInput.value);
+                        });
+                      });
+                    });
+                  </script>
                 </div>
                 <div class="space-y-6 md:space-y-10">
                   <div class="flex items-center gap-4 md:gap-8">
@@ -290,6 +414,17 @@
         (document.head||document.body).appendChild(i);
       }
     })();
+  </script>
+  <script>
+      // Auto-wrap text in buttons for the border gradient effect
+      document.addEventListener('DOMContentLoaded', () => {
+        document.querySelectorAll('.btn-solid').forEach(btn => {
+           if(!btn.querySelector('span')) {
+               const text = btn.innerText;
+               btn.innerHTML = `<span class="relative z-10 flex items-center justify-center gap-2">${text}</span>`;
+           }
+        });
+      });
   </script>
 </body>
 </html>

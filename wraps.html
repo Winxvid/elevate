@@ -264,8 +264,8 @@
       </style>
       <section class="relative h-[80vh] md:h-[90vh] flex items-center justify-center overflow-hidden z-10">
         <div class="absolute inset-0 z-0">
-          <img class="w-full h-full object-cover grayscale-[0.5]" alt="Vinyl Wrap Hero" src="https://images.squarespace-cdn.com/content/v1/67053ead069230112a5e9280/1754852806663-U048MFIKZOJJ2PXCIE4P/unsplash-image-8MXNZCgAah0.jpg" style="opacity: 0.5; transform: none;">
-          <div class="absolute inset-0 bg-gradient-to-b from-black/80 via-transparent to-black z-10"></div>
+          <img id="hero-image" class="w-full h-full object-cover grayscale-[0.5]" alt="Vinyl Wrap Hero" src="https://images.squarespace-cdn.com/content/v1/67053ead069230112a5e9280/1754852806663-U048MFIKZOJJ2PXCIE4P/unsplash-image-8MXNZCgAah0.jpg" style="opacity: 0; transform: none;">
+          <div class="absolute inset-0 bg-gradient-to-b from-black/10 via-transparent to-black z-10"></div>
         </div>
         <div class="relative z-20 text-center px-6 pt-12">
           <div style="opacity: 1; transform: none;">
@@ -585,6 +585,13 @@
     document.addEventListener('DOMContentLoaded', () => {
       // Register ScrollTrigger
       gsap.registerPlugin(ScrollTrigger);
+
+      // Hero Image Fade In
+      gsap.to("#hero-image", {
+        opacity: 0.5,
+        duration: 2.0,
+        ease: "power2.out"
+      });
 
       // Container Scroll Animation
       const card = document.querySelector('.scroll-animation-card');

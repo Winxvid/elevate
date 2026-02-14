@@ -54,22 +54,73 @@
         border: 1px solid rgba(255, 255, 255, 0.1);
       }
       .btn-solid { 
-        background: #7c3aed; 
-        color: white; 
-        padding: 18px 45px; 
-        font-weight: 800; 
-        display: inline-block; 
-        transition: all 0.3s cubic-bezier(0.2, 1, 0.3, 1);
-        text-decoration: none !important;
-        cursor: pointer;
-        box-shadow: 0 0 30px rgba(124, 58, 237, 0.3);
-      }
-      .btn-solid:hover {
-        transform: scale(1.05);
-        background: #fff;
-        color: #000;
-        box-shadow: 0 0 40px rgba(255, 255, 255, 0.5);
-      }
+            position: relative;
+            background: transparent !important;
+            color: #a855f7 !important; 
+            padding: 18px 45px; 
+            font-weight: 800; 
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            text-decoration: none !important;
+            cursor: pointer;
+            border-radius: 9999px;
+            overflow: hidden;
+            border: 1px solid rgba(168, 85, 247, 0.1);
+            transition: all 0.3s ease;
+            box-shadow: 0 0 10px rgba(168, 85, 247, 0.1);
+            z-index: 1;
+        }
+
+        .btn-solid::before {
+            content: "";
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            width: 400%; 
+            height: 400%;
+            background: conic-gradient(
+                from 0deg at 50% 50%,
+                transparent 50%,
+                #a855f7 70%,
+                #ffffff 100%
+            );
+            z-index: -2;
+            animation: borderRotate 2s linear infinite; 
+            opacity: 0;
+            transition: opacity 0.3s ease;
+        }
+
+        .btn-solid::after {
+            content: "";
+            position: absolute;
+            inset: 3px; 
+            background: #ffffff;
+            border-radius: 9999px;
+            z-index: -1;
+        }
+
+        .btn-solid:hover::before {
+           opacity: 1; 
+        }
+
+        .btn-solid:hover {
+            transform: scale(1.05);
+            color: #7e22ce !important;
+            box-shadow: 0 0 50px rgba(168, 85, 247, 0.7); 
+            border-color: transparent;
+        }
+        
+        .btn-solid span {
+            position: relative;
+            z-index: 10;
+        }
+
+        @keyframes borderRotate {
+            from { transform: translate(-50%, -50%) rotate(0deg); }
+            to { transform: translate(-50%, -50%) rotate(360deg); }
+        }
       
     /* Epic Ken Burns Effect */
     @keyframes epicZoom {
@@ -249,6 +300,15 @@
              <script type="text/javascript">!function(){var u=window.UnicornStudio;if(u&&u.init){if(document.readyState==="loading"){document.addEventListener("DOMContentLoaded",function(){u.init()})}else{u.init()}}else{window.UnicornStudio={isInitialized:!1};var i=document.createElement("script");i.src="https://cdn.jsdelivr.net/gh/hiunicornstudio/unicornstudio.js@v2.0.5/dist/unicornStudio.umd.js",i.onload=function(){if(document.readyState==="loading"){document.addEventListener("DOMContentLoaded",function(){UnicornStudio.init()})}else{UnicornStudio.init()}},(document.head||document.body).appendChild(i)}}();</script>
             </div>
         </div>
+
+        <div class="max-w-4xl mx-auto px-6 mb-16 md:mb-24 text-center relative z-10">
+            <h2 class="porsche-font text-3xl md:text-5xl text-white mb-6 md:mb-8">OUR <span class="text-purple-500">SERVICES</span></h2>
+            <div class="space-y-6 text-zinc-400 text-lg md:text-xl font-light leading-relaxed">
+                <p class="reveal-letters">At Elevated Auto Wraps, every project is a blend of precision, creativity, and premium materials.</p>
+                <p class="reveal-letters">Whether you’re looking to protect your investment, change your vehicle’s look, or create a one-of-a-kind design, we’ve got you covered.</p>
+            </div>
+        </div>
+
         <div class="max-w-[1400px] mx-auto px-6">
           <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6">
             <div class="offer-card group" style="opacity: 1; transform: none;">
@@ -375,25 +435,19 @@
       ScrollTrigger.refresh();
 
       // Hero Title Scroll Animation
-      // We pin the wrapper (#services-hero-trigger) but animate the inner content (#services-hero-title)
-      // This ensures the layout is calculated correctly before the scale transform skews it.
       const animation = gsap.fromTo("#services-hero-title", 
         { 
-          scale: 0.2,
           autoAlpha: 0,
-          transformOrigin: "center center" // Explicitly define transform origin
         },
         {
-          scale: 1,
           autoAlpha: 1, 
           ease: "none",
           scrollTrigger: {
-            trigger: "#services-hero-trigger", // Pin the wrapper
+            trigger: "#services-hero-trigger", 
             pin: true,
             start: "center center", 
             end: "+=800",
             scrub: true,
-            // Recalculate on refresh
             invalidateOnRefresh: true
           }
         }
@@ -528,6 +582,68 @@
         if (e.key === 'ArrowRight') nextService();
         if (e.key === 'ArrowLeft') prevService();
       });
+  </script>
+  <script>
+    // GSAP letter-by-letter reveal
+    document.addEventListener('DOMContentLoaded', function() {
+      gsap.registerPlugin(ScrollTrigger);
+      gsap.utils.toArray('.reveal-letters').forEach((el) => {
+        const originalHTML = el.innerHTML;
+        const allLetters = []; 
+
+        function wrapTextNodes(node) {
+          if (node.nodeType === Node.TEXT_NODE) {
+            return node.textContent.split('').map(char => {
+              const span = document.createElement('span');
+              span.textContent = char;
+              span.style.opacity = '0';
+              allLetters.push(span);
+              return span;
+            });
+          } else if (node.nodeType === Node.ELEMENT_NODE) {
+            const clone = node.cloneNode(false);
+            Array.from(node.childNodes).forEach(child => {
+              const children = wrapTextNodes(child);
+              children.forEach(childNode => clone.appendChild(childNode));
+            });
+            return [clone];
+          } else {
+            return [];
+          }
+        }
+
+        const temp = document.createElement('div');
+        temp.innerHTML = originalHTML;
+        
+        const newChildren = [];
+        Array.from(temp.childNodes).forEach(node => {
+          newChildren.push(...wrapTextNodes(node));
+        });
+        
+        el.innerHTML = '';
+        newChildren.forEach(child => el.appendChild(child));
+        
+        gsap.to(allLetters, {
+          opacity: 1,
+          stagger: 0.03,
+          duration: 0.5,
+          ease: 'power1.out',
+          scrollTrigger: {
+            trigger: el,
+            start: "top 85%",
+            toggleActions: "play none none reverse"
+          }
+        });
+      });
+      
+      // Auto-wrap text in buttons for the border gradient effect
+      document.querySelectorAll('.btn-solid').forEach(btn => {
+         if(!btn.querySelector('span')) {
+             const text = btn.innerText;
+             btn.innerHTML = `<span class="relative z-10 flex items-center justify-center gap-2">${text}</span>`;
+         }
+      });
+    });
   </script>
 </body>
 </html>

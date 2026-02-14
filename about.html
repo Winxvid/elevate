@@ -14,12 +14,8 @@
       }
       body {
         font-family: 'Inter', sans-serif;
-        background-color: #08070b;
-        background-image: 
-          radial-gradient(circle at 20% 0%, rgba(255, 255, 255, 0.15) 0%, transparent 40%),
-          radial-gradient(circle at 80% 20%, rgba(168, 85, 247, 0.2) 0%, transparent 50%),
-          radial-gradient(circle at 50% 100%, rgba(233, 213, 255, 0.15) 0%, transparent 60%),
-          linear-gradient(to bottom, #08070b 0%, #0c0b14 100%);
+        background: linear-gradient(to bottom, #ffffff 0%, #a855f7 25%, #2e1065 45%, #000000 55%);
+        background-attachment: scroll;
         color: #fff;
         margin: 0;
         overflow-x: hidden;
@@ -54,22 +50,73 @@
         border: 1px solid rgba(255, 255, 255, 0.1);
       }
       .btn-solid { 
-        background: #7c3aed; 
-        color: white; 
-        padding: 18px 45px; 
-        font-weight: 800; 
-        display: inline-block; 
-        transition: all 0.3s cubic-bezier(0.2, 1, 0.3, 1);
-        text-decoration: none !important;
-        cursor: pointer;
-        box-shadow: 0 0 30px rgba(124, 58, 237, 0.3);
-      }
-      .btn-solid:hover {
-        transform: scale(1.05);
-        background: #fff;
-        color: #000;
-        box-shadow: 0 0 40px rgba(255, 255, 255, 0.5);
-      }
+            position: relative;
+            background: transparent !important;
+            color: #a855f7 !important; 
+            padding: 18px 45px; 
+            font-weight: 800; 
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            text-decoration: none !important;
+            cursor: pointer;
+            border-radius: 9999px;
+            overflow: hidden;
+            border: 1px solid rgba(168, 85, 247, 0.1);
+            transition: all 0.3s ease;
+            box-shadow: 0 0 10px rgba(168, 85, 247, 0.1);
+            z-index: 1;
+        }
+
+        .btn-solid::before {
+            content: "";
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            width: 400%; 
+            height: 400%;
+            background: conic-gradient(
+                from 0deg at 50% 50%,
+                transparent 50%,
+                #a855f7 70%,
+                #ffffff 100%
+            );
+            z-index: -2;
+            animation: borderRotate 2s linear infinite; 
+            opacity: 0;
+            transition: opacity 0.3s ease;
+        }
+
+        .btn-solid::after {
+            content: "";
+            position: absolute;
+            inset: 3px; 
+            background: #ffffff;
+            border-radius: 9999px;
+            z-index: -1;
+        }
+
+        .btn-solid:hover::before {
+           opacity: 1; 
+        }
+
+        .btn-solid:hover {
+            transform: scale(1.05);
+            color: #7e22ce !important;
+            box-shadow: 0 0 50px rgba(168, 85, 247, 0.7); 
+            border-color: transparent;
+        }
+        
+        .btn-solid span {
+            position: relative;
+            z-index: 10;
+        }
+
+        @keyframes borderRotate {
+            from { transform: translate(-50%, -50%) rotate(0deg); }
+            to { transform: translate(-50%, -50%) rotate(360deg); }
+        }
       
     /* Epic Ken Burns Effect */
     @keyframes epicZoom {
@@ -85,7 +132,7 @@
     <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.5/gsap.min.js"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.5/ScrollTrigger.min.js"></script>
 </head>
-<body class="bg-[#08070b] text-white antialiased">
+<body class="text-zinc-900 antialiased">
   <!-- Preloader -->
   <div id="preloader" class="fixed inset-0 z-[9999] bg-black flex flex-col items-center justify-center overflow-hidden transition-opacity duration-700">
     <div class="relative flex flex-col items-center">
@@ -132,36 +179,82 @@
 
   <div id="navbar-container"></div>
   <main class="min-h-screen flex flex-col justify-center items-center">
-    <section class="w-full pt-32 md:pt-48 pb-20 md:pb-32 bg-[#08070b] relative overflow-hidden">
+    <section class="w-full pt-32 md:pt-48 pb-20 md:pb-32 relative overflow-hidden">
       <div class="absolute inset-0 bg-mesh opacity-50 pointer-events-none"></div>
       <div class="absolute top-0 left-1/4 w-[1200px] h-[1200px] bg-purple-500/20 blur-[250px] rounded-full pointer-events-none"></div>
       <div class="absolute top-1/2 right-0 w-[1000px] h-[1000px] bg-white/15 blur-[200px] rounded-full pointer-events-none translate-x-1/2"></div>
       <div class="absolute bottom-0 left-0 w-[800px] h-[800px] bg-purple-300/15 blur-[180px] rounded-full pointer-events-none -translate-x-1/2"></div>
       <div class="max-w-6xl mx-auto px-6 relative z-10">
         <div style="opacity: 1;">
-          <!-- OUR STORY SECTION (unchanged) -->
-          <h1 class="porsche-font text-5xl md:text-[9rem] text-white mb-12 md:mb-16 italic uppercase leading-none tracking-tighter" style="opacity: 1; transform: none;">OUR <span class="text-white drop-shadow-[0_0_40px_rgba(255,255,255,0.4)]">STORY</span></h1>
+          <!-- OUR STORY SECTION -->
+          <div class="mb-12 md:mb-16 relative w-full h-[200px] md:h-[400px]"> <!-- Set explicit height for container -->
+             <!-- SVG Mask Container -->
+             <div class="absolute inset-0 z-10 flex items-center justify-center porsche-font">
+               <style>
+                 .video-text-mask {
+                    mask-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='100%25' height='100%25'%3E%3Ctext x='50%25' y='50%25' font-family='Archivo, sans-serif' font-weight='900' font-style='italic' font-size='11rem' text-anchor='middle' dominant-baseline='middle'%3EOUR STORY%3C/text%3E%3C/svg%3E");
+                    -webkit-mask-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='100%25' height='100%25'%3E%3Ctext x='50%25' y='50%25' font-family='Archivo, sans-serif' font-weight='900' font-style='italic' font-size='11rem' text-anchor='middle' dominant-baseline='middle'%3EOUR STORY%3C/text%3E%3C/svg%3E");
+                    mask-size: contain;
+                    -webkit-mask-size: contain;
+                    mask-repeat: no-repeat;
+                    -webkit-mask-repeat: no-repeat;
+                    mask-position: center;
+                    -webkit-mask-position: center;
+                    width: 100%;
+                    height: 100%;
+                 }
+                 /* Responsive font size via media query for the SVG data URI if needed, or JS update */
+                 @media (max-width: 768px) {
+                    .video-text-mask {
+                      mask-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='100%25' height='100%25'%3E%3Ctext x='50%25' y='50%25' font-family='Archivo, sans-serif' font-weight='900' font-style='italic' font-size='5rem' text-anchor='middle' dominant-baseline='middle'%3EOUR STORY%3C/text%3E%3C/svg%3E");
+                      -webkit-mask-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='100%25' height='100%25'%3E%3Ctext x='50%25' y='50%25' font-family='Archivo, sans-serif' font-weight='900' font-style='italic' font-size='5rem' text-anchor='middle' dominant-baseline='middle'%3EOUR STORY%3C/text%3E%3C/svg%3E");
+                    }
+                 }
+               </style>
+               
+               <div class="video-text-mask w-full h-full flex items-center justify-center overflow-hidden bg-black">
+                   <!-- Unicorn Studio Background -->
+                   <div data-us-project="i8EPnmrOZQwOwnfe4B32" style="width: 100%; height: 100%; min-width: 1000px; min-height: 1000px; object-fit: cover;"></div>
+               </div>
+             </div>
+             <!-- Screen Reader Text -->
+             <h1 class="sr-only">OUR STORY</h1>
+          </div>
+          <!-- Unicorn Studio Script -->
+          <script type="text/javascript">
+            !function(){
+              var u=window.UnicornStudio;
+              if(u&&u.init){
+                u.init();
+              }else{
+                var i=document.createElement("script");
+                i.src="https://cdn.jsdelivr.net/gh/hiunicornstudio/unicornstudio.js@v2.0.5/dist/unicornStudio.umd.js";
+                i.onload=function(){UnicornStudio.init()};
+                (document.head||document.body).appendChild(i);
+              }
+            }();
+          </script>
           <div class="grid grid-cols-1 lg:grid-cols-12 gap-10 md:gap-16 items-start mb-20 md:mb-32">
-            <div class="lg:col-span-7 space-y-8 md:space-y-12 text-zinc-200 text-base md:text-xl font-light leading-relaxed italic">
+            <div class="lg:col-span-7 space-y-8 md:space-y-12 text-zinc-800 text-base md:text-xl font-light leading-relaxed italic">
               <div class="space-y-6 md:space-y-8" style="opacity: 1;">
-                <p class="bg-white/5 p-8 md:p-10 rounded-[2rem] md:rounded-[3rem] border border-white/10 backdrop-blur-xl reveal-letters">Founded in November 2024 by car and art enthusiast Miranda Reyes, Elevated Auto Wraps represents a significant milestone in the Texas automotive landscape as the state's first woman-owned and operated vehicle wrap studio.</p>
-                <p class="pl-6 md:pl-10 border-l-4 border-purple-400 reveal-letters">Miranda launched Elevated with a singular vision: to redefine automotive customization through a lens of artistic precision and technical excellence. Her background as a lifelong car enthusiast, combined with a meticulous eye for detail, has quickly established the studio as a premier destination for San Antonio’s most discerning owners.</p>
-                <p class="text-purple-200 font-medium reveal-letters">Recently featured in <a href="https://voyagesanantonio.com/interview/meet-miranda-reyes-of-elevated-auto-wraps" target="_blank" class="text-white hover:text-purple-300 transition-colors border-b border-white/30 hover:border-purple-300 pb-0.5" rel="noopener noreferrer">VOYAGE SAN ANTONIO MAGAZINE</a>, Miranda’s journey is rooted in breaking barriers within the industry. From complex color-change PPF on high-performance raptors to bespoke livery designs, her hands-on approach ensures that every vehicle leaving our studio reflects an uncompromising standard of craft.</p>
+                <p class="bg-white/60 p-8 md:p-10 rounded-[2rem] md:rounded-[3rem] border border-zinc-900/10 backdrop-blur-xl shadow-sm reveal-letters">Founded in November 2024 by car and art enthusiast Miranda Reyes, Elevated Auto Wraps represents a significant milestone in the Texas automotive landscape as the state's first woman-owned and operated vehicle wrap studio.</p>
+                <p class="pl-6 md:pl-10 border-l-4 border-purple-500 reveal-letters text-white">Miranda launched Elevated with a singular vision: to redefine automotive customization through a lens of artistic precision and technical excellence. Her background as a lifelong car enthusiast, combined with a meticulous eye for detail, has quickly established the studio as a premier destination for San Antonio’s most discerning owners.</p>
+                <p class="text-white font-medium reveal-letters">Recently featured in <a href="https://voyagesanantonio.com/interview/meet-miranda-reyes-of-elevated-auto-wraps" target="_blank" class="text-white hover:text-purple-300 transition-colors border-b border-white/50 hover:border-purple-300 pb-0.5" rel="noopener noreferrer">VOYAGE SAN ANTONIO MAGAZINE</a>, Miranda’s journey is rooted in breaking barriers within the industry. From complex color-change PPF on high-performance vehicles to bespoke livery designs, her hands-on approach ensures that every vehicle leaving our studio reflects an uncompromising standard of craft.</p>
               </div>
               <div class="pt-6 md:pt-12" style="opacity: 1; transform: none;">
                 <div class="flex items-center gap-4 md:gap-6 mb-6 md:mb-8">
-                  <div class="w-12 h-12 md:w-16 md:h-16 rounded-full bg-white flex items-center justify-center shadow-[0_0_30px_rgba(255,255,255,0.4)]">
-                    <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="lucide lucide-star w-6 h-6 md:w-8 md:h-8 text-black fill-black" aria-hidden="true"><path d="M11.525 2.295a.53.53 0 0 1 .95 0l2.31 4.679a2.123 2.123 0 0 0 1.595 1.16l5.166.756a.53.53 0 0 1 .294.904l-3.736 3.638a2.123 2.123 0 0 0-.611 1.878l.882 5.14a.53.53 0 0 1-.771.56l-4.618-2.428a2.122 2.122 0 0 0-1.973 0L6.396 21.01a.53.53 0 0 1-.77-.56l.881-5.139a2.122 2.122 0 0 0-.611-1.879L2.16 9.795a.53.53 0 0 1 .294-.906l5.165-.755a2.122 2.122 0 0 0 1.597-1.16z"></path></svg>
+                  <div class="w-12 h-12 md:w-16 md:h-16 rounded-full bg-zinc-900 flex items-center justify-center shadow-lg">
+                    <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="lucide lucide-star w-6 h-6 md:w-8 md:h-8 text-white fill-white" aria-hidden="true"><path d="M11.525 2.295a.53.53 0 0 1 .95 0l2.31 4.679a2.123 2.123 0 0 0 1.595 1.16l5.166.756a.53.53 0 0 1 .294.904l-3.736 3.638a2.123 2.123 0 0 0-.611 1.878l.882 5.14a.53.53 0 0 1-.771.56l-4.618-2.428a2.122 2.122 0 0 0-1.973 0L6.396 21.01a.53.53 0 0 1-.77-.56l.881-5.139a2.122 2.122 0 0 0-.611-1.879L2.16 9.795a.53.53 0 0 1 .294-.906l5.165-.755a2.122 2.122 0 0 0 1.597-1.16z"></path></svg>
                   </div>
                   <div>
                     <h4 class="text-sm md:text-base font-black uppercase tracking-widest text-white">Miranda Reyes</h4>
-                    <span class="text-[9px] md:text-[10px] text-purple-300 uppercase font-bold tracking-[0.2em]">Founder & Lead Installer</span>
+                    <span class="text-[9px] md:text-[10px] text-white uppercase font-bold tracking-[0.2em]">Founder & Lead Installer</span>
                   </div>
                 </div>
               </div>
             </div>
             <div class="lg:col-span-5 space-y-6 md:space-y-10">
-              <div class="aspect-[4/5] rounded-[2.5rem] md:rounded-[4rem] overflow-hidden border border-white/20 relative group shadow-2xl pixel-image-wrapper" style="opacity: 1; transform: none;">
+              <div class="aspect-[4/5] rounded-[2.5rem] md:rounded-[4rem] overflow-hidden border border-zinc-200 relative group shadow-2xl pixel-image-wrapper" style="opacity: 1; transform: none;">
                 <div class="pixel-image-container w-full h-full relative flex flex-wrap bg-zinc-900" 
                      data-src="https://ogautocc.com/ElevatedWraps/Social.jpg" 
                      data-rows="4" 
@@ -169,7 +262,7 @@
                 </div>
                 <div class="absolute inset-0 bg-gradient-to-t from-black/60 via-transparent to-white/10 pointer-events-none z-20"></div>
               </div>
-              <a href="https://www.instagram.com/mirandareyes_007" target="_blank" rel="noopener noreferrer" class="flex items-center justify-between p-8 md:p-10 bg-white text-black rounded-[2rem] md:rounded-[3rem] hover:bg-purple-400 hover:text-white transition-all group relative overflow-hidden font-black uppercase tracking-[0.4em] text-[10px] md:text-xs shadow-2xl" style="opacity: 1; transform: none;">
+              <a href="https://www.instagram.com/mirandareyes_007" target="_blank" rel="noopener noreferrer" class="flex items-center justify-between p-8 md:p-10 bg-zinc-900 text-white rounded-[2rem] md:rounded-[3rem] hover:bg-purple-600 hover:text-white transition-all group relative overflow-hidden font-black uppercase tracking-[0.4em] text-[10px] md:text-xs shadow-2xl" style="opacity: 1; transform: none;">
                 <span>Follow the Journey</span>
                 <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="lucide lucide-external-link w-5 h-5 md:w-6 h-6 group-hover:translate-x-1 group-hover:-translate-y-1 transition-transform" aria-hidden="true"><path d="M15 3h6v6"></path><path d="M10 14 21 3"></path><path d="M18 13v6a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2h6"></path></svg>
               </a>
@@ -350,5 +443,14 @@
        });
     });
   </script>
+  <script>
+      // Auto-wrap text in buttons for the border gradient effect
+      document.querySelectorAll('.btn-solid').forEach(btn => {
+         if(!btn.querySelector('span')) {
+             const text = btn.innerText;
+             btn.innerHTML = `<span class="relative z-10 flex items-center justify-center gap-2">${text}</span>`;
+         }
+      });
+    </script>
 </body>
 </html>

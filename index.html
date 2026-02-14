@@ -54,21 +54,72 @@
       border: 1px solid rgba(255, 255, 255, 0.1);
     }
     .btn-solid { 
-      background: #7c3aed; 
-      color: white; 
-      padding: 18px 45px; 
-      font-weight: 800; 
-      display: inline-block; 
-      transition: all 0.3s cubic-bezier(0.2, 1, 0.3, 1);
-      text-decoration: none !important;
-      cursor: pointer;
-      box-shadow: 0 0 30px rgba(124, 58, 237, 0.3);
+        position: relative;
+        background: transparent !important;
+        color: #a855f7 !important; 
+        padding: 18px 45px; 
+        font-weight: 800; 
+        display: inline-flex;
+        align-items: center;
+        justify-content: center;
+        text-decoration: none !important;
+        cursor: pointer;
+        border-radius: 9999px;
+        overflow: hidden;
+        border: 1px solid rgba(168, 85, 247, 0.1);
+        transition: all 0.3s ease;
+        box-shadow: 0 0 10px rgba(168, 85, 247, 0.1);
+        z-index: 1;
     }
+
+    .btn-solid::before {
+        content: "";
+        position: absolute;
+        top: 50%;
+        left: 50%;
+        transform: translate(-50%, -50%);
+        width: 400%; 
+        height: 400%;
+        background: conic-gradient(
+            from 0deg at 50% 50%,
+            transparent 50%,
+            #a855f7 70%,
+            #ffffff 100%
+        );
+        z-index: -2;
+        animation: borderRotate 2s linear infinite; 
+        opacity: 0;
+        transition: opacity 0.3s ease;
+    }
+
+    .btn-solid::after {
+        content: "";
+        position: absolute;
+        inset: 3px; 
+        background: #ffffff;
+        border-radius: 9999px;
+        z-index: -1;
+    }
+
+    .btn-solid:hover::before {
+       opacity: 1; 
+    }
+
     .btn-solid:hover {
-      transform: scale(1.05);
-      background: #fff;
-      color: #000;
-      box-shadow: 0 0 40px rgba(255, 255, 255, 0.5);
+        transform: scale(1.05);
+        color: #7e22ce !important;
+        box-shadow: 0 0 50px rgba(168, 85, 247, 0.7); 
+        border-color: transparent;
+    }
+    
+    .btn-solid span {
+        position: relative;
+        z-index: 10;
+    }
+
+    @keyframes borderRotate {
+        from { transform: translate(-50%, -50%) rotate(0deg); }
+        to { transform: translate(-50%, -50%) rotate(360deg); }
     }
     
     /* Epic Ken Burns Effect */
@@ -473,12 +524,40 @@
       
       init() {
         this.element.innerHTML = '';
+        let currentWord = document.createElement('span');
+        currentWord.style.display = 'inline-block';
+        currentWord.style.whiteSpace = 'nowrap';
+        
         this.originalText.split('').forEach(char => {
-          const span = document.createElement('span');
-          span.className = 'char';
-          span.textContent = char === ' ' ? '\u00A0' : char; // Non-breaking space
-          this.element.appendChild(span);
+          if (char === ' ') {
+            // Append current word if it has content
+            if (currentWord.children.length > 0) {
+              this.element.appendChild(currentWord);
+            }
+            
+            // Append the space as a separate char
+            const span = document.createElement('span');
+            span.className = 'char';
+            span.textContent = '\u00A0';
+            this.element.appendChild(span);
+            
+            // Start a new word container
+            currentWord = document.createElement('span');
+            currentWord.style.display = 'inline-block';
+            currentWord.style.whiteSpace = 'nowrap';
+          } else {
+            // Append character to current word
+            const span = document.createElement('span');
+            span.className = 'char';
+            span.textContent = char;
+            currentWord.appendChild(span);
+          }
         });
+        
+        // Append any remaining word
+        if (currentWord.children.length > 0) {
+          this.element.appendChild(currentWord);
+        }
       }
       
       animate() {
@@ -727,6 +806,14 @@
           }
         );
       }
+      
+      // Auto-wrap text in buttons for the border gradient effect
+      document.querySelectorAll('.btn-solid').forEach(btn => {
+         if(!btn.querySelector('span')) {
+             const text = btn.innerText;
+             btn.innerHTML = `<span class="relative z-10 flex items-center justify-center gap-2">${text}</span>`;
+         }
+      });
     });
   </script>
 </body>
