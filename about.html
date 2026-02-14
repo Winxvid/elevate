@@ -192,8 +192,9 @@
              <div class="absolute inset-0 z-10 flex items-center justify-center porsche-font">
                <style>
                  .video-text-mask {
-                    mask-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='100%25' height='100%25'%3E%3Ctext x='50%25' y='50%25' font-family='Archivo, sans-serif' font-weight='900' font-style='italic' font-size='11rem' text-anchor='middle' dominant-baseline='middle'%3EOUR STORY%3C/text%3E%3C/svg%3E");
-                    -webkit-mask-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='100%25' height='100%25'%3E%3Ctext x='50%25' y='50%25' font-family='Archivo, sans-serif' font-weight='900' font-style='italic' font-size='11rem' text-anchor='middle' dominant-baseline='middle'%3EOUR STORY%3C/text%3E%3C/svg%3E");
+                    /* Use viewBox to make the text responsive and scale perfectly within the container */
+                    mask-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 1100 180'%3E%3Ctext x='50%25' y='50%25' font-family='Archivo, sans-serif' font-weight='900' font-style='italic' font-size='150' text-anchor='middle' dominant-baseline='middle'%3EOUR STORY%3C/text%3E%3C/svg%3E");
+                    -webkit-mask-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 1100 180'%3E%3Ctext x='50%25' y='50%25' font-family='Archivo, sans-serif' font-weight='900' font-style='italic' font-size='150' text-anchor='middle' dominant-baseline='middle'%3EOUR STORY%3C/text%3E%3C/svg%3E");
                     mask-size: contain;
                     -webkit-mask-size: contain;
                     mask-repeat: no-repeat;
@@ -202,13 +203,6 @@
                     -webkit-mask-position: center;
                     width: 100%;
                     height: 100%;
-                 }
-                 /* Responsive font size via media query for the SVG data URI if needed, or JS update */
-                 @media (max-width: 768px) {
-                    .video-text-mask {
-                      mask-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='100%25' height='100%25'%3E%3Ctext x='50%25' y='50%25' font-family='Archivo, sans-serif' font-weight='900' font-style='italic' font-size='5rem' text-anchor='middle' dominant-baseline='middle'%3EOUR STORY%3C/text%3E%3C/svg%3E");
-                      -webkit-mask-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='100%25' height='100%25'%3E%3Ctext x='50%25' y='50%25' font-family='Archivo, sans-serif' font-weight='900' font-style='italic' font-size='5rem' text-anchor='middle' dominant-baseline='middle'%3EOUR STORY%3C/text%3E%3C/svg%3E");
-                    }
                  }
                </style>
                
