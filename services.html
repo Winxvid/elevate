@@ -189,110 +189,256 @@
       <div class="absolute bottom-0 left-0 w-[800px] h-[800px] bg-zinc-800/10 blur-[120px] rounded-full translate-y-1/2 -translate-x-1/2 pointer-events-none"></div>
       <section class="offer-section relative pt-32 md:pt-40 pb-20 md:pb-24 bg-transparent overflow-hidden z-10">
         <style>
-          .offer-card {
+          /* ============================================================
+             PORSCHE-INSPIRED EXPANDING CARD GALLERY
+             Hardware-accelerated: uses only transform & opacity
+             Easing: cubic-bezier(0.4, 0, 0.2, 1) — premium weighted feel
+             ============================================================ */
+
+          .gallery-grid {
+            display: grid;
+            grid-template-columns: 1fr;
+            gap: 1.25rem;
+            align-items: start;
+          }
+          @media (min-width: 640px) {
+            .gallery-grid { grid-template-columns: repeat(2, 1fr); }
+          }
+          @media (min-width: 1024px) {
+            .gallery-grid { grid-template-columns: repeat(4, 1fr); }
+          }
+
+          .gallery-card {
             position: relative;
-            height: 400px;
-            border-radius: 20px;
+            aspect-ratio: 3 / 4;
             overflow: hidden;
+            border-radius: 1.25rem;
             cursor: pointer;
             background: #0a0a0a;
-            border: 1px solid rgba(124, 58, 237, 0.2);
-            transition: transform 0.8s cubic-bezier(0.16, 1, 0.3, 1), border-color 0.4s ease, box-shadow 0.4s ease;
+            border: 1px solid rgba(124, 58, 237, 0.15);
             transform: translateZ(0);
+            transition: transform 0.7s cubic-bezier(0.4, 0, 0.2, 1),
+                        border-color 0.5s cubic-bezier(0.4, 0, 0.2, 1),
+                        box-shadow 0.5s cubic-bezier(0.4, 0, 0.2, 1);
+            will-change: transform;
           }
-          @media (min-width: 768px) {
-            .offer-card { height: 480px; }
-          }
-          .offer-card::before {
-            content: '';
-            position: absolute;
-            top: 0;
-            left: -150%;
-            width: 50%;
-            height: 100%;
-            background: linear-gradient(to right, transparent, rgba(255, 255, 255, 0.1), rgba(124, 58, 237, 0.4), transparent);
-            transform: skewX(-25deg);
-            z-index: 3;
-            pointer-events: none;
-            will-change: left;
-          }
-          .offer-card:hover::before {
-            left: 150%;
-            transition: left 1s cubic-bezier(0.16, 1, 0.3, 1);
-          }
-          .offer-card:hover {
-            transform: translateY(-10px) translateZ(0);
+          .gallery-card:hover {
+            transform: translateY(-12px) translateZ(0);
             border-color: #a78bfa;
-            box-shadow: 0 0 40px rgba(124, 58, 237, 0.5);
+            box-shadow: 0 20px 60px -10px rgba(124, 58, 237, 0.4);
           }
-          .card-title-overlay {
+
+          /* Image scaled 110% for parallax headroom */
+          .gallery-card .card-img {
             position: absolute;
-            top: 0;
-            left: 0;
+            inset: 0;
             width: 100%;
-            padding: 25px 15px;
-            background: linear-gradient(to bottom, rgba(0,0,0,0.8) 0%, transparent 100%);
-            font-size: 1.1rem;
-            font-weight: 900;
-            text-transform: uppercase;
-            text-align: center;
-            z-index: 4;
-            color: white;
-            transition: color 0.3s ease;
+            height: 100%;
+            object-fit: cover;
+            transform: scale(1.15) translateZ(0);
+            transition: transform 0.6s cubic-bezier(0.4, 0, 0.2, 1), filter 0.6s ease;
+            will-change: transform;
+            filter: grayscale(0.3);
           }
-          @media (min-width: 768px) {
-            .card-title-overlay { padding: 30px 20px; font-size: 1.3rem; }
-          }
-          .offer-card:hover .card-title-overlay { color: #a855f7; }
-          .plus-toggle {
+          .gallery-card:hover .card-img { filter: grayscale(0); }
+
+          .gallery-card .card-scrim {
             position: absolute;
-            bottom: 20px;
-            right: 20px;
-            width: 40px;
-            height: 40px;
-            background: #fff;
-            border-radius: 50%;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            z-index: 5;
-            transition: transform 0.6s cubic-bezier(0.16, 1, 0.3, 1), background-color 0.4s ease;
+            inset: 0;
+            background: linear-gradient(to top, rgba(0,0,0,0.92) 0%, rgba(0,0,0,0.5) 35%, rgba(0,0,0,0.1) 60%, transparent 100%);
+            z-index: 2;
+            pointer-events: none;
+          }
+
+          .gallery-card .card-content {
+            position: absolute;
+            bottom: 0; left: 0; right: 0;
+            padding: 2rem 4.5rem 2rem 1.5rem;
+            z-index: 3;
+            transform: translateY(0) translateZ(0);
+            transition: transform 0.6s cubic-bezier(0.4, 0, 0.2, 1);
+          }
+          .gallery-card:hover .card-content { transform: translateY(-8px) translateZ(0); }
+
+          .gallery-card .card-label {
+            font-size: 9px; font-weight: 800;
+            text-transform: uppercase; letter-spacing: 0.35em;
+            color: #a855f7; margin-bottom: 0.5rem;
+            opacity: 0; transform: translateY(8px);
+            transition: opacity 0.5s cubic-bezier(0.4, 0, 0.2, 1), transform 0.5s cubic-bezier(0.4, 0, 0.2, 1);
+          }
+          .gallery-card:hover .card-label { opacity: 1; transform: translateY(0); }
+
+          .gallery-card .card-name { font-size: 1.5rem; line-height: 1; }
+          @media (min-width: 768px) { .gallery-card .card-name { font-size: 1.75rem; } }
+
+          .card-plus {
+            position: absolute; bottom: 1.25rem; right: 1.25rem;
+            width: 44px; height: 44px;
+            background: rgba(255,255,255,0.9); backdrop-filter: blur(8px);
+            border-radius: 50%; display: flex; align-items: center; justify-content: center;
+            z-index: 5; border: none;
+            transform: scale(1) rotate(0deg) translateZ(0);
+            transition: transform 0.6s cubic-bezier(0.4, 0, 0.2, 1), background-color 0.4s ease;
+            will-change: transform;
+          }
+          .card-plus svg { width: 18px; height: 18px; stroke: #000; transition: stroke 0.3s ease; }
+          .gallery-card:hover .card-plus { transform: scale(1.15) rotate(90deg) translateZ(0); background: #7c3aed; }
+          .gallery-card:hover .card-plus svg { stroke: #fff; }
+
+          /* Light-sweep on hover */
+          .gallery-card::after {
+            content: ''; position: absolute; top: 0; left: -100%;
+            width: 60%; height: 100%;
+            background: linear-gradient(105deg, transparent 30%, rgba(255,255,255,0.08) 50%, transparent 70%);
+            z-index: 4; pointer-events: none;
+            transform: skewX(-15deg) translateZ(0); will-change: left;
+          }
+          .gallery-card:hover::after { left: 160%; transition: left 0.9s cubic-bezier(0.4, 0, 0.2, 1); }
+
+          /* ============================================================
+             FULLSCREEN MODAL — Porsche-style contained image
+             ALL animations are driven by GSAP (no CSS transitions)
+             so the FLIP expansion, scrim, text, and UI reveals
+             are on one synchronised timeline.
+             ============================================================ */
+          .gallery-modal {
+            position: fixed; inset: 0; z-index: 11000;
+            display: flex; align-items: center; justify-content: center;
+            pointer-events: none; visibility: hidden;
+          }
+          .gallery-modal.is-open { pointer-events: auto; visibility: visible; }
+
+          /* Dark backdrop with blur — opacity controlled by GSAP */
+          .gallery-modal .modal-scrim {
+            position: absolute; inset: 0;
+            background: rgba(0,0,0,0.85);
+            backdrop-filter: blur(20px); -webkit-backdrop-filter: blur(20px);
+            opacity: 0;
+          }
+
+          /* Contained image frame — opacity/transform controlled by GSAP */
+          .modal-frame {
+            position: relative; z-index: 10;
+            width: 90vw; max-width: 1200px;
+            height: 75vh; max-height: 740px;
+            border-radius: 0.75rem; overflow: hidden;  /* clips slide track */
+            box-shadow: 0 40px 100px -20px rgba(0,0,0,0.7);
+            opacity: 0;
+            will-change: transform, opacity;
+          }
+
+          /* ── Slide track — horizontal carousel clipped by frame ── */
+          .modal-slide-track {
+            position: absolute; inset: 0;
+            width: 100%; height: 100%;
+            background: #000; /* solid black hides gaps during high-velocity phase */
+          }
+          .modal-slide {
+            position: absolute; inset: 0;
+            width: 100%; height: 100%;
+            overflow: hidden;  /* clips the oversized image for parallax */
+            will-change: transform, opacity;
+          }
+          .modal-slide .modal-img {
+            position: absolute;
+            top: -5%; left: -5%;
+            width: 110%; height: 110%;
+            object-fit: cover;
+            will-change: transform;
+          }
+
+          /* Bottom gradient scrim over image for text readability */
+          .modal-frame .modal-img-scrim {
+            position: absolute; inset: 0;
+            background: linear-gradient(
+              to top,
+              rgba(0,0,0,0.85) 0%,
+              rgba(0,0,0,0.55) 25%,
+              rgba(0,0,0,0.15) 50%,
+              transparent 70%
+            );
+            z-index: 2; pointer-events: none;
+            opacity: 0; /* fades in with GSAP after expansion */
+          }
+
+          /* Text content anchored bottom-left */
+          .modal-frame .modal-text {
+            position: absolute;
+            bottom: 0; left: 0; right: 0;
+            padding: 2.5rem 2rem;
+            z-index: 3;
           }
           @media (min-width: 768px) {
-            .plus-toggle { width: 45px; height: 45px; }
+            .modal-frame .modal-text { padding: 3rem 3.5rem; max-width: 65%; }
           }
-          .plus-icon {
+
+          /* ── "Angled Pocket Reveal" — 3D Masked Skew-Transform ── */
+          /* Each text line sits in a perspective-enabled pocket.
+             Text swings up from below on a hinge, tilted and skewed,
+             then flattens into its final resting position.
+             clip-path used instead of overflow:clip so 3D transforms
+             (rotateX, skewY) are not flattened by the overflow context. */
+          .modal-text-mask {
             position: relative;
-            width: 14px;
-            height: 2px;
-            background: #000;
-            transition: background-color 0.3s ease;
+            perspective: 1000px;
+            transform-style: preserve-3d;
+            clip-path: inset(-10% -20% -15% -5%);
+            padding-bottom: 0.15em;
           }
-          @media (min-width: 768px) {
-            .plus-icon { width: 16px; }
+          .modal-title-words {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 0 0.3em;
+            transform-origin: center bottom;
+            transform-style: preserve-3d;
+            will-change: transform, opacity;
           }
-          .plus-icon::after {
-            content: '';
-            position: absolute;
-            width: 2px;
-            height: 14px;
-            background: #000;
-            left: 50%;
-            top: 50%;
-            transform: translate(-50%, -50%);
-            transition: background-color 0.3s ease;
+          .modal-title-word {
+            display: inline-block;
+            transform-origin: center bottom;
+            will-change: transform, opacity;
+            backface-visibility: hidden;
           }
-          @media (min-width: 768px) {
-            .plus-icon::after { height: 16px; }
+
+          /* Nav arrows — opacity controlled by GSAP */
+          .modal-nav-btn {
+            position: absolute; top: 50%; transform: translateY(-50%); z-index: 20;
+            color: rgba(255,255,255,0.5); padding: 0.75rem; border-radius: 50%;
+            background: rgba(255,255,255,0.06); border: none; cursor: pointer;
+            opacity: 0;
+            transition: color 0.3s ease, background-color 0.3s ease;
           }
-          .offer-card:hover .plus-toggle {
-            background: #7c3aed;
-            transform: rotate(90deg);
+          .modal-nav-btn:hover { color: #fff; background: rgba(255,255,255,0.12); }
+          .modal-nav-btn.prev { left: 1rem; }
+          .modal-nav-btn.next { right: 1rem; }
+          @media (min-width: 1400px) {
+            .modal-nav-btn.prev { left: calc(50% - 650px); }
+            .modal-nav-btn.next { right: calc(50% - 650px); }
           }
-          .offer-card:hover .plus-icon,
-          .offer-card:hover .plus-icon::after {
-            background: #fff;
+          .modal-nav-btn svg { width: 2rem; height: 2rem; transition: transform 0.3s cubic-bezier(0.4, 0, 0.2, 1); }
+          @media (min-width: 768px) { .modal-nav-btn svg { width: 2.5rem; height: 2.5rem; } }
+          .modal-nav-btn.prev:hover svg { transform: translateX(-3px); }
+          .modal-nav-btn.next:hover svg { transform: translateX(3px); }
+          /* Dim arrows during carousel transition */
+          .modal-nav-btn.is-transitioning {
+            opacity: 0.25 !important;
+            pointer-events: none;
           }
+
+          /* Close button — opacity controlled by GSAP */
+          .modal-close-btn {
+            position: absolute; top: 1.25rem; right: 1.25rem; z-index: 20;
+            display: flex; align-items: center; gap: 0.5rem;
+            color: white; padding: 0.5rem 0.75rem 0.5rem 1rem;
+            border-radius: 9999px; background: rgba(0,0,0,0.5);
+            border: 1px solid rgba(255,255,255,0.1); backdrop-filter: blur(12px); cursor: pointer;
+            opacity: 0;
+            transition: border-color 0.3s ease, color 0.3s ease;
+          }
+          .modal-close-btn:hover { color: #c084fc; border-color: rgba(168,85,247,0.5); }
+          .modal-close-btn span { font-size: 10px; font-weight: 800; text-transform: uppercase; letter-spacing: 0.15em; }
+          @media (max-width: 767px) { .modal-close-btn span { display: none; } }
         </style>
         <div id="services-hero-trigger" class="max-w-screen-2xl mx-auto px-6 mb-12 md:mb-24 flex justify-center h-[fit-content]">
             <div id="services-hero-title" class="origin-center opacity-0 w-full flex justify-center">
@@ -310,26 +456,54 @@
         </div>
 
         <div class="max-w-[1400px] mx-auto px-6">
-          <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6">
-            <div class="offer-card group" style="opacity: 1; transform: none;">
-              <div class="card-title-overlay porsche-font">Paint Protection Film</div>
-              <img alt="Paint Protection Film" class="w-full h-full object-cover transition-transform duration-[1.5s] group-hover:scale-105" loading="lazy" decoding="async" src="https://ogautocc.com/ElevatedWraps/Paint_Protection_Film.jpg">
-              <div class="plus-toggle"><div class="plus-icon"></div></div>
+          <div class="gallery-grid" id="gallery-grid">
+            <!-- Card 1 — Paint Protection Film -->
+            <div class="gallery-card" data-index="0">
+              <img class="card-img" src="https://ogautocc.com/ElevatedWraps/Paint_Protection_Film.jpg" alt="Paint Protection Film" loading="lazy" decoding="async">
+              <div class="card-scrim"></div>
+              <div class="card-content">
+                <div class="card-label">Preserve &amp; Protect</div>
+                <h3 class="card-name porsche-font text-white italic leading-none drop-shadow-lg">Paint Protection Film</h3>
+              </div>
+              <button class="card-plus" aria-label="View Paint Protection Film details">
+                <svg viewBox="0 0 24 24" fill="none" stroke-width="2.5" stroke-linecap="round"><path d="M12 5v14M5 12h14"/></svg>
+              </button>
             </div>
-            <div class="offer-card group" style="opacity: 1; transform: none;">
-              <div class="card-title-overlay porsche-font">Vinyl Wraps</div>
-              <img alt="Vinyl Wraps" class="w-full h-full object-cover transition-transform duration-[1.5s] group-hover:scale-105" loading="lazy" decoding="async" src="https://ogautocc.com/ElevatedWraps/Vinyl_wraps.jpg">
-              <div class="plus-toggle"><div class="plus-icon"></div></div>
+            <!-- Card 2 — Vinyl Wraps -->
+            <div class="gallery-card" data-index="1">
+              <img class="card-img" src="https://ogautocc.com/ElevatedWraps/Vinyl_wraps.jpg" alt="Vinyl Wraps" loading="lazy" decoding="async">
+              <div class="card-scrim"></div>
+              <div class="card-content">
+                <div class="card-label">Transform &amp; Express</div>
+                <h3 class="card-name porsche-font text-white italic leading-none drop-shadow-lg">Vinyl Wraps</h3>
+              </div>
+              <button class="card-plus" aria-label="View Vinyl Wraps details">
+                <svg viewBox="0 0 24 24" fill="none" stroke-width="2.5" stroke-linecap="round"><path d="M12 5v14M5 12h14"/></svg>
+              </button>
             </div>
-            <div class="offer-card group" style="opacity: 1; transform: none;">
-              <div class="card-title-overlay porsche-font">Window Tint</div>
-              <img alt="Window Tint" class="w-full h-full object-cover transition-transform duration-[1.5s] group-hover:scale-105" loading="lazy" decoding="async" src="https://ogautocc.com/ElevatedWraps/Window_tint.JPG">
-              <div class="plus-toggle"><div class="plus-icon"></div></div>
+            <!-- Card 3 — Window Tint -->
+            <div class="gallery-card" data-index="2">
+              <img class="card-img" src="https://ogautocc.com/ElevatedWraps/Window_tint.JPG" alt="Window Tint" loading="lazy" decoding="async">
+              <div class="card-scrim"></div>
+              <div class="card-content">
+                <div class="card-label">Style &amp; Comfort</div>
+                <h3 class="card-name porsche-font text-white italic leading-none drop-shadow-lg">Window Tint</h3>
+              </div>
+              <button class="card-plus" aria-label="View Window Tint details">
+                <svg viewBox="0 0 24 24" fill="none" stroke-width="2.5" stroke-linecap="round"><path d="M12 5v14M5 12h14"/></svg>
+              </button>
             </div>
-            <div class="offer-card group" style="opacity: 1; transform: none;">
-              <div class="card-title-overlay porsche-font">Auto Detail</div>
-              <img alt="Auto Detail" class="w-full h-full object-cover transition-transform duration-[1.5s] group-hover:scale-105" loading="lazy" decoding="async" src="https://ogautocc.com/ElevatedWraps/Auto_Detail.jpg">
-              <div class="plus-toggle"><div class="plus-icon"></div></div>
+            <!-- Card 4 — Auto Detail -->
+            <div class="gallery-card" data-index="3">
+              <img class="card-img" src="https://ogautocc.com/ElevatedWraps/Auto_Detail.jpg" alt="Auto Detail" loading="lazy" decoding="async">
+              <div class="card-scrim"></div>
+              <div class="card-content">
+                <div class="card-label">Refresh &amp; Restore</div>
+                <h3 class="card-name porsche-font text-white italic leading-none drop-shadow-lg">Auto Detail</h3>
+              </div>
+              <button class="card-plus" aria-label="View Auto Detail details">
+                <svg viewBox="0 0 24 24" fill="none" stroke-width="2.5" stroke-linecap="round"><path d="M12 5v14M5 12h14"/></svg>
+              </button>
             </div>
           </div>
         </div>
@@ -395,193 +569,644 @@
       }
     })();
   </script>
-  <!-- Service Detail Modal -->
-  <div id="service-modal" class="fixed inset-0 z-[11000] hidden opacity-0 font-sans">
-    <div class="absolute inset-0 bg-black/95 transition-opacity" id="modal-backdrop"></div>
-    <div class="absolute inset-0 bg-cover bg-center opacity-30 blur-sm scale-105 transition-all duration-700" id="modal-bg-image"></div>
-    
-    <button id="modal-close" class="absolute top-6 right-6 z-50 group flex items-center gap-2 text-white hover:text-purple-500 transition-colors p-2 pl-4 bg-black/50 rounded-full border border-white/10 hover:border-purple-500/50 backdrop-blur-md">
-      <span class="text-xs font-black uppercase tracking-widest hidden md:block">Close</span>
-      <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12" />
+  <!-- ==================== FULLSCREEN MODAL ==================== -->
+  <div class="gallery-modal" id="gallery-modal">
+    <div class="modal-scrim"></div>
+
+    <!-- Close -->
+    <button class="modal-close-btn" id="modal-close-btn">
+      <span>Close</span>
+      <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2">
+        <path stroke-linecap="round" stroke-linejoin="round" d="M6 18L18 6M6 6l12 12"/>
       </svg>
     </button>
 
-    <!-- Navigation Arrows -->
-    <button id="modal-prev" class="absolute left-2 md:left-8 top-1/2 -translate-y-1/2 z-50 text-white/50 hover:text-purple-400 transition-all p-3 hover:bg-white/10 rounded-full group">
-      <svg xmlns="http://www.w3.org/2000/svg" class="h-8 w-8 md:h-12 md:w-12 transform group-hover:-translate-x-1 transition-transform" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 19l-7-7 7-7" />
+    <!-- Prev / Next Arrows -->
+    <button class="modal-nav-btn prev" id="modal-prev" aria-label="Previous service">
+      <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2">
+        <path stroke-linecap="round" stroke-linejoin="round" d="M15 19l-7-7 7-7"/>
       </svg>
     </button>
-    <button id="modal-next" class="absolute right-2 md:right-8 top-1/2 -translate-y-1/2 z-50 text-white/50 hover:text-purple-400 transition-all p-3 hover:bg-white/10 rounded-full group">
-      <svg xmlns="http://www.w3.org/2000/svg" class="h-8 w-8 md:h-12 md:w-12 transform group-hover:translate-x-1 transition-transform" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5l7 7-7 7" />
+    <button class="modal-nav-btn next" id="modal-next" aria-label="Next service">
+      <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2">
+        <path stroke-linecap="round" stroke-linejoin="round" d="M9 5l7 7-7 7"/>
       </svg>
     </button>
 
-    <div class="relative z-10 flex flex-col items-center justify-center h-full px-12 md:px-24 max-w-5xl mx-auto text-center">
-      <h2 id="modal-title" class="text-4xl md:text-6xl font-bold mb-8 text-white porsche-font tracking-wide uppercase drop-shadow-2xl"></h2>
-      <div id="modal-description" class="text-xl md:text-2xl text-gray-100 leading-relaxed font-light whitespace-pre-line drop-shadow-lg max-w-2xl"></div>
+    <!-- Contained image frame with slide track -->
+    <div class="modal-frame" id="modal-frame">
+      <!-- Slide track — holds current slide; incoming slides are created dynamically -->
+      <div class="modal-slide-track" id="modal-slide-track">
+        <div class="modal-slide" id="modal-slide-current">
+          <img class="modal-img" id="modal-img" src="" alt="">
+        </div>
+      </div>
+      <div class="modal-img-scrim"></div>
+      <div class="modal-text">
+        <!-- Title mask: overflow:hidden container. Title words are created dynamically by JS. -->
+        <div class="modal-text-mask mb-3 md:mb-4">
+          <h2 id="modal-title" class="modal-title-words porsche-font text-3xl md:text-6xl text-white font-bold italic tracking-wide uppercase leading-none drop-shadow-2xl"></h2>
+        </div>
+        <!-- Description mask -->
+        <div class="modal-text-mask">
+          <p id="modal-desc" class="text-white/80 text-sm md:text-lg font-light leading-relaxed drop-shadow-lg max-w-lg"></p>
+        </div>
+      </div>
     </div>
   </div>
 
   <script>
-    // Wait for everything to be fully loaded, including external scripts and assets
-    window.addEventListener("load", (event) => {
+    // Hero Title Scroll Animation
+    window.addEventListener("load", function() {
       gsap.registerPlugin(ScrollTrigger);
-
-      // Force a ScrollTrigger refresh to ensure positions are calculated correctly
-      // after all dynamic content (like Unicorn Studio) has settled.
       ScrollTrigger.refresh();
 
-      // Hero Title Scroll Animation
-      const animation = gsap.fromTo("#services-hero-title", 
-        { 
-          autoAlpha: 0,
-        },
+      gsap.fromTo("#services-hero-title",
+        { autoAlpha: 0 },
         {
-          autoAlpha: 1, 
+          autoAlpha: 1,
           ease: "none",
           scrollTrigger: {
-            trigger: "#services-hero-trigger", 
+            trigger: "#services-hero-trigger",
             pin: true,
-            start: "center center", 
+            start: "center center",
             end: "+=800",
             scrub: true,
             invalidateOnRefresh: true
           }
         }
       );
-      
-      // Additional safety: Refresh ScrollTrigger after a short delay
-      // to handle any late-loading content or layout shifts
+
       setTimeout(() => ScrollTrigger.refresh(), 500);
     });
+  </script>
+  <script>
+    /* ==================================================================
+       GALLERY CONTROLLER — FLIP Open + Horizontal Carousel
+       ──────────────────────────────────────────────────────
+       OPENING: FLIP expansion (700ms) with staggered content cascade.
+       CAROUSEL: Horizontal slide (800ms), image parallax, staggered
+                 text lifecycle, nav-button dimming.
+       Easing: ExpoOut = cubic-bezier(0.16, 1, 0.3, 1)
+       ================================================================== */
+    (function () {
+      'use strict';
 
-      // Services Modal Logic
-      const servicesData = {
-        "Paint Protection Film": "Protect and enhance your vehicle with PPF wraps available in gloss, satin, track film, and custom colors or patterns.\n\nShields against scratches, chips, and paint damage.",
-        "Vinyl Wraps": "Transform your vehicle with vinyl wraps in custom colors, finishes, and designs.\n\nFrom accents to full body wraps, the options are endless.",
-        "Window Tint": "Ride in style and comfort with our premium window tint.\n\nChoose from a range of shades that reduce glare, block UV rays, and protect your interior.",
-        "Auto Detail": "Refresh your vehicle inside and out with our premium detailing service.\n\nRestore shine, protect surfaces, and hit the road looking your best."
-      };
+      // ── Easing constants ──
+      const EASE_OPEN  = 'power3.out';                           // opening FLIP
+      const OPEN_DUR   = 0.7;   // 700ms opening
 
-      const modal = document.getElementById('service-modal');
-      const modalBg = document.getElementById('modal-bg-image');
-      const modalTitle = document.getElementById('modal-title');
-      const modalDesc = document.getElementById('modal-description');
-      const closeBtn = document.getElementById('modal-close');
-      const prevBtn = document.getElementById('modal-prev');
-      const nextBtn = document.getElementById('modal-next');
-      
-      let isModalOpen = false;
-      let currentIndex = 0;
-      let serviceItems = [];
+      // ── Carousel physics ──
+      // Masked Parallax Transition — "Sliding Window"
+      // Duration: 900ms. Easing: cubic-bezier(0.16, 1, 0.3, 1) (ExpoOut)
+      // Starts fast, lands very gently — the "luxury" feel.
+      const SLIDE_DUR  = 0.9;
+      const CAROUSEL_EASE = 'expo.out';
+      const IMG_PARALLAX_OFFSET = 25; // % — image counter-movement (the "drag")
+      const IMG_SCALE = 1.1;          // resting scale — provides overflow for parallax
 
-      // Initialize Data Structure
-      function initServiceItems() {
-        const cards = document.querySelectorAll('.offer-card');
-        serviceItems = Array.from(cards).map(card => {
-          const title = card.querySelector('.card-title-overlay').textContent.trim();
-          const img = card.querySelector('img').src;
-          const desc = servicesData[title] || "";
-          return { title, img, desc };
-        });
-      }
-
-      function updateModalContent(index) {
-        if(index < 0 || index >= serviceItems.length) return;
-        const item = serviceItems[index];
-        
-        // Update Content
-        modalTitle.textContent = item.title;
-        modalDesc.textContent = item.desc;
-        modalBg.style.backgroundImage = `url('${item.img}')`;
-        
-        // Animate Content Change (Subtle pulse)
-        gsap.fromTo([modalTitle, modalDesc], 
-          { opacity: 0.5, y: 5 }, 
-          { opacity: 1, y: 0, duration: 0.3, ease: "power2.out" }
-        );
-      }
-
-      function openModal(index) {
-        if (isModalOpen) return;
-        isModalOpen = true;
-        currentIndex = index;
-        
-        updateModalContent(currentIndex);
-        
-        // Show Modal
-        modal.classList.remove('hidden');
-        document.body.style.overflow = 'hidden'; // Prevent background scrolling
-        
-        const tl = gsap.timeline();
-        tl.to(modal, { opacity: 1, duration: 0.4 })
-          .fromTo(modalTitle, { y: 50, opacity: 0 }, { y: 0, opacity: 1, duration: 0.6, ease: "power3.out" }, "-=0.2")
-          .fromTo(modalDesc, { y: 30, opacity: 0 }, { y: 0, opacity: 1, duration: 0.6, ease: "power3.out" }, "-=0.4");
-      }
-
-      function closeModal() {
-        if (!isModalOpen) return;
-        
-        gsap.to(modal, { 
-          opacity: 0, 
-          duration: 0.3, 
-          onComplete: () => {
-            modal.classList.add('hidden');
-            document.body.style.overflow = '';
-            isModalOpen = false;
-          } 
-        });
-      }
-
-      function nextService() {
-        currentIndex = (currentIndex + 1) % serviceItems.length;
-        updateModalContent(currentIndex);
-      }
-
-      function prevService() {
-        currentIndex = (currentIndex - 1 + serviceItems.length) % serviceItems.length;
-        updateModalContent(currentIndex);
-      }
-
-      // Initialize
-      initServiceItems();
-
-      // Attach Event Listeners
-      document.querySelectorAll('.offer-card').forEach((card, index) => {
-        const toggleBtn = card.querySelector('.plus-toggle');
-        if (toggleBtn) {
-          toggleBtn.addEventListener('click', (e) => {
-            e.preventDefault();
-            e.stopPropagation();
-            openModal(index); // Use index instead of title/src
-          });
+      const servicesData = [
+        {
+          title: 'Paint Protection Film.',
+          img: 'https://ogautocc.com/ElevatedWraps/Paint_Protection_Film.jpg',
+          desc: "Protect and enhance your vehicle with PPF wraps available in gloss, satin, track film, and custom colors or patterns. Shields against scratches, chips, and paint damage.",
+          link: 'PPFPage.html'
+        },
+        {
+          title: 'Vinyl Wraps.',
+          img: 'https://ogautocc.com/ElevatedWraps/Vinyl_wraps.jpg',
+          desc: "Transform your vehicle with vinyl wraps in custom colors, finishes, and designs. From accents to full body wraps, the options are endless.",
+          link: 'wraps.html'
+        },
+        {
+          title: 'Window Tint.',
+          img: 'https://ogautocc.com/ElevatedWraps/Window_tint.JPG',
+          desc: "Ride in style and comfort with our premium window tint. Choose from a range of shades that reduce glare, block UV rays, and protect your interior.",
+          link: 'quote.html'
+        },
+        {
+          title: 'Auto Detail.',
+          img: 'https://ogautocc.com/ElevatedWraps/Auto_Detail.jpg',
+          desc: "Refresh your vehicle inside and out with our premium detailing service. Restore shine, protect surfaces, and hit the road looking your best.",
+          link: 'quote.html'
         }
-      });
+      ];
 
-      if (closeBtn) closeBtn.addEventListener('click', closeModal);
-      if (prevBtn) prevBtn.addEventListener('click', (e) => { e.stopPropagation(); prevService(); });
-      if (nextBtn) nextBtn.addEventListener('click', (e) => { e.stopPropagation(); nextService(); });
-      
-      // Close on background click
-      if (modal) {
-        modal.addEventListener('click', (e) => {
-          if (e.target === modal || e.target.id === 'modal-backdrop') {
-            closeModal();
+      // ── DOM ──
+      const cards      = document.querySelectorAll('.gallery-card');
+      const modal      = document.getElementById('gallery-modal');
+      const scrim      = modal.querySelector('.modal-scrim');
+      const modalFrame = document.getElementById('modal-frame');
+      const slideTrack = document.getElementById('modal-slide-track');
+      let   currentSlide = document.getElementById('modal-slide-current');
+      let   modalImg   = document.getElementById('modal-img');
+      const imgScrim   = modalFrame.querySelector('.modal-img-scrim');
+      const modalTitle = document.getElementById('modal-title');
+      const modalDesc  = document.getElementById('modal-desc');
+      const closeBtn   = document.getElementById('modal-close-btn');
+      const prevBtn    = document.getElementById('modal-prev');
+      const nextBtn    = document.getElementById('modal-next');
+      const navBtns    = [prevBtn, nextBtn];
+      const uiElements = [closeBtn, prevBtn, nextBtn];
+
+      let currentIndex = 0;
+      let isOpen = false;
+      let isAnimating = false;
+      let openTimeline = null;
+      const isTouchDevice = ('ontouchstart' in window) || navigator.maxTouchPoints > 0;
+
+      // ── Text reveal — "Angled Pocket Reveal" ──
+      // Easing: cubic-bezier(0.22, 1, 0.36, 1) — quintic snap + glide
+      // GSAP's 'power4.out' is the closest built-in match.
+      const TEXT_EASE = 'power4.out';
+      const TEXT_DUR  = 0.85;  // 850ms per element
+      const WORD_STAGGER = 0.05; // 50ms between each title word
+      const DESC_DELAY   = 0.15; // 150ms after title starts — "chasing"
+
+      // ══════════════════════════════════════════════════════════════
+      // TEXT HELPERS — 3D Masked Skew-Transform ("Angled Pocket")
+      // ══════════════════════════════════════════════════════════════
+      //
+      //  THE ANATOMY:
+      //   1. Origin:   transform-origin: center bottom → hinged at base
+      //   2. Skew:     skewY(7deg) → right side higher than left (the angle)
+      //   3. Rotation: rotateX(-30deg) → tilted away from viewer into screen
+      //   4. Position: translateY(120%) → hidden below the overflow:clip mask
+      //
+      //  As the text "swings" up, all three properties resolve to 0 —
+      //  the text flattens, straightens, and lands in position.
+      //  The word-stagger creates a ripple effect across the headline.
+      //
+
+      /**
+       * populateTitle(text)
+       * Splits the title into individual <span> words for staggering.
+       */
+      function populateTitle(text) {
+        modalTitle.innerHTML = '';
+        text.split(/\s+/).forEach(word => {
+          const span = document.createElement('span');
+          span.className = 'modal-title-word';
+          span.textContent = word;
+          modalTitle.appendChild(span);
+        });
+      }
+
+      /**
+       * revealText(timeline, startTime)
+       * Angled Pocket Reveal: words swing up from below their masks,
+       * skewed and tilted, resolving to flat rest. Description follows.
+       */
+      function revealText(timeline, startTime) {
+        const words = modalTitle.querySelectorAll('.modal-title-word');
+
+        // Initial hidden state — below mask, tilted back, skewed
+        gsap.set(words, {
+          yPercent: 130,
+          rotateX: -40,
+          skewY: 8,
+          scaleY: 0.9,
+          opacity: 0,
+          transformOrigin: 'center bottom',
+          force3D: true
+        });
+        gsap.set(modalDesc, {
+          yPercent: 130,
+          rotateX: -35,
+          skewY: 5,
+          opacity: 0,
+          transformOrigin: 'center bottom',
+          force3D: true
+        });
+
+        // Title words — staggered "swinging hinge" reveal
+        timeline.to(words, {
+          yPercent: 0,
+          rotateX: 0,
+          skewY: 0,
+          scaleY: 1,
+          opacity: 1,
+          duration: TEXT_DUR,
+          ease: TEXT_EASE,
+          stagger: WORD_STAGGER,
+          force3D: true
+        }, startTime);
+
+        // Description — follows 150ms later, same hinge motion
+        timeline.to(modalDesc, {
+          yPercent: 0,
+          rotateX: 0,
+          skewY: 0,
+          opacity: 1,
+          duration: TEXT_DUR,
+          ease: TEXT_EASE,
+          force3D: true
+        }, startTime + DESC_DELAY);
+      }
+
+      /**
+       * hideText(timeline, startTime, directionX)
+       * Reverse: text swings back into the pocket — tilts forward,
+       * skews, and drops below the mask. Optional horizontal drift
+       * for carousel directional exit.
+       */
+      function hideText(timeline, startTime, directionX) {
+        const words = modalTitle.querySelectorAll('.modal-title-word');
+        const xShift = directionX || 0;
+
+        timeline.to(words, {
+          yPercent: -110,
+          rotateX: 25,
+          skewY: -6,
+          scaleY: 0.9,
+          x: xShift,
+          opacity: 0,
+          duration: 0.28,
+          ease: 'power3.in',
+          stagger: 0.02,
+          transformOrigin: 'center top',
+          force3D: true
+        }, startTime);
+
+        timeline.to(modalDesc, {
+          yPercent: -110,
+          rotateX: 25,
+          skewY: -5,
+          x: xShift,
+          opacity: 0,
+          duration: 0.28,
+          ease: 'power3.in',
+          transformOrigin: 'center top',
+          force3D: true
+        }, startTime + 0.04);
+      }
+
+      // ── 1. MOUSE-FOLLOW PARALLAX (desktop only) ──
+      if (!isTouchDevice) {
+        cards.forEach(card => {
+          const img = card.querySelector('.card-img');
+          card.addEventListener('mousemove', (e) => {
+            const rect = card.getBoundingClientRect();
+            const xNorm = ((e.clientX - rect.left) / rect.width - 0.5) * 2;
+            const yNorm = ((e.clientY - rect.top)  / rect.height - 0.5) * 2;
+            img.style.transform = `scale(1.15) translate(${-xNorm * 12}px, ${-yNorm * 12}px) translateZ(0)`;
+          });
+          card.addEventListener('mouseleave', () => {
+            img.style.transform = 'scale(1.15) translate(0, 0) translateZ(0)';
+          });
+        });
+      }
+
+      // ── 2. CARD SCROLL ENTRANCE ──
+      if (typeof gsap !== 'undefined' && typeof ScrollTrigger !== 'undefined') {
+        gsap.registerPlugin(ScrollTrigger);
+        gsap.from('.gallery-card', {
+          y: 60, opacity: 0, duration: 0.8, stagger: 0.12, ease: EASE_OPEN,
+          scrollTrigger: {
+            trigger: '#gallery-grid', start: 'top 85%',
+            toggleActions: 'play none none none'
           }
         });
       }
-      
-      // Keyboard Navigation
-      document.addEventListener('keydown', (e) => {
-        if (!isModalOpen) return;
-        
-        if (e.key === 'Escape') closeModal();
-        if (e.key === 'ArrowRight') nextService();
-        if (e.key === 'ArrowLeft') prevService();
+
+      // ══════════════════════════════════════════════════════════════
+      // 3. OPEN — FLIP Expansion (unchanged from previous)
+      // ══════════════════════════════════════════════════════════════
+      function openModal(index) {
+        if (isOpen || isAnimating) return;
+        isAnimating = true;
+        isOpen = true;
+        currentIndex = index;
+        populateModal(currentIndex);
+
+        const card = cards[index];
+        const cardRect = card.getBoundingClientRect();
+
+        modal.classList.add('is-open');
+        document.body.style.overflow = 'hidden';
+
+        // Reset everything
+        gsap.set(scrim, { opacity: 0 });
+        gsap.set(imgScrim, { opacity: 0 });
+        gsap.set(uiElements, { opacity: 0 });
+        gsap.set(currentSlide, { x: 0, xPercent: 0, opacity: 1 });
+        gsap.set(modalImg, { x: 0, xPercent: 0, scale: IMG_SCALE });
+
+        const frameRect = modalFrame.getBoundingClientRect();
+        const scaleX = cardRect.width / frameRect.width;
+        const scaleY = cardRect.height / frameRect.height;
+        const dx = (cardRect.left + cardRect.width / 2) - (frameRect.left + frameRect.width / 2);
+        const dy = (cardRect.top + cardRect.height / 2) - (frameRect.top + frameRect.height / 2);
+
+        openTimeline = gsap.timeline({ onComplete: () => { isAnimating = false; } });
+
+        openTimeline.fromTo(modalFrame,
+          { x: dx, y: dy, scaleX, scaleY, opacity: 1, borderRadius: '1.25rem', transformOrigin: 'center center' },
+          { x: 0, y: 0, scaleX: 1, scaleY: 1, borderRadius: '0.75rem', opacity: 1,
+            duration: OPEN_DUR, ease: 'back.out(1.2)', force3D: true },
+          0
+        );
+        openTimeline.to(scrim, { opacity: 1, duration: OPEN_DUR, ease: EASE_OPEN }, 0);
+        openTimeline.to(imgScrim, { opacity: 1, duration: 0.4, ease: EASE_OPEN }, 0.2);
+
+        // Text reveal — starts 400ms after expansion begins
+        revealText(openTimeline, 0.4);
+
+        openTimeline.to(uiElements, { opacity: 1, duration: 0.3, ease: EASE_OPEN, stagger: 0.05 }, 0.6);
+      }
+
+      // ══════════════════════════════════════════════════════════════
+      // 4. CLOSE — Reverse FLIP
+      // ══════════════════════════════════════════════════════════════
+      function closeModal() {
+        if (!isOpen || isAnimating) return;
+        isAnimating = true;
+        if (openTimeline) openTimeline.kill();
+
+        const closeTl = gsap.timeline({
+          onComplete: () => {
+            modal.classList.remove('is-open');
+            gsap.set(modalFrame, { clearProps: 'all' });
+            gsap.set(scrim, { clearProps: 'all' });
+            gsap.set(imgScrim, { clearProps: 'all' });
+            gsap.set(uiElements, { clearProps: 'opacity' });
+            gsap.set(currentSlide, { clearProps: 'all' });
+            gsap.set(modalImg, { clearProps: 'all' });
+            document.body.style.overflow = '';
+            isOpen = false;
+            isAnimating = false;
+          }
+        });
+
+        closeTl.to(uiElements, { opacity: 0, duration: 0.15, ease: 'power2.in' }, 0);
+        hideText(closeTl, 0, 0);
+        closeTl.to(imgScrim, { opacity: 0, duration: 0.2, ease: 'power2.in' }, 0);
+
+        const card = cards[currentIndex];
+        const cardRect = card.getBoundingClientRect();
+        const frameRect = modalFrame.getBoundingClientRect();
+        const scaleX = cardRect.width / frameRect.width;
+        const scaleY = cardRect.height / frameRect.height;
+        const dx2 = (cardRect.left + cardRect.width / 2) - (frameRect.left + frameRect.width / 2);
+        const dy2 = (cardRect.top + cardRect.height / 2) - (frameRect.top + frameRect.height / 2);
+
+        closeTl.to(modalFrame, {
+          x: dx2, y: dy2, scaleX, scaleY, borderRadius: '1.25rem', opacity: 0.4,
+          duration: 0.5, ease: 'power3.inOut', force3D: true
+        }, 0.15);
+        closeTl.to(scrim, { opacity: 0, duration: 0.5, ease: 'power3.inOut' }, 0.15);
+      }
+
+      // ══════════════════════════════════════════════════════════════
+      // 5. CAROUSEL — Masked Parallax Transition ("Sliding Window")
+      // ══════════════════════════════════════════════════════════════
+      //
+      // Two layers move in the SAME direction at DIFFERENT speeds.
+      // This creates the illusion of depth — like looking through
+      // a moving window at a world that stays put.
+      //
+      //  ┌─── THE FRAME (overflow: hidden mask) ──────────────────┐
+      //  │ Travels 100% of the viewport.                          │
+      //  │ This is the hard "wipe" edge you see.                  │
+      //  └────────────────────────────────────────────────────────-┘
+      //  ┌─── THE IMAGE (110% scaled, inside the frame) ─────────┐
+      //  │ Travels only 25% — moves SLOWER than the frame.        │
+      //  │ Offset is OPPOSITE to the frame's direction.           │
+      //  │ → Frame goes LEFT, image shifts RIGHT inside it.       │
+      //  │ This makes the product feel "behind the glass".        │
+      //  └────────────────────────────────────────────────────────-┘
+      //
+      //  NEXT (direction = +1):
+      //    Outgoing frame:  xPercent 0 → −100%   (exits left)
+      //    Outgoing image:  xPercent 0 → +25%    (lingers right — "stays behind")
+      //    Incoming frame:  xPercent +100% → 0    (enters from right)
+      //    Incoming image:  xPercent +25% → 0     (drags right → settles center)
+      //
+      //  PREV (direction = −1):
+      //    Outgoing frame:  xPercent 0 → +100%   (exits right)
+      //    Outgoing image:  xPercent 0 → −25%    (lingers left)
+      //    Incoming frame:  xPercent −100% → 0    (enters from left)
+      //    Incoming image:  xPercent −25% → 0     (drags left → settles center)
+      //
+      //  BRIGHTNESS: Incoming image starts at filter brightness(0.8)
+      //    and warms to brightness(1.0) — simulates entering the light.
+      //
+      //  SCALE: Outgoing image 1.1 → 1.0 (recedes).
+      //         Incoming image 1.0 → 1.1 (approaches, settles at rest).
+      //
+      //  OPACITY: Incoming slide 0 → 1 (fast). Outgoing stays 1.
+      //
+      //  TEXT: Exits at 0ms (280ms). Re-enters at 400ms staggered.
+      //
+      //  900ms, cubic-bezier(0.16, 1, 0.3, 1) — fast flick, long weighted landing.
+      //
+      function navigateTo(direction) {
+        if (isAnimating) return;
+        isAnimating = true;
+
+        // ── Dim nav buttons ──
+        navBtns.forEach(btn => btn.classList.add('is-transitioning'));
+
+        // Calculate next index
+        const nextIndex = (currentIndex + direction + servicesData.length) % servicesData.length;
+        const nextItem = servicesData[nextIndex];
+
+        // ── Create incoming slide ──
+        const incomingSlide = document.createElement('div');
+        incomingSlide.className = 'modal-slide';
+        const incomingImg = document.createElement('img');
+        incomingImg.className = 'modal-img';
+        incomingImg.src = nextItem.img;
+        incomingImg.alt = nextItem.title;
+        incomingSlide.appendChild(incomingImg);
+        slideTrack.appendChild(incomingSlide);
+
+        // ── Direction vectors ──
+        const exitX  = direction * -100;  // frame exit direction
+        const enterX = direction * 100;   // frame enter direction
+
+        // ── Initial state: incoming ──
+        gsap.set(incomingSlide, { xPercent: enterX, opacity: 0 });
+        gsap.set(incomingImg, {
+          // Image offset is in the SAME direction as frame entry.
+          // Frame enters from +100%, image starts at +25% inside it.
+          // As the frame moves left to 0%, the image also moves left
+          // but only 25% — so the image is SLOWER → depth.
+          xPercent: direction * IMG_PARALLAX_OFFSET,
+          scale: 1.0,
+          filter: 'brightness(0.8)',
+          force3D: true
+        });
+
+        // ── Reference to exiting image ──
+        const currentImg = currentSlide.querySelector('.modal-img');
+
+        // ── Master timeline ──
+        const tl = gsap.timeline({
+          defaults: { ease: CAROUSEL_EASE, force3D: true },
+          onComplete: () => {
+            // Swap DOM: incoming becomes current
+            currentSlide.remove();
+            incomingSlide.id = 'modal-slide-current';
+            currentSlide = incomingSlide;
+            modalImg = incomingSlide.querySelector('.modal-img');
+            modalImg.id = 'modal-img';
+            currentIndex = nextIndex;
+
+            // Clean up filter
+            gsap.set(modalImg, { filter: 'none' });
+
+            // Un-dim nav
+            navBtns.forEach(btn => btn.classList.remove('is-transitioning'));
+            isAnimating = false;
+          }
+        });
+
+        // ──────────────────────────────────────────────────
+        //  TEXT EXIT — masked slide up + directional drift
+        // ──────────────────────────────────────────────────
+        hideText(tl, 0, direction * -20);
+
+        // ──────────────────────────────────────────────────
+        //  OUTGOING FRAME — wipes off-screen
+        // ──────────────────────────────────────────────────
+        tl.to(currentSlide, {
+          xPercent: exitX,   // 0 → −100% (next) or 0 → +100% (prev)
+          duration: SLIDE_DUR
+        }, 0);
+
+        // ──────────────────────────────────────────────────
+        //  OUTGOING IMAGE — "lingers" in the opposite direction
+        //  Frame goes left, image drifts RIGHT inside it.
+        //  This makes the product appear to "stay behind" for
+        //  a split second before the frame wipes it away.
+        // ──────────────────────────────────────────────────
+        tl.to(currentImg, {
+          // direction=+1: frame exits LEFT, image drifts to +25% (RIGHT)
+          // direction=-1: frame exits RIGHT, image drifts to -25% (LEFT)
+          xPercent: direction * IMG_PARALLAX_OFFSET,
+          scale: 1.0,          // subtle shrink from resting 1.1
+          duration: SLIDE_DUR
+        }, 0);
+
+        // ──────────────────────────────────────────────────
+        //  INCOMING FRAME — enters from off-screen
+        //  Opacity blends 0 → 1 quickly to smooth the "hit"
+        // ──────────────────────────────────────────────────
+        tl.to(incomingSlide, {
+          xPercent: 0,       // +100% → 0 (next) or −100% → 0 (prev)
+          opacity: 1,
+          duration: SLIDE_DUR
+        }, 0);
+
+        // ──────────────────────────────────────────────────
+        //  INCOMING IMAGE — the "drag" parallax
+        //  Starts shifted in the direction of entry (+25%),
+        //  glides to center (0%). Travels 25% while its
+        //  frame travels 100% → the image moves SLOWER →
+        //  it looks like a world behind the window.
+        //  Also scales 1.0 → 1.1 and brightens 0.8 → 1.0.
+        // ──────────────────────────────────────────────────
+        tl.to(incomingImg, {
+          xPercent: 0,
+          scale: IMG_SCALE,    // 1.0 → 1.1 subtle zoom into rest
+          filter: 'brightness(1)',
+          duration: SLIDE_DUR
+        }, 0);
+
+        // ──────────────────────────────────────────────────
+        //  TEXT ENTRANCE — "Angled Pocket Reveal" 3D masked reveal
+        //  Populate new content, split title into words,
+        //  then animate them in. Must be done inside a callback
+        //  so the .modal-title-word spans exist in the DOM before
+        //  GSAP tries to animate them.
+        // ──────────────────────────────────────────────────
+        tl.add(() => {
+          populateTitle(nextItem.title);
+          modalDesc.textContent = nextItem.desc;
+
+          const freshWords = modalTitle.querySelectorAll('.modal-title-word');
+
+          // Set initial hidden state for title words
+          gsap.set(freshWords, {
+            yPercent: 130,
+            rotateX: -40,
+            skewY: 8,
+            scaleY: 0.9,
+            opacity: 0,
+            transformOrigin: 'center bottom',
+            force3D: true
+          });
+          // Set initial hidden state for description
+          gsap.set(modalDesc, {
+            yPercent: 130,
+            rotateX: -35,
+            skewY: 5,
+            opacity: 0,
+            transformOrigin: 'center bottom',
+            force3D: true
+          });
+
+          // Animate title words — staggered hinge reveal
+          gsap.to(freshWords, {
+            yPercent: 0,
+            rotateX: 0,
+            skewY: 0,
+            scaleY: 1,
+            opacity: 1,
+            duration: TEXT_DUR,
+            ease: TEXT_EASE,
+            stagger: WORD_STAGGER,
+            force3D: true
+          });
+
+          // Animate description — follows 150ms later
+          gsap.to(modalDesc, {
+            yPercent: 0,
+            rotateX: 0,
+            skewY: 0,
+            opacity: 1,
+            duration: TEXT_DUR,
+            ease: TEXT_EASE,
+            delay: DESC_DELAY,
+            force3D: true
+          });
+        }, 0.4);
+      }
+
+      // ── 6. POPULATE (initial load only) ──
+      function populateModal(index) {
+        const item = servicesData[index];
+        modalImg.src = item.img;
+        populateTitle(item.title);
+        modalDesc.textContent = item.desc;
+      }
+
+      // ── EVENT LISTENERS ──
+      cards.forEach(card => {
+        card.addEventListener('click', () => openModal(parseInt(card.dataset.index)));
       });
+
+      closeBtn.addEventListener('click', closeModal);
+      prevBtn.addEventListener('click', (e) => { e.stopPropagation(); navigateTo(-1); });
+      nextBtn.addEventListener('click', (e) => { e.stopPropagation(); navigateTo(1); });
+      modal.querySelector('.modal-scrim').addEventListener('click', closeModal);
+
+      document.addEventListener('keydown', (e) => {
+        if (!isOpen) return;
+        if (e.key === 'Escape')     closeModal();
+        if (e.key === 'ArrowRight') navigateTo(1);
+        if (e.key === 'ArrowLeft')  navigateTo(-1);
+      });
+
+      let touchStartX = 0;
+      modal.addEventListener('touchstart', (e) => { touchStartX = e.changedTouches[0].screenX; }, { passive: true });
+      modal.addEventListener('touchend', (e) => {
+        const diff = e.changedTouches[0].screenX - touchStartX;
+        if (Math.abs(diff) > 60) navigateTo(diff < 0 ? 1 : -1);
+      }, { passive: true });
+
+    })();
   </script>
   <script>
     // GSAP letter-by-letter reveal
