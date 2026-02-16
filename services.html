@@ -383,7 +383,8 @@
             position: relative;
             perspective: 1000px;
             transform-style: preserve-3d;
-            clip-path: inset(-10% -20% -15% -5%);
+            /* Expanded clip-path to prevent cutting off skewed text, especially on mobile */
+            clip-path: inset(-10% -20% -15% -20%);
             padding-bottom: 0.15em;
           }
           .modal-title-words {
