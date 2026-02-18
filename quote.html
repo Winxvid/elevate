@@ -144,6 +144,98 @@
             from { transform: translate(-50%, -50%) rotate(0deg); }
             to { transform: translate(-50%, -50%) rotate(360deg); }
         }
+
+        /* ==========================
+           Neumorphic form UI (dark)
+           ========================== */
+        .neumorph-card {
+          background: linear-gradient(180deg, rgba(255,255,255,0.02), rgba(0,0,0,0.32));
+          border-radius: 2rem;
+          border: 1px solid rgba(255,255,255,0.03);
+          box-shadow: 8px 14px 40px rgba(2,6,23,0.6), -6px -6px 18px rgba(255,255,255,0.02);
+        }
+
+        .neumorph-field {
+          background: linear-gradient(180deg, rgba(255,255,255,0.01), rgba(0,0,0,0.35));
+          color: #e6e6e6;
+          border-radius: 1rem;
+          border: 1px solid rgba(255,255,255,0.03);
+          box-shadow: inset 6px 6px 14px rgba(2,6,23,0.6), inset -4px -4px 10px rgba(255,255,255,0.02);
+          transition: box-shadow .18s ease, transform .12s ease, border-color .12s ease;
+        }
+        .neumorph-field::placeholder { color: rgba(255,255,255,0.28); font-style: italic; }
+        .neumorph-field:focus { outline: none; box-shadow: 0 12px 40px rgba(168,85,247,0.08), inset 4px 4px 10px rgba(2,6,23,0.6); border-color: rgba(168,85,247,0.18); transform: translateY(-1px); }
+        .neumorph-field[disabled] { opacity: 0.6; cursor: not-allowed; }
+
+        /* ==========================
+           Light Neumorphic form (example reference)
+           ========================== */
+        .neumorph-card--light {
+          background: linear-gradient(180deg,#f6f8fb,#e9eef5);
+          border-radius: 1.25rem;
+          overflow: hidden; /* Ensure clean clipped corners */
+          border: 1px solid rgba(2,6,23,0.04);
+          box-shadow: 20px 40px 80px rgba(2,6,23,0.06), -10px -10px 30px rgba(255,255,255,0.85);
+          color: #0b1220;
+          position: relative; /* Ensure stacking context */
+        }
+        .neumorph-card--light .porsche-font { color: #0b1220; }
+        /* Clean avatar inside the card */
+        .avatar-circle {
+          width: 80px; height: 80px; /* Slightly smaller for better fit inside */
+          border-radius: 9999px;
+          background: #fff;
+          display: flex; align-items: center; justify-content: center;
+          /* Soft shadow to lift it off the card surface */
+          box-shadow: 0 10px 25px rgba(0,0,0,0.05);
+          border: 4px solid #fff;
+        }
+        @media(min-width:768px){ .avatar-circle { width:100px; height:100px; } }
+        .avatar-inner {
+          width: 68%; height: 68%; border-radius: 9999px;
+          background: #000; /* black background so logo (light) is visible */
+          display: flex; align-items: center; justify-content: center;
+          box-shadow: inset 0 4px 10px rgba(255,255,255,0.03);
+        }
+        .avatar-inner img { width: 72%; height: auto; object-fit: contain; display:block; }
+
+        /* Additional styling for avatar on larger screens handled in main block now */
+
+        .neumorph-field--light {
+          background: linear-gradient(180deg,#ffffff,#f3f6fb);
+          color: #0b1220;
+          border-radius: 9999px;
+          border: 1px solid rgba(2,6,23,0.06);
+          box-shadow: inset 6px 8px 18px rgba(2,6,23,0.06), inset -6px -6px 12px rgba(255,255,255,0.9);
+          transition: box-shadow .16s ease, transform .12s ease, border-color .12s ease;
+        }
+        .neumorph-field--light::placeholder { color: rgba(11,17,32,0.4); font-style: normal; }
+        .neumorph-field--light:focus { outline: none; box-shadow: 0 10px 30px rgba(168,85,247,0.06), inset 2px 2px 8px rgba(2,6,23,0.04); border-color: rgba(168,85,247,0.14); transform: translateY(-1px); }
+
+        .neumorph-submit--light {
+          background: linear-gradient(180deg,#ffffff,#eef3fb);
+          color: #0b1220;
+          border-radius: 9999px;
+          padding: 16px 36px;
+          border: 1px solid rgba(2,6,23,0.06);
+          box-shadow: 8px 20px 50px rgba(2,6,23,0.06), inset -2px -2px 8px rgba(255,255,255,0.9);
+          font-weight: 800; letter-spacing: .16em; text-transform: uppercase;
+        }
+        .neumorph-submit--light svg { transition: transform 0.3s ease, stroke 0.3s ease; }
+        .neumorph-submit--light:hover { transform: translateY(-3px); box-shadow: 12px 28px 68px rgba(2,6,23,0.08); }
+        .neumorph-submit--light:hover svg { transform: translate(6px, -6px); stroke: #a855f7; }
+
+        /* service tiles — light variant inside the card */
+        .neumorph-card--light .service-select-btn {
+          background: linear-gradient(180deg,#ffffff,#f6f8fb); color: #0b1220;
+          border: 1px solid rgba(2,6,23,0.06); box-shadow: 8px 18px 40px rgba(2,6,23,0.04), -4px -4px 10px rgba(255,255,255,0.85);
+        }
+        .neumorph-card--light .service-select-btn:hover { transform: translateY(-6px); box-shadow: 12px 26px 54px rgba(2,6,23,0.06); }
+        .neumorph-card--light .service-select-btn .p-2 { background: #f3f6fb; border-radius: .75rem; box-shadow: inset -2px -2px 6px rgba(255,255,255,0.9); }
+
+        /* social buttons row */
+        /* .social-row { display:flex; gap:12px; align-items:center; justify-content:center; margin-top:12px; }
+        .social-btn { background: linear-gradient(180deg,#ffffff,#f3f6fb); border:1px solid rgba(2,6,23,0.06); color:#0b1220; padding:10px 14px; border-radius:12px; box-shadow: 6px 12px 30px rgba(2,6,23,0.04); display:inline-flex; gap:8px; align-items:center; font-weight:700; } */
     </style>
 
 
@@ -167,61 +259,61 @@
           </div>
         </section>
         <section id="contact-form" class="max-w-5xl mx-auto relative px-2">
-          <div class="bg-white/5 backdrop-blur-3xl rounded-[2rem] md:rounded-[6rem] border border-white/10 p-6 md:p-16 relative shadow-[0_0_100px_rgba(0,0,0,0.5)] overflow-hidden group">
-            <div class="absolute inset-0 z-0">
-              <img src="quote_section.png" alt="" class="w-full h-full object-cover opacity-40 group-hover:scale-105 transition-transform duration-[2s]">
-              <div class="absolute inset-0 bg-[#08070b]/80 backdrop-blur-sm"></div>
-            </div>
+          <div class="neumorph-card--light rounded-[2rem] md:rounded-[6rem] border border-white/10 p-6 md:p-12 relative group">
             <div class="relative z-10" style="opacity: 1;">
-              <div class="flex flex-col items-center text-center mb-12 md:mb-32">
-                <div class="w-16 h-16 md:w-28 md:h-28 bg-white rounded-[20px] md:rounded-3xl flex items-center justify-center border border-white shadow-[0_0_40px_rgba(255,255,255,0.3)] mb-6 md:mb-12" style="opacity: 1; transform: none;">
-                  <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="lucide lucide-sparkles w-8 h-8 md:w-14 md:h-14 text-black" aria-hidden="true"><path d="M11.017 2.814a1 1 0 0 1 1.966 0l1.051 5.558a2 2 0 0 0 1.594 1.594l5.558 1.051a1 1 0 0 1 0 1.966l-5.558 1.051a2 2 0 0 0-1.594 1.594l-1.051 5.558a1 1 0 0 1-1.966 0l-1.051-5.558a2 2 0 0 0-1.594-1.594l-5.558-1.051a1 1 0 0 1 0-1.966l5.558-1.051a2 2 0 0 0 1.594-1.594z"></path><path d="M20 2v4"></path><path d="M22 4h-4"></path><circle cx="4" cy="20" r="2"></circle></svg>
+              <div class="flex flex-col items-center text-center mb-6 md:mb-12">
+                <!-- Avatar inside the card flow -->
+                <div class="avatar-circle mb-8 mx-auto">
+                  <div class="avatar-inner">
+                    <img src="https://ogautocc.com/ElevatedWraps/logo.PNG" alt="Elevated Auto Wraps logo" loading="lazy" decoding="async">
+                  </div>
                 </div>
-                <h1 class="porsche-font text-3xl md:text-8xl text-white mb-4 italic leading-none uppercase tracking-tight" style="opacity: 1; transform: none;">Let’s <span class="text-purple-400">work together</span></h1>
+                <h1 class="porsche-font text-2xl md:text-5xl text-zinc-900 mb-2 md:mb-4 italic leading-none uppercase tracking-tight">Let’s <span class="text-purple-500">work together</span></h1>
+                <p class="text-sm md:text-base text-zinc-500">Ready to elevate your vehicle? Complete the intake below and our specialists will reach out shortly.</p>
               </div>
-              <form class="space-y-8 md:space-y-12">
+              <form class="space-y-6 md:space-y-8">
                 <div class="space-y-6 md:space-y-10">
                   <div class="flex items-center gap-4 md:gap-8">
                     <div class="w-8 h-8 md:w-14 md:h-14 rounded-full bg-purple-600 text-white flex items-center justify-center font-black italic text-xs md:text-lg shadow-xl">01</div>
-                    <h3 class="text-[9px] md:text-[14px] font-black uppercase tracking-[0.4em] md:tracking-[0.5em] text-white">Contact Identity</h3>
+                    <h3 class="text-[9px] md:text-[14px] font-black uppercase tracking-[0.4em] md:tracking-[0.5em] text-zinc-900">Contact Identity</h3>
                   </div>
-                  <div class="grid grid-cols-1 md:grid-cols-2 gap-6 md:gap-16">
+                  <div class="grid grid-cols-1 md:grid-cols-2 gap-6 md:gap-12">
                     <div class="space-y-4">
                       <div class="flex items-center gap-4 mb-1">
-                        <label class="text-[9px] text-purple-400 uppercase font-black tracking-[0.3em] md:tracking-[0.4em] block pl-1">First Name <span class="text-purple-600">*</span></label>
+                        <label class="text-[9px] text-zinc-600 uppercase font-black tracking-[0.3em] md:tracking-[0.4em] block pl-1">First Name <span class="text-purple-600">*</span></label>
                       </div>
                       <div class="relative group">
-                        <input required class="w-full bg-white border border-gray-200 rounded-xl md:rounded-3xl p-4 md:p-6 text-black text-base focus:border-purple-500 outline-none transition-all italic font-light shadow-inner pl-6 md:pl-8" placeholder="EX: JOHN" type="text">
+                        <input required class="w-full neumorph-field--light rounded-xl md:rounded-3xl p-4 md:p-6 text-zinc-900 text-base focus:border-purple-500 outline-none transition-all italic font-light pl-6 md:pl-8" placeholder="EX: JOHN" type="text">
                       </div>
                     </div>
                     <div class="space-y-4">
                       <div class="flex items-center gap-4 mb-1">
-                        <label class="text-[9px] text-purple-400 uppercase font-black tracking-[0.3em] md:tracking-[0.4em] block pl-1">Last Name <span class="text-purple-600">*</span></label>
+                        <label class="text-[9px] text-zinc-600 uppercase font-black tracking-[0.3em] md:tracking-[0.4em] block pl-1">Last Name <span class="text-purple-600">*</span></label>
                       </div>
                       <div class="relative group">
-                        <input required class="w-full bg-white border border-gray-200 rounded-xl md:rounded-3xl p-4 md:p-6 text-black text-base focus:border-purple-500 outline-none transition-all italic font-light shadow-inner pl-6 md:pl-8" placeholder="EX: DOE" type="text">
+                        <input required class="w-full neumorph-field--light rounded-xl md:rounded-3xl p-4 md:p-6 text-zinc-900 text-base focus:border-purple-500 outline-none transition-all italic font-light pl-6 md:pl-8" placeholder="EX: DOE" type="text">
                       </div>
                     </div>
                     <div class="space-y-4">
                       <div class="flex items-center gap-4 mb-1">
-                        <label class="text-[9px] text-purple-400 uppercase font-black tracking-[0.3em] md:tracking-[0.4em] block pl-1">Email Address <span class="text-purple-600">*</span></label>
+                        <label class="text-[9px] text-zinc-600 uppercase font-black tracking-[0.3em] md:tracking-[0.4em] block pl-1">Email Address <span class="text-purple-600">*</span></label>
                       </div>
                       <div class="relative group">
                         <div class="absolute left-6 md:left-8 top-1/2 -translate-y-1/2 text-zinc-600 group-focus-within:text-purple-500 transition-colors pointer-events-none">
                           <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="lucide lucide-mail w-4 h-4" aria-hidden="true"><path d="m22 7-8.991 5.727a2 2 0 0 1-2.009 0L2 7"></path><rect x="2" y="4" width="20" height="16" rx="2"></rect></svg>
                         </div>
-                        <input required class="w-full bg-white border border-gray-200 rounded-xl md:rounded-3xl p-4 md:p-6 text-black text-base focus:border-purple-500 outline-none transition-all italic font-light shadow-inner pl-12 md:pl-20" placeholder="EX: CLIENT@DOMAIN.COM" type="email">
+                        <input required class="w-full neumorph-field--light rounded-xl md:rounded-3xl p-4 md:p-6 text-zinc-900 text-base focus:border-purple-500 outline-none transition-all italic font-light pl-12 md:pl-20" placeholder="EX: CLIENT@DOMAIN.COM" type="email">
                       </div>
                     </div>
                     <div class="space-y-4">
                       <div class="flex items-center gap-4 mb-1">
-                        <label class="text-[9px] text-purple-400 uppercase font-black tracking-[0.3em] md:tracking-[0.4em] block pl-1">Phone Number </label>
+                        <label class="text-[9px] text-zinc-600 uppercase font-black tracking-[0.3em] md:tracking-[0.4em] block pl-1">Phone Number </label>
                       </div>
                       <div class="relative group">
                         <div class="absolute left-6 md:left-8 top-1/2 -translate-y-1/2 text-zinc-600 group-focus-within:text-purple-500 transition-colors pointer-events-none">
                           <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="lucide lucide-phone w-4 h-4" aria-hidden="true"><path d="M13.832 16.568a1 1 0 0 0 1.213-.303l.355-.465A2 2 0 0 1 17 15h3a2 2 0 0 1 2 2v3a2 2 0 0 1-2 2A18 18 0 0 1 2 4a2 2 0 0 1 2-2h3a2 2 0 0 1 2 2v3a2 2 0 0 1-.8 1.6l-.468.351a1 1 0 0 0-.292 1.233 14 14 0 0 0 6.392 6.384"></path></svg>
                         </div>
-                        <input class="w-full bg-white border border-gray-200 rounded-xl md:rounded-3xl p-4 md:p-6 text-black text-base focus:border-purple-500 outline-none transition-all italic font-light shadow-inner pl-12 md:pl-20" placeholder="EX: (210) 201-4999" type="tel">
+                        <input class="w-full neumorph-field--light rounded-xl md:rounded-3xl p-4 md:p-6 text-zinc-900 text-base focus:border-purple-500 outline-none transition-all italic font-light pl-12 md:pl-20" placeholder="EX: (210) 201-4999" type="tel">
                       </div>
                     </div>
                   </div>
@@ -229,34 +321,34 @@
                 <div class="space-y-6 md:space-y-10">
                   <div class="flex items-center gap-4 md:gap-8">
                     <div class="w-8 h-8 md:w-14 md:h-14 rounded-full bg-purple-600 text-white flex items-center justify-center font-black italic text-xs md:text-lg shadow-xl">02</div>
-                    <h3 class="text-[9px] md:text-[14px] font-black uppercase tracking-[0.4em] md:tracking-[0.5em] text-white">Services Required</h3>
+                    <h3 class="text-[9px] md:text-[14px] font-black uppercase tracking-[0.4em] md:tracking-[0.5em] text-zinc-900">Services Required</h3>
                   </div>
                   <div class="grid grid-cols-1 sm:grid-cols-2 gap-4 md:gap-8">
-                    <button type="button" class="service-select-btn flex items-center justify-between p-6 md:p-10 rounded-2xl md:rounded-3xl border transition-all duration-700 bg-white/10 border-white/20 text-white hover:border-white/40 hover:bg-white/20" data-service="PAINT PROTECTION FILM">
+                    <button type="button" class="service-select-btn flex items-center justify-between p-5 md:p-8 rounded-2xl md:rounded-3xl border transition-all duration-700 bg-white/10 border-white/20 text-zinc-900 hover:border-white/40 hover:bg-white/20" data-service="PAINT PROTECTION FILM">
                       <span class="text-[9px] md:text-[12px] font-black uppercase tracking-[0.2em] md:tracking-[0.3em]">PAINT PROTECTION FILM</span>
                       <div class="p-2 md:p-4 rounded-xl transition-colors duration-700 bg-white/10">
                         <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="lucide lucide-shield w-5 h-5 md:w-8 md:h-8" aria-hidden="true"><path d="M20 13c0 5-3.5 7.5-7.66 8.95a1 1 0 0 1-.67-.01C7.5 20.5 4 18 4 13V6a1 1 0 0 1 1-1c2 0 4.5-1.2 6.24-2.72a1.17 1.17 0 0 1 1.52 0C14.51 3.81 17 5 19 5a1 1 0 0 1 1 1z"></path></svg>
                       </div>
                     </button>
-                    <button type="button" class="service-select-btn flex items-center justify-between p-6 md:p-10 rounded-2xl md:rounded-3xl border transition-all duration-700 bg-white/10 border-white/20 text-white hover:border-white/40 hover:bg-white/20" data-service="VINYL WRAPS">
+                    <button type="button" class="service-select-btn flex items-center justify-between p-5 md:p-8 rounded-2xl md:rounded-3xl border transition-all duration-700 bg-white/10 border-white/20 text-zinc-900 hover:border-white/40 hover:bg-white/20" data-service="VINYL WRAPS">
                       <span class="text-[9px] md:text-[12px] font-black uppercase tracking-[0.2em] md:tracking-[0.3em]">VINYL WRAPS</span>
                       <div class="p-2 md:p-4 rounded-xl transition-colors duration-700 bg-white/10">
                         <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="lucide lucide-palette w-5 h-5 md:w-8 md:h-8" aria-hidden="true"><path d="M12 22a1 1 0 0 1 0-20 10 9 0 0 1 10 9 5 5 0 0 1-5 5h-2.25a1.75 1.75 0 0 0-1.4 2.8l.3.4a1.75 1.75 0 0 1-1.4 2.8z"></path><circle cx="13.5" cy="6.5" r=".5" fill="currentColor"></circle><circle cx="17.5" cy="10.5" r=".5" fill="currentColor"></circle><circle cx="6.5" cy="12.5" r=".5" fill="currentColor"></circle><circle cx="8.5" cy="7.5" r=".5" fill="currentColor"></circle></svg>
                       </div>
                     </button>
-                    <button type="button" class="service-select-btn flex items-center justify-between p-6 md:p-10 rounded-2xl md:rounded-3xl border transition-all duration-700 bg-white/10 border-white/20 text-white hover:border-white/40 hover:bg-white/20" data-service="WINDOW TINT">
+                    <button type="button" class="service-select-btn flex items-center justify-between p-5 md:p-8 rounded-2xl md:rounded-3xl border transition-all duration-700 bg-white/10 border-white/20 text-zinc-900 hover:border-white/40 hover:bg-white/20" data-service="WINDOW TINT">
                       <span class="text-[9px] md:text-[12px] font-black uppercase tracking-[0.2em] md:tracking-[0.3em]">WINDOW TINT</span>
                       <div class="p-2 md:p-4 rounded-xl transition-colors duration-700 bg-white/10">
                         <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="lucide lucide-sun w-5 h-5 md:w-8 md:h-8" aria-hidden="true"><circle cx="12" cy="12" r="4"></circle><path d="M12 2v2"></path><path d="M12 20v2"></path><path d="m4.93 4.93 1.41 1.41"></path><path d="m17.66 17.66 1.41 1.41"></path><path d="M2 12h2"></path><path d="M20 12h2"></path><path d="m6.34 17.66-1.41 1.41"></path><path d="m19.07 4.93-1.41 1.41"></path></svg>
                       </div>
                     </button>
-                    <button type="button" class="service-select-btn flex items-center justify-between p-6 md:p-10 rounded-2xl md:rounded-3xl border transition-all duration-700 bg-white/10 border-white/20 text-white hover:border-white/40 hover:bg-white/20" data-service="AUTO DETAIL">
+                    <button type="button" class="service-select-btn flex items-center justify-between p-5 md:p-8 rounded-2xl md:rounded-3xl border transition-all duration-700 bg-white/10 border-white/20 text-zinc-900 hover:border-white/40 hover:bg-white/20" data-service="AUTO DETAIL">
                       <span class="text-[9px] md:text-[12px] font-black uppercase tracking-[0.2em] md:tracking-[0.3em]">AUTO DETAIL</span>
                       <div class="p-2 md:p-4 rounded-xl transition-colors duration-700 bg-white/10">
                         <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="lucide lucide-sparkles w-5 h-5 md:w-8 md:h-8" aria-hidden="true"><path d="M11.017 2.814a1 1 0 0 1 1.966 0l1.051 5.558a2 2 0 0 0 1.594 1.594l5.558 1.051a1 1 0 0 1 0 1.966l-5.558 1.051a2 2 0 0 0-1.594 1.594l-1.051 5.558a1 1 0 0 1-1.966 0l-1.051-5.558a2 2 0 0 0-1.594-1.594l-5.558-1.051a1 1 0 0 1 0-1.966l5.558-1.051a2 2 0 0 0 1.594-1.594z"></path><path d="M20 2v4"></path><path d="M22 4h-4"></path><circle cx="4" cy="20" r="2"></circle></svg>
                       </div>
                     </button>
-                    <button type="button" class="service-select-btn flex items-center justify-between p-6 md:p-10 rounded-2xl md:rounded-3xl border transition-all duration-700 bg-white/10 border-white/20 text-white hover:border-white/40 hover:bg-white/20 col-span-1 sm:col-span-2 md:col-span-1" data-service="OTHER">
+                    <button type="button" class="service-select-btn flex items-center justify-between p-5 md:p-8 rounded-2xl md:rounded-3xl border transition-all duration-700 bg-white/10 border-white/20 text-zinc-900 hover:border-white/40 hover:bg-white/20 col-span-1 sm:col-span-2 md:col-span-1" data-service="OTHER">
                       <span class="text-[9px] md:text-[12px] font-black uppercase tracking-[0.2em] md:tracking-[0.3em]">OTHER</span>
                       <div class="p-2 md:p-4 rounded-xl transition-colors duration-700 bg-white/10">
                         <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="lucide lucide-plus w-5 h-5 md:w-8 md:h-8" aria-hidden="true"><path d="M5 12h14"></path><path d="M12 5v14"></path></svg>
@@ -316,35 +408,35 @@
                 <div class="space-y-6 md:space-y-10">
                   <div class="flex items-center gap-4 md:gap-8">
                     <div class="w-8 h-8 md:w-14 md:h-14 rounded-full bg-purple-600 text-white flex items-center justify-center font-black italic text-xs md:text-lg shadow-xl">03</div>
-                    <h3 class="text-[9px] md:text-[14px] font-black uppercase tracking-[0.4em] md:tracking-[0.5em] text-white">Project Details</h3>
+                    <h3 class="text-[9px] md:text-[14px] font-black uppercase tracking-[0.4em] md:tracking-[0.5em] text-zinc-900">Project Details</h3>
                   </div>
-                  <div class="grid grid-cols-1 md:grid-cols-2 gap-6 md:gap-16">
+                  <div class="grid grid-cols-1 md:grid-cols-2 gap-6 md:gap-12">
                     <div class="space-y-4">
                       <div class="flex items-center gap-4 mb-1">
-                        <label class="text-[9px] text-purple-400 uppercase font-black tracking-[0.3em] md:tracking-[0.4em] block pl-1">Preferred Date </label>
+                        <label class="text-[9px] text-zinc-600 uppercase font-black tracking-[0.3em] md:tracking-[0.4em] block pl-1">Preferred Date </label>
                       </div>
                       <div class="relative group">
                         <div class="absolute left-6 md:left-8 top-1/2 -translate-y-1/2 text-zinc-600 group-focus-within:text-purple-500 transition-colors pointer-events-none">
                           <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="lucide lucide-calendar w-4 h-4" aria-hidden="true"><path d="M8 2v4"></path><path d="M16 2v4"></path><rect width="18" height="18" x="3" y="4" rx="2"></rect><path d="M3 10h18"></path></svg>
                         </div>
-                        <input class="w-full bg-white border border-gray-200 rounded-xl md:rounded-3xl p-4 md:p-6 text-black text-base focus:border-purple-500 outline-none transition-all italic font-light shadow-inner pl-12 md:pl-20 appearance-none min-w-0" type="date">
+                        <input class="w-full neumorph-field--light rounded-xl md:rounded-3xl p-4 md:p-6 text-zinc-900 text-base focus:border-purple-500 outline-none transition-all italic font-light pl-12 md:pl-20" type="date">
                       </div>
                     </div>
                     <div class="space-y-4">
                       <div class="flex items-center gap-4 mb-1">
-                        <label class="text-[9px] text-purple-400 uppercase font-black tracking-[0.3em] md:tracking-[0.4em] block pl-1">Estimated Budget </label>
+                        <label class="text-[9px] text-zinc-600 uppercase font-black tracking-[0.3em] md:tracking-[0.4em] block pl-1">Estimated Budget </label>
                       </div>
                       <div class="relative group">
                         <div class="absolute left-6 md:left-8 top-1/2 -translate-y-1/2 text-zinc-600 group-focus-within:text-purple-500 transition-colors pointer-events-none">
                           <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="lucide lucide-dollar-sign w-4 h-4" aria-hidden="true"><line x1="12" x2="12" y1="2" y2="22"></line><path d="M17 5H9.5a3.5 3.5 0 0 0 0 7h5a3.5 3.5 0 0 1 0 7H6"></path></svg>
                         </div>
-                        <input class="w-full bg-white border border-gray-200 rounded-xl md:rounded-3xl p-4 md:p-6 text-black text-base focus:border-purple-500 outline-none transition-all italic font-light shadow-inner pl-12 md:pl-20" placeholder="EX: $2,500 - $5,000" type="text">
+                        <input class="w-full neumorph-field--light rounded-xl md:rounded-3xl p-4 md:p-6 text-zinc-900 text-base focus:border-purple-500 outline-none transition-all italic font-light pl-12 md:pl-20" placeholder="EX: $2,500 - $5,000" type="text">
                       </div>
                     </div>
                     <div class="space-y-4 md:col-span-2">
-                      <label class="text-[9px] text-purple-400 uppercase font-black tracking-[0.3em] md:tracking-[0.4em] block pl-1">How did you hear about us?</label>
+                      <label class="text-[9px] text-zinc-600 uppercase font-black tracking-[0.3em] md:tracking-[0.4em] block pl-1">How did you hear about us?</label>
                       <div class="relative group">
-                        <select class="w-full bg-white border border-gray-200 rounded-xl md:rounded-3xl p-4 md:p-6 text-black text-base focus:border-purple-500 outline-none transition-all appearance-none italic font-light cursor-pointer">
+                        <select class="w-full neumorph-field--light rounded-xl md:rounded-3xl p-4 md:p-6 text-zinc-900 text-base focus:border-purple-500 outline-none transition-all appearance-none italic font-light cursor-pointer">
                           <option class="bg-white text-black" value="">Select Source</option>
                           <option class="bg-white text-black" value="instagram">Instagram</option>
                           <option class="bg-white text-black" value="facebook">Facebook</option>
@@ -357,13 +449,13 @@
                       </div>
                     </div>
                     <div class="md:col-span-2 space-y-4">
-                      <label class="text-[9px] text-purple-400 uppercase font-black tracking-[0.3em] md:tracking-[0.4em] block pl-1">Message (required)</label>
-                      <textarea required rows="5" placeholder="TELL US ABOUT YOUR VEHICLE GOALS..." class="w-full bg-white border border-gray-200 rounded-[1.5rem] md:rounded-[3rem] p-4 md:p-6 text-black text-base focus:border-purple-500 outline-none transition-all italic font-light shadow-inner resize-none leading-relaxed"></textarea>
+                      <label class="text-[9px] text-zinc-600 uppercase font-black tracking-[0.3em] md:tracking-[0.4em] block pl-1">Message (required)</label>
+                      <textarea required rows="5" placeholder="TELL US ABOUT YOUR VEHICLE GOALS..." class="w-full neumorph-field--light rounded-[1.5rem] md:rounded-[3rem] p-4 md:p-6 text-zinc-900 text-base focus:border-purple-500 outline-none transition-all italic font-light resize-none leading-relaxed"></textarea>
                     </div>
                   </div>
                 </div>
                 <div class="pt-8 md:pt-10">
-                  <button type="submit" class="w-full bg-white text-black py-6 md:py-12 rounded-full uppercase tracking-[0.6em] md:tracking-[1em] font-black text-[10px] md:text-[14px] border-none transition-all duration-1000 shadow-[0_0_60px_rgba(255,255,255,0.3)] flex items-center justify-center gap-4 md:gap-6 group hover:bg-purple-600 hover:text-white" tabindex="0">SUBMIT <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="lucide lucide-send w-5 h-5 md:w-6 md:h-6 transition-transform group-hover:translate-x-2 group-hover:-translate-y-2" aria-hidden="true"><path d="M14.536 21.686a.5.5 0 0 0 .937-.024l6.5-19a.496.496 0 0 0-.635-.635l-19 6.5a.5.5 0 0 0-.024.937l7.93 3.18a2 2 0 0 1 1.112 1.11z"></path><path d="m21.854 2.147-10.94 10.939"></path></svg></button>
+                  <button type="submit" class="neumorph-submit--light w-full py-4 md:py-10 rounded-full flex items-center justify-center gap-4 md:gap-6" tabindex="0">SUBMIT <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="lucide lucide-send w-5 h-5 md:w-6 md:h-6 transition-transform" aria-hidden="true"><path d="M14.536 21.686a.5.5 0 0 0 .937-.024l6.5-19a.496.496 0 0 0-.635-.635l-19 6.5a.5.5 0 0 0-.024.937l7.93 3.18a2 2 0 0 1 1.112 1.11z"></path><path d="m21.854 2.147-10.94 10.939"></path></svg></button>
                 </div>
               </form>
             </div>

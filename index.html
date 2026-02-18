@@ -25,7 +25,7 @@
       overflow-x: hidden;
       -webkit-font-smoothing: antialiased;
       -moz-osx-font-smoothing: grayscale;
-      scroll-behavior: smooth;
+      /* scroll-behavior handled by Lenis smooth scroll */
     }
     .porsche-font {
       font-family: 'Archivo', sans-serif;
@@ -203,11 +203,13 @@
   <!-- GSAP and ScrollTrigger -->
   <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.5/gsap.min.js"></script>
   <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.5/ScrollTrigger.min.js"></script>
-  
+
+  <!-- Lenis Smooth Scroll (Porsche-grade glide) -->
+  <script src="https://unpkg.com/lenis@1.1.18/dist/lenis.min.js"></script>
+
   <!-- IntersectionObserver Polyfill for older browsers -->
   <script>
     if (!('IntersectionObserver' in window)) {
-      // Load polyfill if needed
       document.write('<script src="https://polyfill.io/v3/polyfill.min.js?features=IntersectionObserver"><\/script>');
     }
   </script>
@@ -297,7 +299,7 @@
           <span class="text-[11px] md:text-lg tracking-[0.3em] md:tracking-[0.5em] opacity-80 font-medium px-4 max-w-2xl mx-auto italic leading-relaxed">SAN ANTONIO’S PREMIER DESTINATION FOR AUTOMOTIVE EXCELLENCE</span>
         </div>
         <div class="flex flex-col sm:flex-row items-center justify-center gap-5 md:gap-8 px-8 sm:px-0">
-          <a href="tel:2102014999" class="btn-solid py-5 md:py-6 px-12 md:px-14 uppercase tracking-[0.4em] text-[10px] md:text-[11px] w-full sm:w-auto text-center rounded-full bg-white !text-black hover:!bg-purple-600 hover:!text-white shadow-none transition-all duration-500">Call Direct</a>
+          <a href="tel:2102014999" class="btn-solid py-5 md:py-6 px-12 md:px-14 uppercase tracking-[0.4em] text-[10px] md:text-[11px] w-full sm:w-auto text-center rounded-full transition-all duration-500">Call Direct</a>
           <a href="quote.html" class="btn-solid py-5 md:py-6 px-12 md:px-14 uppercase tracking-[0.4em] text-[10px] md:text-[11px] w-full sm:w-auto text-center rounded-full transition-all duration-500">Get a Quote</a>
         </div>
       </div>
@@ -317,26 +319,90 @@
       </div>
     </div>
   </div>
-  <!-- Professional CTA Section -->
-  <div class="w-full min-h-[500px] flex items-center justify-center relative overflow-hidden parallax-section reveal-on-scroll" style="background: linear-gradient(to bottom, #08070b 80%, #0c0b14 100%);" data-speed="0.4">
-    <div class="absolute inset-0 w-full h-full overflow-hidden">
-        <img src="https://images.squarespace-cdn.com/content/v1/67053ead069230112a5e9280/4300286e-4fbb-4695-89d1-84b69c504fdd/IMG_0754.png?format=2500w" alt="Auto Styling Studio" class="w-full h-full object-cover opacity-20 z-0 ken-burns" style="pointer-events:none;" />
+  <!-- ═══════════════════════════════════════════════════════════════
+       ULTRA-PREMIUM PARALLAX CTA — Layered Depth with Floating Text
+       ═══════════════════════════════════════════════════════════════ -->
+  <section id="parallax-cta" class="relative w-full" style="height: 200vh;">
+
+    <!-- LAYER 1: Sticky Background (stays fixed in viewport while you scroll through 200vh) -->
+    <div class="sticky top-0 w-full h-screen overflow-hidden">
+
+      <!-- Background Image — will have its own slow parallax via GSAP -->
+      <div id="parallax-bg" class="absolute inset-0 w-full h-full will-change-transform" style="transform: scale(1.15);">
+        <img 
+          src="https://images.squarespace-cdn.com/content/v1/67053ead069230112a5e9280/4300286e-4fbb-4695-89d1-84b69c504fdd/IMG_0754.png?format=2500w" 
+          alt="Premium Auto Styling Studio" 
+          class="w-full h-full object-cover"
+        />
+      </div>
+
+      <!-- Dark Cinematic Overlays -->
+      <div class="absolute inset-0 bg-black/55 pointer-events-none"></div>
+      <div class="absolute inset-0 bg-gradient-to-b from-[#08070b] via-transparent to-[#08070b] pointer-events-none"></div>
+      <div class="absolute inset-0 bg-gradient-to-r from-black/30 via-transparent to-black/30 pointer-events-none"></div>
+
+      <!-- Subtle purple atmospheric glow -->
+      <div class="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[800px] h-[800px] bg-purple-600/10 blur-[200px] rounded-full pointer-events-none"></div>
+
     </div>
-    <div class="relative z-10 w-full max-w-[90%] md:max-w-7xl mx-auto px-4 sm:px-6 text-center">
-      <div class="space-y-6">
-        <h3 class="porsche-font text-[clamp(1.5rem,4vw,3.5rem)] text-purple-500 leading-tight">
-          <span class="encrypted-text block md:inline-block">WE FOCUS ON HIGH-QUALITY RESULTS</span>
-          <span class="block md:inline-block md:hidden hidden"><br></span>
-          <span class="encrypted-text block md:inline-block">AND RAISING THE STANDARD</span>
-        </h3>
-        <p class="text-white text-xl md:text-2xl font-bold tracking-wide encrypted-text">WOMAN OWNED AND OPERATED IN SAN ANTONIO, TEXAS.</p>
-        <p class="text-zinc-300 text-lg md:text-xl max-w-2xl mx-auto leading-relaxed encrypted-text">Discover the difference at our auto styling studio by scheduling your appointment today.</p>
-        <div class="pt-4">
-          <a href="quote.html" class="inline-block btn-solid py-6 px-16 text-lg rounded-full uppercase tracking-[0.4em] font-black shadow-[0_0_30px_rgba(124,58,237,0.4)] hover:bg-white hover:text-black transition-all duration-500">GET IN TOUCH</a>
+
+    <!-- LAYER 2: Floating Content (scrolls naturally over the sticky background) -->
+    <div class="relative z-10" style="margin-top: -100vh;">
+      
+      <!-- First viewport: clean open — just the image breathing -->
+      <div class="h-[40vh]"></div>
+
+      <!-- Floating Text Block -->
+      <div class="min-h-[120vh] flex flex-col items-center justify-center px-6">
+        <div class="max-w-5xl mx-auto text-center space-y-10">
+
+          <!-- Eyebrow -->
+          <div class="parallax-float overflow-hidden" data-speed="1.2">
+            <span class="inline-block text-purple-400 text-[10px] md:text-xs uppercase tracking-[0.6em] md:tracking-[0.8em] font-black opacity-0 translate-y-8" id="cta-eyebrow">
+              San Antonio's Premier Auto Styling Studio
+            </span>
+          </div>
+
+          <!-- Main Headline — staggered reveal -->
+          <div class="parallax-float space-y-2" data-speed="0.8">
+            <h2 class="porsche-font text-[clamp(2.2rem,8vw,7rem)] leading-[0.85] text-white tracking-tighter opacity-0 translate-y-12" id="cta-headline-1">
+              WE FOCUS ON
+            </h2>
+            <h2 class="porsche-font text-[clamp(2.2rem,8vw,7rem)] leading-[0.85] text-purple-500 tracking-tighter opacity-0 translate-y-12" id="cta-headline-2">
+              HIGH-QUALITY
+            </h2>
+            <h2 class="porsche-font text-[clamp(2.2rem,8vw,7rem)] leading-[0.85] text-white/50 tracking-tighter opacity-0 translate-y-12" id="cta-headline-3">
+              RESULTS.
+            </h2>
+          </div>
+
+          <!-- Thin Divider -->
+          <div class="parallax-float flex justify-center" data-speed="1.0">
+            <div class="w-16 h-[1px] bg-purple-500/60 opacity-0 scale-x-0" id="cta-divider"></div>
+          </div>
+
+          <!-- Supporting Copy -->
+          <div class="parallax-float" data-speed="0.6">
+            <p class="text-zinc-300 text-lg md:text-xl max-w-2xl mx-auto leading-relaxed font-light italic opacity-0 translate-y-8" id="cta-body">
+              Woman owned and operated. Discover the difference at our studio — where automotive passion meets precision craftsmanship.
+            </p>
+          </div>
+
+          <!-- CTA Button -->
+          <div class="parallax-float pt-4" data-speed="0.4">
+            <a href="quote.html" class="btn-solid inline-block py-5 md:py-6 px-14 md:px-20 text-[10px] md:text-xs rounded-full uppercase tracking-[0.5em] font-black transition-all duration-500 opacity-0 translate-y-8" id="cta-button" data-discover="true">
+              Schedule Your Consult
+            </a>
+          </div>
+
         </div>
       </div>
+
+      <!-- Bottom spacing — lets user scroll past cleanly -->
+      <div class="h-[40vh]"></div>
+
     </div>
-  </div>
+  </section>
 
   <!-- Footer -->
   <div id="footer-container" class="reveal-on-scroll"></div>
@@ -770,6 +836,75 @@
   <script src="navbar.js"></script>
   <script>
     document.addEventListener('DOMContentLoaded', () => {
+      // ═══════════════════════════════════════════
+      // LENIS SMOOTH SCROLL — Porsche-grade glide
+      // ═══════════════════════════════════════════
+      const lenis = new Lenis({
+        lerp: 0.07,            // Lower = smoother glide-to-stop (luxury feel)
+        duration: 1.4,         // Momentum carry duration
+        smoothWheel: true,
+        smoothTouch: false,    // Keep native scroll on mobile for best UX
+        wheelMultiplier: 0.8,  // Slightly slower wheel = more premium
+      });
+
+      // Connect Lenis to GSAP ScrollTrigger so they stay in sync
+      lenis.on('scroll', ScrollTrigger.update);
+      gsap.ticker.add((time) => { lenis.raf(time * 1000); });
+      gsap.ticker.lagSmoothing(0);
+
+      // ═══════════════════════════════════════════
+      // PARALLAX CTA — Background & Floating Text
+      // ═══════════════════════════════════════════
+      const ctaSection = document.getElementById('parallax-cta');
+      const parallaxBg = document.getElementById('parallax-bg');
+
+      if (ctaSection && parallaxBg) {
+        // Background slow-motion parallax (moves ~30% of scroll speed)
+        gsap.to(parallaxBg, {
+          yPercent: -15,
+          ease: 'none',
+          scrollTrigger: {
+            trigger: ctaSection,
+            start: 'top bottom',
+            end: 'bottom top',
+            scrub: 0.6,
+          }
+        });
+
+        // Floating text elements — each moves at a different rate for layered depth
+        document.querySelectorAll('.parallax-float').forEach(el => {
+          const speed = parseFloat(el.dataset.speed) || 1;
+          gsap.to(el, {
+            y: () => -80 * speed,
+            ease: 'none',
+            scrollTrigger: {
+              trigger: ctaSection,
+              start: 'top bottom',
+              end: 'bottom top',
+              scrub: 0.5,
+            }
+          });
+        });
+
+        // Staggered content reveal animations
+        const ctaTl = gsap.timeline({
+          scrollTrigger: {
+            trigger: ctaSection,
+            start: 'top 40%',
+            toggleActions: 'play none none none',
+          }
+        });
+
+        ctaTl
+          .to('#cta-eyebrow', { opacity: 1, y: 0, duration: 0.8, ease: 'power3.out' })
+          .to('#cta-headline-1', { opacity: 1, y: 0, duration: 0.9, ease: 'power3.out' }, '-=0.5')
+          .to('#cta-headline-2', { opacity: 1, y: 0, duration: 0.9, ease: 'power3.out' }, '-=0.6')
+          .to('#cta-headline-3', { opacity: 1, y: 0, duration: 0.9, ease: 'power3.out' }, '-=0.6')
+          .to('#cta-divider', { opacity: 1, scaleX: 1, duration: 0.6, ease: 'power2.inOut' }, '-=0.4')
+          .to('#cta-body', { opacity: 1, y: 0, duration: 0.8, ease: 'power3.out' }, '-=0.3')
+          .to('#cta-button', { opacity: 1, y: 0, duration: 0.8, ease: 'power3.out' }, '-=0.4');
+      }
+
       // Register ScrollTrigger
       gsap.registerPlugin(ScrollTrigger);
 
