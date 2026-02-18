@@ -183,11 +183,87 @@
   </script>
 
   <div id="navbar-container"></div>
-  <main class="min-h-screen">
-    <div class="bg-black min-h-screen relative overflow-hidden">
-      <div class="absolute top-0 right-0 w-[1000px] h-[1000px] bg-purple-900/10 blur-[150px] rounded-full -translate-y-1/2 translate-x-1/2 pointer-events-none"></div>
-      <div class="absolute bottom-0 left-0 w-[800px] h-[800px] bg-zinc-800/10 blur-[120px] rounded-full translate-y-1/2 -translate-x-1/2 pointer-events-none"></div>
-      <section class="offer-section relative pt-32 md:pt-40 pb-20 md:pb-24 bg-transparent overflow-hidden z-10">
+  <main>
+    <!-- 1. MAIN HERO SECTION (Video Background + Text) -->
+    <div class="hero-wrapper relative min-h-screen flex items-center justify-center overflow-hidden">
+      <!-- Background Video -->
+      <video autoplay loop muted playsinline class="absolute inset-0 w-full h-full object-cover opacity-50 z-0 pointer-events-none">
+        <source src="Services_Hero_video.mp4" type="video/mp4">
+      </video>
+      <!-- Dark Overlay to make text pop -->
+      <div class="absolute inset-0 bg-black/60 z-1 pointer-events-none"></div>
+
+      <!-- Hero Content -->
+      <div class="relative z-10 max-w-7xl mx-auto px-6 flex flex-col items-center justify-center h-full text-center mt-20">
+            <!-- Small Tagline above title similar to reference -->
+            <p class="hero-tagline text-xs md:text-sm font-bold tracking-[0.5em] text-purple-400 mb-4 uppercase opacity-0 translate-y-10">
+                PRECISION • CREATIVITY • PREMIUM MATERIALS
+            </p>
+            
+            <!-- Massive Statement Title -->
+            <h1 class="hero-title porsche-font text-7xl md:text-[10rem] leading-[0.8] text-white tracking-tight italic mb-12 opacity-0 translate-y-10">
+                OUR <span class="text-[#a855f7]">SERVICES.</span>
+            </h1>
+
+            <!-- Description Text -->
+            <div class="hero-desc space-y-6 text-zinc-100 text-lg md:text-xl font-light leading-relaxed max-w-3xl mx-auto drop-shadow-md opacity-0 translate-y-10">
+                <p>At Elevated Auto Wraps, every project is a blend of precision, creativity, and premium materials.</p>
+                <p>Whether you’re looking to protect your investment, change your vehicle’s look, or create a one-of-a-kind design, we’ve got you covered.</p>
+            </div>
+      </div>
+      
+      <!-- Scroll Down Indicator -->
+      <div class="scroll-indicator absolute bottom-10 left-1/2 -translate-x-1/2 z-10 animate-bounce text-white/50">
+        <svg xmlns="http://www.w3.org/2000/svg" class="h-8 w-8" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+          <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 14l-7 7m0 0l-7-7m7 7V3" />
+        </svg>
+      </div>
+    </div>
+
+    <script>
+      document.addEventListener("DOMContentLoaded", () => {
+        gsap.registerPlugin(ScrollTrigger);
+        
+        // Pin the hero section and fade in content on scroll
+        const heroTimeline = gsap.timeline({
+          scrollTrigger: {
+            trigger: ".hero-wrapper", 
+            start: "top top",
+            end: "+=100%", // Scroll distance to complete animation
+            pin: true,     // Pin the section
+            scrub: 1,      // Smooth scrubbing
+            // markers: true // Uncomment for debugging
+          }
+        });
+
+        // Animate elements sequentially
+        heroTimeline
+          .to(".hero-tagline", { opacity: 1, y: 0, duration: 1 })
+          .to(".hero-title", { opacity: 1, y: 0, duration: 1 }, "-=0.5")
+          .to(".hero-desc", { opacity: 1, y: 0, duration: 1 }, "-=0.5");
+          
+        // Ensure scroll down indicator fades out as we scroll
+        gsap.to(".scroll-indicator", {
+            scrollTrigger: {
+                trigger: ".hero-wrapper",
+                start: "top top",
+                end: "20% top",
+                scrub: true
+            },
+            opacity: 0
+        });
+      });
+    </script>
+
+    <!-- 2. SERVICES GALLERY SECTION (Unicorn Title + Cards) -->
+    <div class="bg-black relative overflow-visible">
+      <!-- Background Effects -->
+      <div class="absolute inset-0 bg-mesh opacity-50 pointer-events-none z-0"></div>
+      <div class="absolute top-0 left-1/4 w-[1200px] h-[1200px] bg-purple-500/20 blur-[250px] rounded-full pointer-events-none z-0"></div>
+      <div class="absolute top-1/2 right-0 w-[1000px] h-[1000px] bg-white/15 blur-[200px] rounded-full pointer-events-none translate-x-1/2 z-0"></div>
+      <div class="absolute bottom-0 left-0 w-[800px] h-[800px] bg-purple-300/15 blur-[180px] rounded-full pointer-events-none -translate-x-1/2 z-0"></div>
+      
+      <section class="offer-section relative pt-16 md:pt-24 pb-20 md:pb-24 bg-transparent z-10">
         <style>
           /* ============================================================
              PORSCHE-INSPIRED EXPANDING CARD GALLERY
@@ -441,22 +517,15 @@
           .modal-close-btn span { font-size: 10px; font-weight: 800; text-transform: uppercase; letter-spacing: 0.15em; }
           @media (max-width: 767px) { .modal-close-btn span { display: none; } }
         </style>
-        <div id="services-hero-trigger" class="max-w-screen-2xl mx-auto px-6 mb-12 md:mb-24 flex justify-center h-[fit-content]">
-            <div id="services-hero-title" class="origin-center opacity-0 w-full flex justify-center">
-             <div data-us-project="cb1pg5ymSzmJuCnPEkTP" style="width:1920px; height: 850px; max-width: 100%; height: auto; aspect-ratio: 1920/850;"></div>
+        <!-- Unicorn Studio Title and Service Cards -->
+        <div id="services-hero-trigger" class="max-w-screen-2xl mx-auto px-6 mb-8 md:mb-12 flex justify-center relative">
+            <div id="services-hero-title" class="w-full flex justify-center" style="visibility: hidden;">
+             <div data-us-project="cb1pg5ymSzmJuCnPEkTP" style="width:100%; max-width: 1920px; height: auto; aspect-ratio: 1920/850; background: transparent;"></div>
              <script type="text/javascript">!function(){var u=window.UnicornStudio;if(u&&u.init){if(document.readyState==="loading"){document.addEventListener("DOMContentLoaded",function(){u.init()})}else{u.init()}}else{window.UnicornStudio={isInitialized:!1};var i=document.createElement("script");i.src="https://cdn.jsdelivr.net/gh/hiunicornstudio/unicornstudio.js@v2.0.5/dist/unicornStudio.umd.js",i.onload=function(){if(document.readyState==="loading"){document.addEventListener("DOMContentLoaded",function(){UnicornStudio.init()})}else{UnicornStudio.init()}},(document.head||document.body).appendChild(i)}}();</script>
             </div>
         </div>
 
-        <div class="max-w-4xl mx-auto px-6 mb-16 md:mb-24 text-center relative z-10">
-            <h2 class="porsche-font text-3xl md:text-5xl text-white mb-6 md:mb-8">OUR <span class="text-purple-500">SERVICES</span></h2>
-            <div class="space-y-6 text-zinc-400 text-lg md:text-xl font-light leading-relaxed">
-                <p class="reveal-letters">At Elevated Auto Wraps, every project is a blend of precision, creativity, and premium materials.</p>
-                <p class="reveal-letters">Whether you’re looking to protect your investment, change your vehicle’s look, or create a one-of-a-kind design, we’ve got you covered.</p>
-            </div>
-        </div>
-
-        <div class="max-w-[1400px] mx-auto px-6">
+        <div class="max-w-[1400px] mx-auto px-6 relative z-10">
           <div class="gallery-grid" id="gallery-grid">
             <!-- Card 1 — Paint Protection Film -->
             <div class="gallery-card" data-index="0">
@@ -519,7 +588,7 @@
             <h3 class="porsche-font text-3xl md:text-6xl text-white mb-8 md:mb-10">Tailored <span class="text-purple-500">Excellence.</span></h3>
             <p class="text-zinc-500 text-base md:text-xl font-light italic mb-12 md:mb-16 max-w-2xl mx-auto">Our specialists provide curated consultations to ensure your vehicle receives exactly what it needs for maximum preservation and aesthetic impact.</p>
             <div class="flex flex-col md:flex-row items-center justify-center gap-6 md:gap-8">
-              <a href="tel:2102014999" class="btn-solid py-5 md:py-6 px-10 md:px-12 text-[9px] md:text-[10px] tracking-[0.4em] rounded-full bg-white !text-black hover:!bg-purple-600 hover:!text-white shadow-none w-full md:w-auto">Direct Line</a>
+              <a href="tel:2102014999" class="btn-solid py-5 md:py-6 px-10 md:px-12 text-[9px] md:text-[10px] tracking-[0.4em] rounded-full w-full md:w-auto">Direct Line</a>
               <a class="btn-solid py-5 md:py-6 px-10 md:px-12 text-[9px] md:text-[10px] tracking-[0.4em] rounded-full w-full md:w-auto" href="quote.html" data-discover="true">Schedule a Consult</a>
             </div>
           </div>
@@ -623,16 +692,18 @@
       ScrollTrigger.refresh();
 
       gsap.fromTo("#services-hero-title",
-        { autoAlpha: 0 },
+        { autoAlpha: 0, y: 40 },
         {
           autoAlpha: 1,
-          ease: "none",
+          y: 0,
+          ease: "power2.out",
+          duration: 1,
           scrollTrigger: {
             trigger: "#services-hero-trigger",
-            pin: true,
-            start: "center center",
-            end: "+=800",
-            scrub: true,
+            start: "top 80%",
+            end: "top 30%",
+            scrub: false,
+            toggleActions: "play none none reverse",
             invalidateOnRefresh: true
           }
         }
