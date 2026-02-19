@@ -274,14 +274,47 @@
     </script>
 
     <!-- 2. SERVICES GALLERY SECTION (Unicorn Title + Cards) -->
-    <div class="bg-black relative overflow-hidden">
-      <!-- Background Effects -->
-      <div class="absolute inset-0 bg-mesh opacity-50 pointer-events-none z-0"></div>
-      <div class="absolute top-0 left-1/4 w-[1200px] h-[1200px] bg-purple-500/15 blur-[300px] rounded-full pointer-events-none z-0"></div>
-      <div class="absolute top-1/2 -right-[500px] w-[1000px] h-[1000px] bg-white/10 blur-[300px] rounded-full pointer-events-none z-0"></div>
-      <div class="absolute -bottom-[400px] -left-[400px] w-[800px] h-[800px] bg-purple-300/10 blur-[250px] rounded-full pointer-events-none z-0"></div>
+    <div class="bg-black relative">
+      <!-- Background Effects (clipped to prevent horizontal overflow) -->
+      <div class="absolute inset-0 overflow-hidden pointer-events-none z-0">
+        <div class="absolute inset-0 bg-mesh opacity-50"></div>
+        <div class="absolute top-0 left-1/4 w-[1200px] h-[1200px] bg-purple-500/15 blur-[300px] rounded-full"></div>
+        <div class="absolute top-1/2 -right-[500px] w-[1000px] h-[1000px] bg-white/10 blur-[300px] rounded-full"></div>
+        <div class="absolute -bottom-[400px] -left-[400px] w-[800px] h-[800px] bg-purple-300/10 blur-[250px] rounded-full"></div>
+      </div>
+
+      <!-- ═══════════════════════════════════════════════════════
+           UNICORN TITLE ZOOM — Scroll-driven scale animation
+           Pins the title, scales from tiny to massive, then
+           fades out before revealing the service cards.
+           ═══════════════════════════════════════════════════════ -->
+      <style>
+        /* Unicorn embed renders at full native res; GSAP scales the wrapper.
+           This keeps the WebGL canvas crisp at every zoom level. */
+        #title-zoom-inner {
+          /* Size the wrapper to the native Unicorn dimensions */
+          width: 1920px;
+          height: 850px;
+          flex-shrink: 0;
+          transform-origin: center center;
+          /* GPU layer — avoids repaints during scale */
+          will-change: transform, opacity;
+          backface-visibility: hidden;
+          -webkit-backface-visibility: hidden;
+        }
+        /* On very small screens, keep the embed at native res but let
+           the initial GSAP scale(0.15) handle how big it appears. */
+      </style>
+      <div id="title-zoom-section" class="relative z-10" style="height: 300vh;">
+        <div id="title-zoom-pin" class="sticky top-0 w-full h-screen flex items-center justify-center overflow-hidden">
+          <div id="title-zoom-inner" style="transform: scale(0.15); opacity: 0;">
+            <div data-us-project="cb1pg5ymSzmJuCnPEkTP" style="width: 1920px; height: 850px;"></div>
+            <script type="text/javascript">!function(){var u=window.UnicornStudio;if(u&&u.init){if(document.readyState==="loading"){document.addEventListener("DOMContentLoaded",function(){u.init()})}else{u.init()}}else{window.UnicornStudio={isInitialized:!1};var i=document.createElement("script");i.src="https://cdn.jsdelivr.net/gh/hiunicornstudio/unicornstudio.js@v2.0.5/dist/unicornStudio.umd.js",i.onload=function(){if(document.readyState==="loading"){document.addEventListener("DOMContentLoaded",function(){UnicornStudio.init()})}else{UnicornStudio.init()}},(document.head||document.body).appendChild(i)}}();</script>
+          </div>
+        </div>
+      </div>
       
-      <section class="offer-section relative pt-16 md:pt-24 pb-20 md:pb-24 bg-transparent z-10">
+      <section class="offer-section relative pt-32 md:pt-48 pb-20 md:pb-24 bg-transparent z-10">
         <style>
           /* ============================================================
              PORSCHE-INSPIRED EXPANDING CARD GALLERY
@@ -548,13 +581,7 @@
           .modal-close-btn span { font-size: 10px; font-weight: 800; text-transform: uppercase; letter-spacing: 0.15em; }
           @media (max-width: 767px) { .modal-close-btn span { display: none; } }
         </style>
-        <!-- Unicorn Studio Title and Service Cards -->
-        <div id="services-hero-trigger" class="max-w-screen-2xl mx-auto px-6 mb-8 md:mb-12 flex justify-center relative">
-            <div id="services-hero-title" class="w-full flex justify-center" style="visibility: hidden;">
-             <div data-us-project="cb1pg5ymSzmJuCnPEkTP" style="width:100%; max-width: 1920px; height: auto; aspect-ratio: 1920/850; background: transparent;"></div>
-             <script type="text/javascript">!function(){var u=window.UnicornStudio;if(u&&u.init){if(document.readyState==="loading"){document.addEventListener("DOMContentLoaded",function(){u.init()})}else{u.init()}}else{window.UnicornStudio={isInitialized:!1};var i=document.createElement("script");i.src="https://cdn.jsdelivr.net/gh/hiunicornstudio/unicornstudio.js@v2.0.5/dist/unicornStudio.umd.js",i.onload=function(){if(document.readyState==="loading"){document.addEventListener("DOMContentLoaded",function(){UnicornStudio.init()})}else{UnicornStudio.init()}},(document.head||document.body).appendChild(i)}}();</script>
-            </div>
-        </div>
+        <!-- Unicorn Studio Title moved to zoom section above -->
 
         <div class="max-w-[1400px] mx-auto px-6 relative z-10">
           <div class="gallery-grid" id="gallery-grid">
@@ -761,28 +788,69 @@
   </div>
 
   <script>
-    // Hero Title Scroll Animation
+    // ═══════════════════════════════════════════════════════════
+    // UNICORN TITLE ZOOM — Scroll-Pinned Scale Animation
+    // Starts tiny (0.15), scales up to massive (6x) while fading
+    // out at the end. Service cards reveal after zoom completes.
+    // ═══════════════════════════════════════════════════════════
     window.addEventListener("load", function() {
       gsap.registerPlugin(ScrollTrigger);
       ScrollTrigger.refresh();
 
-      gsap.fromTo("#services-hero-title",
-        { autoAlpha: 0, y: 40 },
-        {
-          autoAlpha: 1,
-          y: 0,
-          ease: "power2.out",
-          duration: 1,
+      const titleZoomSection = document.getElementById('title-zoom-section');
+      const titleZoomInner = document.getElementById('title-zoom-inner');
+      const galleryGrid = document.getElementById('gallery-grid');
+      const galleryCards = document.querySelectorAll('.gallery-card');
+
+      if (titleZoomSection && titleZoomInner) {
+
+        // Set initial state for cards — hidden, shifted down
+        gsap.set(galleryCards, { y: 100, opacity: 0 });
+
+        // ── Zoom timeline: title scale animation ──
+        const zoomTl = gsap.timeline({
           scrollTrigger: {
-            trigger: "#services-hero-trigger",
-            start: "top 80%",
-            end: "top 30%",
-            scrub: false,
-            toggleActions: "play none none reverse",
-            invalidateOnRefresh: true
+            trigger: titleZoomSection,
+            start: "top top",
+            end: "bottom top",
+            scrub: 0.6,
+            pin: false, // CSS sticky handles pinning
           }
-        }
-      );
+        });
+
+        // Phase 1: Fade in + scale from 0.15 → 1.0 (first 40% of scroll)
+        // The element is 1920×850 native — at scale(0.15) it appears ~288px wide
+        // At scale(1) it fills the viewport. This keeps the canvas at full res.
+        zoomTl.fromTo(titleZoomInner,
+          { scale: 0.15, opacity: 0, transformOrigin: "center center" },
+          { scale: 1, opacity: 1, ease: "power2.inOut", duration: 0.4, force3D: true }
+        );
+
+        // Phase 2: Hold briefly at full scale (40% → 50%)
+        zoomTl.to(titleZoomInner,
+          { scale: 1, duration: 0.1, ease: "none" }
+        );
+
+        // Phase 3: Scale up massive + fade out (50% → 100%)
+        zoomTl.to(titleZoomInner,
+          { scale: 5, opacity: 0, ease: "power2.in", duration: 0.5, force3D: true }
+        );
+
+        // ── Cards reveal: triggered when the gallery grid scrolls into view ──
+        // Uses its own ScrollTrigger so cards appear when centered on screen
+        gsap.to(galleryCards, {
+          y: 0,
+          opacity: 1,
+          duration: 1,
+          stagger: 0.15,
+          ease: "power3.out",
+          scrollTrigger: {
+            trigger: galleryGrid,
+            start: "top 85%",
+            toggleActions: "play none none reverse"
+          }
+        });
+      }
 
       setTimeout(() => ScrollTrigger.refresh(), 500);
     });
@@ -1071,16 +1139,7 @@
       }
 
       // ── 2. CARD SCROLL ENTRANCE ──
-      if (typeof gsap !== 'undefined' && typeof ScrollTrigger !== 'undefined') {
-        gsap.registerPlugin(ScrollTrigger);
-        gsap.from('.gallery-card', {
-          y: 60, opacity: 0, duration: 0.8, stagger: 0.12, ease: EASE_OPEN,
-          scrollTrigger: {
-            trigger: '#gallery-grid', start: 'top 85%',
-            toggleActions: 'play none none none'
-          }
-        });
-      }
+      // (Handled by the title-zoom ScrollTrigger onLeave/onEnterBack callbacks)
 
       // ══════════════════════════════════════════════════════════════
       // 3. OPEN — FLIP Expansion (unchanged from previous)
