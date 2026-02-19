@@ -609,22 +609,91 @@
           </div>
         </div>
       </section>
-      <section class="py-24 md:py-48 relative border-t border-white/5 overflow-hidden">
-        <div class="absolute inset-0 z-0">
-          <img src="https://images.squarespace-cdn.com/content/v1/67053ead069230112a5e9280/15a2f83f-a017-4178-9273-17f19da9677a/unsplash-image-ZNkiEWL02mI.jpg?format=2500w" alt="Tailored Excellence Background" class="w-full h-full object-cover opacity-50" loading="lazy" decoding="async">
-          <div class="absolute inset-0 bg-black/60"></div>
+
+      <!-- ═══════════════════════════════════════════════════════════════
+           ULTRA-PREMIUM PARALLAX CTA — Layered Depth with Floating Text
+           ═══════════════════════════════════════════════════════════════ -->
+      <section id="svc-parallax-cta" class="relative w-full" style="height: 200vh;">
+
+        <!-- LAYER 1: Sticky Background -->
+        <div class="sticky top-0 w-full h-screen overflow-hidden">
+
+          <!-- Background Image — slow parallax via GSAP -->
+          <div id="svc-parallax-bg" class="absolute inset-0 w-full h-full will-change-transform" style="transform: scale(1.15);">
+            <img 
+              src="https://images.squarespace-cdn.com/content/v1/67053ead069230112a5e9280/15a2f83f-a017-4178-9273-17f19da9677a/unsplash-image-ZNkiEWL02mI.jpg?format=2500w" 
+              alt="Tailored Excellence Background" 
+              class="w-full h-full object-cover"
+              loading="lazy" decoding="async"
+            />
+          </div>
+
+          <!-- Dark Cinematic Overlays -->
+          <div class="absolute inset-0 bg-black/55 pointer-events-none"></div>
+          <div class="absolute inset-0 bg-gradient-to-b from-[#08070b] via-transparent to-[#08070b] pointer-events-none"></div>
+          <div class="absolute inset-0 bg-gradient-to-r from-black/30 via-transparent to-black/30 pointer-events-none"></div>
+
+          <!-- Subtle purple atmospheric glow -->
+          <div class="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[800px] h-[800px] bg-purple-600/10 blur-[200px] rounded-full pointer-events-none"></div>
+
         </div>
-        <div class="max-w-7xl mx-auto px-6 text-center relative z-10">
-          <div style="opacity: 1; transform: none;">
-            <h3 class="porsche-font text-3xl md:text-6xl text-white mb-8 md:mb-10">Tailored <span class="text-purple-500">Excellence.</span></h3>
-            <p class="text-zinc-500 text-base md:text-xl font-light italic mb-12 md:mb-16 max-w-2xl mx-auto">Our specialists provide curated consultations to ensure your vehicle receives exactly what it needs for maximum preservation and aesthetic impact.</p>
-            <div class="flex flex-col md:flex-row items-center justify-center gap-6 md:gap-8">
-              <a href="tel:2102014999" class="btn-solid py-5 md:py-6 px-10 md:px-12 text-[9px] md:text-[10px] tracking-[0.4em] rounded-full w-full md:w-auto">Direct Line</a>
-              <a class="btn-solid py-5 md:py-6 px-10 md:px-12 text-[9px] md:text-[10px] tracking-[0.4em] rounded-full w-full md:w-auto" href="quote.html" data-discover="true">Schedule a Consult</a>
+
+        <!-- LAYER 2: Floating Content -->
+        <div class="relative z-10" style="margin-top: -100vh;">
+          
+          <!-- First viewport: clean open — just the image breathing -->
+          <div class="h-[40vh]"></div>
+
+          <!-- Floating Text Block -->
+          <div class="min-h-[120vh] flex flex-col items-center justify-center px-6">
+            <div class="max-w-5xl mx-auto text-center space-y-10">
+
+              <!-- Eyebrow -->
+              <div class="svc-parallax-float overflow-hidden" data-speed="1.2">
+                <span class="inline-block text-purple-400 text-[10px] md:text-xs uppercase tracking-[0.6em] md:tracking-[0.8em] font-black opacity-0 translate-y-8" id="svc-cta-eyebrow">
+                  Curated Consultations • Maximum Impact
+                </span>
+              </div>
+
+              <!-- Main Headline — staggered reveal -->
+              <div class="svc-parallax-float space-y-2" data-speed="0.8">
+                <h3 class="porsche-font text-[clamp(2.2rem,8vw,7rem)] leading-[0.85] text-white tracking-tighter opacity-0 translate-y-12" id="svc-cta-headline-1">
+                  TAILORED
+                </h3>
+                <h3 class="porsche-font text-[clamp(2.2rem,8vw,7rem)] leading-[0.85] text-purple-500 tracking-tighter opacity-0 translate-y-12" id="svc-cta-headline-2">
+                  EXCELLENCE.
+                </h3>
+              </div>
+
+              <!-- Thin Divider -->
+              <div class="svc-parallax-float flex justify-center" data-speed="1.0">
+                <div class="w-16 h-[1px] bg-purple-500/60 opacity-0 scale-x-0" id="svc-cta-divider"></div>
+              </div>
+
+              <!-- Supporting Copy -->
+              <div class="svc-parallax-float" data-speed="0.6">
+                <p class="text-white text-lg md:text-xl max-w-2xl mx-auto leading-relaxed font-light italic opacity-0 translate-y-8" id="svc-cta-body">
+                  Our specialists provide curated consultations to ensure your vehicle receives exactly what it needs for maximum preservation and aesthetic impact.
+                </p>
+              </div>
+
+              <!-- CTA Buttons -->
+              <div class="svc-parallax-float pt-4" data-speed="0.4">
+                <div class="flex flex-col sm:flex-row items-center justify-center gap-6 md:gap-8 opacity-0 translate-y-8" id="svc-cta-buttons">
+                  <a href="tel:2102014999" class="btn-solid py-5 md:py-6 px-10 md:px-14 text-[10px] md:text-xs tracking-[0.5em] rounded-full uppercase font-black w-full sm:w-auto text-center transition-all duration-500">Direct Line</a>
+                  <a href="quote.html" class="btn-solid py-5 md:py-6 px-10 md:px-14 text-[10px] md:text-xs tracking-[0.5em] rounded-full uppercase font-black w-full sm:w-auto text-center transition-all duration-500" data-discover="true">Schedule a Consult</a>
+                </div>
+              </div>
+
             </div>
           </div>
+
+          <!-- Bottom spacing -->
+          <div class="h-[40vh]"></div>
+
         </div>
       </section>
+
     </div>
   </main>
 
@@ -718,6 +787,65 @@
       setTimeout(() => ScrollTrigger.refresh(), 500);
     });
   </script>
+
+  <!-- ═══════════════════════════════════════════
+       PARALLAX CTA — Background & Floating Text
+       ═══════════════════════════════════════════ -->
+  <script>
+    document.addEventListener('DOMContentLoaded', () => {
+      gsap.registerPlugin(ScrollTrigger);
+
+      const svcCtaSection = document.getElementById('svc-parallax-cta');
+      const svcParallaxBg = document.getElementById('svc-parallax-bg');
+
+      if (svcCtaSection && svcParallaxBg) {
+        // Background slow-motion parallax (moves ~30% of scroll speed)
+        gsap.to(svcParallaxBg, {
+          yPercent: -15,
+          ease: 'none',
+          scrollTrigger: {
+            trigger: svcCtaSection,
+            start: 'top bottom',
+            end: 'bottom top',
+            scrub: 0.6,
+          }
+        });
+
+        // Floating text elements — each moves at a different rate for layered depth
+        document.querySelectorAll('.svc-parallax-float').forEach(el => {
+          const speed = parseFloat(el.dataset.speed) || 1;
+          gsap.to(el, {
+            y: () => -80 * speed,
+            ease: 'none',
+            scrollTrigger: {
+              trigger: svcCtaSection,
+              start: 'top bottom',
+              end: 'bottom top',
+              scrub: 0.5,
+            }
+          });
+        });
+
+        // Staggered content reveal animations
+        const svcCtaTl = gsap.timeline({
+          scrollTrigger: {
+            trigger: svcCtaSection,
+            start: 'top 40%',
+            toggleActions: 'play none none none',
+          }
+        });
+
+        svcCtaTl
+          .to('#svc-cta-eyebrow', { opacity: 1, y: 0, duration: 0.8, ease: 'power3.out' })
+          .to('#svc-cta-headline-1', { opacity: 1, y: 0, duration: 0.9, ease: 'power3.out' }, '-=0.5')
+          .to('#svc-cta-headline-2', { opacity: 1, y: 0, duration: 0.9, ease: 'power3.out' }, '-=0.6')
+          .to('#svc-cta-divider', { opacity: 1, scaleX: 1, duration: 0.6, ease: 'power2.inOut' }, '-=0.4')
+          .to('#svc-cta-body', { opacity: 1, y: 0, duration: 0.8, ease: 'power3.out' }, '-=0.3')
+          .to('#svc-cta-buttons', { opacity: 1, y: 0, duration: 0.8, ease: 'power3.out' }, '-=0.4');
+      }
+    });
+  </script>
+
   <script>
     /* ==================================================================
        GALLERY CONTROLLER — FLIP Open + Horizontal Carousel
