@@ -25,7 +25,7 @@
         overflow-x: hidden;
         -webkit-font-smoothing: antialiased;
         -moz-osx-font-smoothing: grayscale;
-        scroll-behavior: smooth;
+        /* scroll-behavior handled by GSAP — CSS smooth-scroll conflicts with pin/scrub */
       }
       .porsche-font {
         font-family: 'Archivo', sans-serif;
@@ -51,6 +51,7 @@
       .glass-panel {
         background: rgba(255, 255, 255, 0.03);
         backdrop-filter: blur(20px);
+        -webkit-backdrop-filter: blur(20px);
         border: 1px solid rgba(255, 255, 255, 0.1);
       }
       .btn-solid { 
@@ -87,9 +88,9 @@
                 #ffffff 100%
             );
             z-index: -2;
-            animation: borderRotate 2s linear infinite; 
             opacity: 0;
             transition: opacity 0.3s ease;
+            will-change: transform;
         }
 
         .btn-solid::after {
@@ -103,6 +104,7 @@
 
         .btn-solid:hover::before {
            opacity: 1; 
+           animation: borderRotate 2s linear infinite;
         }
 
         .btn-solid:hover {
@@ -164,20 +166,36 @@
     if (sessionStorage.getItem('elevated_preloader_shown')) {
       const preloader = document.getElementById('preloader');
       if (preloader) preloader.style.display = 'none';
+    } else {
+      // Lock scroll while preloader is active
+      document.body.style.overflow = 'hidden';
+      // Fallback: Force remove preloader after 10s if load hangs
+      setTimeout(() => {
+        const preloader = document.getElementById('preloader');
+        if (preloader && preloader.style.display !== 'none') {
+          preloader.style.opacity = '0';
+          setTimeout(() => {
+            preloader.style.display = 'none';
+            document.body.style.overflow = '';
+            sessionStorage.setItem('elevated_preloader_shown', 'true');
+          }, 700);
+        }
+      }, 10000);
     }
 
     window.addEventListener('load', function() {
       const preloader = document.getElementById('preloader');
       // Only run animation if preloader is still visible
       if (preloader && preloader.style.display !== 'none') {
+        const loadingTime = 4000;
         setTimeout(() => {
           preloader.style.opacity = '0';
           setTimeout(() => {
             preloader.style.display = 'none';
-            // Mark as shown for this session
+            document.body.style.overflow = '';
             sessionStorage.setItem('elevated_preloader_shown', 'true');
           }, 700);
-        }, 6000);
+        }, loadingTime);
       }
     });
   </script>
@@ -187,7 +205,7 @@
     <!-- 1. MAIN HERO SECTION (Video Background + Text) -->
     <div class="hero-wrapper relative min-h-screen flex items-center justify-center overflow-hidden">
       <!-- Background Video -->
-      <video autoplay loop muted playsinline class="absolute inset-0 w-full h-full object-cover opacity-50 z-0 pointer-events-none">
+      <video autoplay loop muted playsinline preload="metadata" class="absolute inset-0 w-full h-full object-cover opacity-50 z-0 pointer-events-none">
         <source src="Services_Hero_video.mp4" type="video/mp4">
       </video>
       <!-- Dark Overlay to make text pop -->
@@ -256,12 +274,12 @@
     </script>
 
     <!-- 2. SERVICES GALLERY SECTION (Unicorn Title + Cards) -->
-    <div class="bg-black relative overflow-visible">
+    <div class="bg-black relative overflow-hidden">
       <!-- Background Effects -->
       <div class="absolute inset-0 bg-mesh opacity-50 pointer-events-none z-0"></div>
-      <div class="absolute top-0 left-1/4 w-[1200px] h-[1200px] bg-purple-500/20 blur-[250px] rounded-full pointer-events-none z-0"></div>
-      <div class="absolute top-1/2 right-0 w-[1000px] h-[1000px] bg-white/15 blur-[200px] rounded-full pointer-events-none translate-x-1/2 z-0"></div>
-      <div class="absolute bottom-0 left-0 w-[800px] h-[800px] bg-purple-300/15 blur-[180px] rounded-full pointer-events-none -translate-x-1/2 z-0"></div>
+      <div class="absolute top-0 left-1/4 w-[1200px] h-[1200px] bg-purple-500/15 blur-[300px] rounded-full pointer-events-none z-0"></div>
+      <div class="absolute top-1/2 -right-[500px] w-[1000px] h-[1000px] bg-white/10 blur-[300px] rounded-full pointer-events-none z-0"></div>
+      <div class="absolute -bottom-[400px] -left-[400px] w-[800px] h-[800px] bg-purple-300/10 blur-[250px] rounded-full pointer-events-none z-0"></div>
       
       <section class="offer-section relative pt-16 md:pt-24 pb-20 md:pb-24 bg-transparent z-10">
         <style>
@@ -286,7 +304,7 @@
 
           .gallery-card {
             position: relative;
-            aspect-ratio: 3 / 4;
+            aspect-ratio: 4 / 3;
             overflow: hidden;
             border-radius: 1.25rem;
             cursor: pointer;
@@ -296,12 +314,15 @@
             transition: transform 0.7s cubic-bezier(0.4, 0, 0.2, 1),
                         border-color 0.5s cubic-bezier(0.4, 0, 0.2, 1),
                         box-shadow 0.5s cubic-bezier(0.4, 0, 0.2, 1);
-            will-change: transform;
+          }
+          @media (min-width: 640px) {
+            .gallery-card { aspect-ratio: 3 / 4; }
           }
           .gallery-card:hover {
             transform: translateY(-12px) translateZ(0);
             border-color: #a78bfa;
             box-shadow: 0 20px 60px -10px rgba(124, 58, 237, 0.4);
+            will-change: transform;
           }
 
           /* Image scaled 110% for parallax headroom */
@@ -313,10 +334,12 @@
             object-fit: cover;
             transform: scale(1.15) translateZ(0);
             transition: transform 0.6s cubic-bezier(0.4, 0, 0.2, 1), filter 0.6s ease;
-            will-change: transform;
             filter: grayscale(0.3);
           }
-          .gallery-card:hover .card-img { filter: grayscale(0); }
+          .gallery-card:hover .card-img {
+            filter: grayscale(0);
+            will-change: transform;
+          }
 
           .gallery-card .card-scrim {
             position: absolute;
@@ -351,12 +374,12 @@
           .card-plus {
             position: absolute; bottom: 1.25rem; right: 1.25rem;
             width: 44px; height: 44px;
-            background: rgba(255,255,255,0.9); backdrop-filter: blur(8px);
+            background: rgba(255,255,255,0.9);
+            backdrop-filter: blur(8px); -webkit-backdrop-filter: blur(8px);
             border-radius: 50%; display: flex; align-items: center; justify-content: center;
             z-index: 5; border: none;
             transform: scale(1) rotate(0deg) translateZ(0);
             transition: transform 0.6s cubic-bezier(0.4, 0, 0.2, 1), background-color 0.4s ease;
-            will-change: transform;
           }
           .card-plus svg { width: 18px; height: 18px; stroke: #000; transition: stroke 0.3s ease; }
           .gallery-card:hover .card-plus { transform: scale(1.15) rotate(90deg) translateZ(0); background: #7c3aed; }
@@ -368,9 +391,13 @@
             width: 60%; height: 100%;
             background: linear-gradient(105deg, transparent 30%, rgba(255,255,255,0.08) 50%, transparent 70%);
             z-index: 4; pointer-events: none;
-            transform: skewX(-15deg) translateZ(0); will-change: left;
+            transform: skewX(-15deg) translateZ(0);
+            transition: left 0s 0.9s; /* instant reset after hover-out delay */
           }
-          .gallery-card:hover::after { left: 160%; transition: left 0.9s cubic-bezier(0.4, 0, 0.2, 1); }
+          .gallery-card:hover::after {
+            left: 160%;
+            transition: left 0.9s cubic-bezier(0.4, 0, 0.2, 1);
+          }
 
           /* ============================================================
              FULLSCREEN MODAL — Porsche-style contained image
@@ -382,6 +409,7 @@
             position: fixed; inset: 0; z-index: 11000;
             display: flex; align-items: center; justify-content: center;
             pointer-events: none; visibility: hidden;
+            touch-action: pan-x;
           }
           .gallery-modal.is-open { pointer-events: auto; visibility: visible; }
 
@@ -397,11 +425,12 @@
           .modal-frame {
             position: relative; z-index: 10;
             width: 90vw; max-width: 1200px;
-            height: 75vh; max-height: 740px;
-            border-radius: 0.75rem; overflow: hidden;  /* clips slide track */
+            height: 70vh; max-height: 740px;
+            border-radius: 0.75rem; overflow: hidden;
             box-shadow: 0 40px 100px -20px rgba(0,0,0,0.7);
             opacity: 0;
             will-change: transform, opacity;
+            touch-action: pan-y pinch-zoom;
           }
 
           /* ── Slide track — horizontal carousel clipped by frame ── */
@@ -442,7 +471,7 @@
           .modal-frame .modal-text {
             position: absolute;
             bottom: 0; left: 0; right: 0;
-            padding: 2.5rem 2rem;
+            padding: 1.5rem 1.25rem;
             z-index: 3;
           }
           @media (min-width: 768px) {
@@ -509,7 +538,9 @@
             display: flex; align-items: center; gap: 0.5rem;
             color: white; padding: 0.5rem 0.75rem 0.5rem 1rem;
             border-radius: 9999px; background: rgba(0,0,0,0.5);
-            border: 1px solid rgba(255,255,255,0.1); backdrop-filter: blur(12px); cursor: pointer;
+            border: 1px solid rgba(255,255,255,0.1);
+            backdrop-filter: blur(12px); -webkit-backdrop-filter: blur(12px);
+            cursor: pointer;
             opacity: 0;
             transition: border-color 0.3s ease, color 0.3s ease;
           }
@@ -580,7 +611,7 @@
       </section>
       <section class="py-24 md:py-48 relative border-t border-white/5 overflow-hidden">
         <div class="absolute inset-0 z-0">
-          <img src="https://images.squarespace-cdn.com/content/v1/67053ead069230112a5e9280/15a2f83f-a017-4178-9273-17f19da9677a/unsplash-image-ZNkiEWL02mI.jpg?format=2500w" alt="Tailored Excellence Background" class="w-full h-full object-cover opacity-50">
+          <img src="https://images.squarespace-cdn.com/content/v1/67053ead069230112a5e9280/15a2f83f-a017-4178-9273-17f19da9677a/unsplash-image-ZNkiEWL02mI.jpg?format=2500w" alt="Tailored Excellence Background" class="w-full h-full object-cover opacity-50" loading="lazy" decoding="async">
           <div class="absolute inset-0 bg-black/60"></div>
         </div>
         <div class="max-w-7xl mx-auto px-6 text-center relative z-10">
@@ -608,37 +639,12 @@
       .then(res => res.text())
       .then(html => {
         document.getElementById('footer-container').innerHTML = html;
-        // Re-init Unicorn Studio if it's already loaded to catch the new footer elements
         if (window.UnicornStudio) {
           window.UnicornStudio.init();
         }
       });
   </script>
-  <script>
-    // UnicornStudio initialization
-    (function(){
-      var u = window.UnicornStudio;
-      if(u && u.init){
-        if(document.readyState === "loading"){
-          document.addEventListener("DOMContentLoaded", function(){u.init()});
-        }else{
-          u.init();
-        }
-      }else{
-        window.UnicornStudio = {isInitialized:!1};
-        var i = document.createElement("script");
-        i.src = "https://cdn.jsdelivr.net/gh/hiunicornstudio/unicornstudio.js@v2.0.5/dist/unicornStudio.umd.js";
-        i.onload = function(){
-          if(document.readyState === "loading"){
-            document.addEventListener("DOMContentLoaded", function(){UnicornStudio.init()});
-          }else{
-            UnicornStudio.init();
-          }
-        };
-        (document.head||document.body).appendChild(i);
-      }
-    })();
-  </script>
+
   <!-- ==================== FULLSCREEN MODAL ==================== -->
   <div class="gallery-modal" id="gallery-modal">
     <div class="modal-scrim"></div>
@@ -914,17 +920,24 @@
       }
 
       // ── 1. MOUSE-FOLLOW PARALLAX (desktop only) ──
+      // Uses GSAP .quickTo() for 60fps interpolated movement
+      // that doesn't conflict with ScrollTrigger entrance animations.
       if (!isTouchDevice) {
         cards.forEach(card => {
           const img = card.querySelector('.card-img');
+          const xTo = gsap.quickTo(img, 'x', { duration: 0.4, ease: 'power2.out' });
+          const yTo = gsap.quickTo(img, 'y', { duration: 0.4, ease: 'power2.out' });
+
           card.addEventListener('mousemove', (e) => {
             const rect = card.getBoundingClientRect();
             const xNorm = ((e.clientX - rect.left) / rect.width - 0.5) * 2;
             const yNorm = ((e.clientY - rect.top)  / rect.height - 0.5) * 2;
-            img.style.transform = `scale(1.15) translate(${-xNorm * 12}px, ${-yNorm * 12}px) translateZ(0)`;
+            xTo(-xNorm * 12);
+            yTo(-yNorm * 12);
           });
           card.addEventListener('mouseleave', () => {
-            img.style.transform = 'scale(1.15) translate(0, 0) translateZ(0)';
+            xTo(0);
+            yTo(0);
           });
         });
       }
