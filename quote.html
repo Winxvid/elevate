@@ -3,24 +3,10 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
-    <title>Elevated Auto Wraps | San Antonio Vehicle Customiza                  <button type="submit" class="w-full bg-white text-black py-4 md:py-8 rounded-full uppercase tracking-[0.6em] md:tracking-[1em] font-black text-[10px] md:text-[14px] border-none transition-all duration-1000 shadow-[0_0_60px_rgba(255,255,255,0.3)] flex items-center justify-center gap-4 md:gap-6 group hover:bg-purple-600 hover:text-white" tabindex="0">SUBMIT <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="lucide lucide-send w-5 h-5 md:w-6 md:h-6 transition-transform group-hover:translate-x-2 group-hover:-translate-y-2" aria-hidden="true"><path d="M14.536 21.686a.5.5 0 0 0 .937-.024l6.5-19a.496.496 0 0 0-.635-.635l-19 6.5a.5.5 0 0 1-.024.937l7.93 3.18a2 2 0 0 1 1.112 1.11z"></path><path d="m21.854 2.147-10.94 10.939"></path></svg></button>ion</title>
+    <title>Elevated Auto Wraps | Get a Quote</title>
     <script src="https://cdn.tailwindcss.com"></script>
     <link href="https://fonts.googleapis.com/css2?family=Archivo:ital,wght@1,900&family=Inter:wght@300;400;500;600;700;800;900&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
-<script type="importmap">
-{
-  "imports": {
-    "react": "https://esm.sh/react@^19.2.3",
-    "react-dom/": "https://esm.sh/react-dom@^19.2.3/",
-    "react/": "https://esm.sh/react@^19.2.3/",
-    "lucide-react": "https://esm.sh/lucide-react@^0.563.0",
-    "@google/genai": "https://esm.sh/@google/genai@^1.38.0",
-    "react-router-dom": "https://esm.sh/react-router-dom@^7.13.0",
-    "framer-motion": "https://esm.sh/framer-motion@^12.29.0"
-  }
-}
-</script>
-    <script type="module" src="https://unpkg.com/@google/model-viewer/dist/model-viewer.min.js"></script>
     <script type="text/javascript" src="https://cdn.jsdelivr.net/gh/hiunicornstudio/unicornstudio.js@v2.0.3/dist/unicornStudio.umd.js"></script>
     <script src="navbar.js"></script>
     <style>
@@ -33,9 +19,9 @@
             font-family: 'Inter', sans-serif;
             background-color: #08070b;
             background-image: 
-                radial-gradient(circle at 20% 0%, rgba(255, 255, 255, 0.15) 0%, transparent 40%),
-                radial-gradient(circle at 80% 20%, rgba(168, 85, 247, 0.2) 0%, transparent 50%),
-                radial-gradient(circle at 50% 100%, rgba(233, 213, 255, 0.15) 0%, transparent 60%),
+                radial-gradient(circle at 20% 0%, rgba(255, 255, 255, 0.08) 0%, transparent 40%),
+                radial-gradient(circle at 80% 20%, rgba(168, 85, 247, 0.15) 0%, transparent 50%),
+                radial-gradient(circle at 50% 100%, rgba(168, 85, 247, 0.1) 0%, transparent 60%),
                 linear-gradient(to bottom, #08070b 0%, #0c0b14 100%);
             color: #fff;
             margin: 0;
@@ -52,15 +38,6 @@
             text-transform: uppercase;
             letter-spacing: -0.05em;
         }
-        
-        /* Gradient Utilities - Brighter for Visibility */
-        .bg-aura-purple {
-            background: radial-gradient(circle at 50% 50%, rgba(168, 85, 247, 0.25) 0%, transparent 70%);
-        }
-        
-        .bg-aura-white {
-            background: radial-gradient(circle at 50% 50%, rgba(255, 255, 255, 0.12) 0%, transparent 70%);
-        }
 
         .bg-mesh {
             background-image: 
@@ -71,12 +48,10 @@
             background-size: cover;
         }
 
-        .glass-panel {
-        background: rgba(255, 255, 255, 0.03);
-        backdrop-filter: blur(20px);
-        border: 1px solid rgba(255, 255, 255, 0.1);
-      }
-      .btn-solid { 
+        /* =============================================
+           BTN-SOLID (consistent with rest of site)
+           ============================================= */
+        .btn-solid { 
             position: relative;
             background: transparent !important;
             color: #a855f7 !important; 
@@ -94,7 +69,6 @@
             box-shadow: 0 0 10px rgba(168, 85, 247, 0.1);
             z-index: 1;
         }
-
         .btn-solid::before {
             content: "";
             position: absolute;
@@ -103,18 +77,12 @@
             transform: translate(-50%, -50%);
             width: 400%; 
             height: 400%;
-            background: conic-gradient(
-                from 0deg at 50% 50%,
-                transparent 50%,
-                #a855f7 70%,
-                #ffffff 100%
-            );
+            background: conic-gradient(from 0deg at 50% 50%, transparent 50%, #a855f7 70%, #ffffff 100%);
             z-index: -2;
             animation: borderRotate 2s linear infinite; 
             opacity: 0;
             transition: opacity 0.3s ease;
         }
-
         .btn-solid::after {
             content: "";
             position: absolute;
@@ -123,400 +91,415 @@
             border-radius: 9999px;
             z-index: -1;
         }
-
-        .btn-solid:hover::before {
-           opacity: 1; 
-        }
-
+        .btn-solid:hover::before { opacity: 1; }
         .btn-solid:hover {
             transform: scale(1.05);
             color: #7e22ce !important;
             box-shadow: 0 0 50px rgba(168, 85, 247, 0.7); 
             border-color: transparent;
         }
-        
-        .btn-solid span {
-            position: relative;
-            z-index: 10;
-        }
-
+        .btn-solid span { position: relative; z-index: 10; }
         @keyframes borderRotate {
             from { transform: translate(-50%, -50%) rotate(0deg); }
             to { transform: translate(-50%, -50%) rotate(360deg); }
         }
 
-        /* ==========================
-           Neumorphic form UI (dark)
-           ========================== */
-        .neumorph-card {
-          background: linear-gradient(180deg, rgba(255,255,255,0.02), rgba(0,0,0,0.32));
+        /* =============================================
+           DARK NEUMORPHIC DESIGN SYSTEM
+           ============================================= */
+
+        /* Card — raised dark surface */
+        .neu-card {
+          background: linear-gradient(145deg, #1e1e32, #16162a);
           border-radius: 2rem;
-          border: 1px solid rgba(255,255,255,0.03);
-          box-shadow: 8px 14px 40px rgba(2,6,23,0.6), -6px -6px 18px rgba(255,255,255,0.02);
+          border: 1px solid rgba(255,255,255,0.04);
+          box-shadow: 
+            12px 12px 30px rgba(0,0,0,0.6),
+            -8px -8px 24px rgba(255,255,255,0.02);
         }
+        @media(min-width:768px){ .neu-card { border-radius: 4rem; } }
 
-        .neumorph-field {
-          background: linear-gradient(180deg, rgba(255,255,255,0.01), rgba(0,0,0,0.35));
-          color: #e6e6e6;
+        /* Input fields — inset dark wells */
+        .neu-field {
+          background: linear-gradient(145deg, #111122, #181830);
+          color: #e0e0e0;
           border-radius: 1rem;
-          border: 1px solid rgba(255,255,255,0.03);
-          box-shadow: inset 6px 6px 14px rgba(2,6,23,0.6), inset -4px -4px 10px rgba(255,255,255,0.02);
-          transition: box-shadow .18s ease, transform .12s ease, border-color .12s ease;
+          border: 1px solid rgba(255,255,255,0.04);
+          box-shadow: 
+            inset 4px 4px 10px rgba(0,0,0,0.5),
+            inset -3px -3px 8px rgba(255,255,255,0.02);
+          transition: box-shadow .2s ease, border-color .2s ease, transform .15s ease;
+          box-sizing: border-box;
+          max-width: 100%;
+          min-width: 0;
+          -webkit-appearance: none;
+          appearance: none;
         }
-        .neumorph-field::placeholder { color: rgba(255,255,255,0.28); font-style: italic; }
-        .neumorph-field:focus { outline: none; box-shadow: 0 12px 40px rgba(168,85,247,0.08), inset 4px 4px 10px rgba(2,6,23,0.6); border-color: rgba(168,85,247,0.18); transform: translateY(-1px); }
-        .neumorph-field[disabled] { opacity: 0.6; cursor: not-allowed; }
+        .neu-field::placeholder { 
+          color: rgba(255,255,255,0.25); 
+          font-style: italic; 
+        }
+        .neu-field:focus { 
+          outline: none; 
+          border-color: rgba(168,85,247,0.3);
+          box-shadow: 
+            inset 3px 3px 8px rgba(0,0,0,0.5),
+            inset -2px -2px 6px rgba(255,255,255,0.02),
+            0 0 20px rgba(168,85,247,0.08);
+          transform: translateY(-1px); 
+        }
+        @media (max-width: 767px) {
+          .neu-field { font-size: 14px; }
+        }
+        .neu-field::-webkit-calendar-picker-indicator {
+          filter: invert(1) brightness(0.7);
+        }
 
-        /* ==========================
-           Light Neumorphic form (example reference)
-           ========================== */
-        .neumorph-card--light {
-          background: linear-gradient(180deg,#f6f8fb,#e9eef5);
+        /* Service select tiles */
+        .neu-service-btn {
+          background: linear-gradient(145deg, #1e1e32, #16162a);
+          color: #d4d4d8;
+          border: 1px solid rgba(255,255,255,0.04);
           border-radius: 1.25rem;
-          overflow: hidden; /* Ensure clean clipped corners */
-          border: 1px solid rgba(2,6,23,0.04);
-          box-shadow: 20px 40px 80px rgba(2,6,23,0.06), -10px -10px 30px rgba(255,255,255,0.85);
-          color: #0b1220;
-          position: relative; /* Ensure stacking context */
+          box-shadow: 
+            6px 6px 16px rgba(0,0,0,0.5),
+            -4px -4px 12px rgba(255,255,255,0.02);
+          transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1);
+          cursor: pointer;
         }
-        .neumorph-card--light .porsche-font { color: #0b1220; }
-        /* Clean avatar inside the card */
-        .avatar-circle {
-          width: 80px; height: 80px; /* Slightly smaller for better fit inside */
+        .neu-service-btn:hover {
+          transform: translateY(-4px);
+          box-shadow: 
+            8px 12px 24px rgba(0,0,0,0.6),
+            -4px -4px 12px rgba(255,255,255,0.02),
+            0 0 20px rgba(168,85,247,0.06);
+        }
+        .neu-service-btn.selected {
+          border-color: rgba(168,85,247,0.5);
+          box-shadow: 
+            6px 6px 16px rgba(0,0,0,0.5),
+            -4px -4px 12px rgba(255,255,255,0.02),
+            0 0 30px rgba(168,85,247,0.12);
+        }
+        .neu-service-btn .icon-well {
+          background: linear-gradient(145deg, #111122, #181830);
+          border-radius: 0.75rem;
+          box-shadow: 
+            inset 3px 3px 6px rgba(0,0,0,0.4),
+            inset -2px -2px 4px rgba(255,255,255,0.02);
+          transition: all 0.4s ease;
+        }
+        .neu-service-btn.selected .icon-well {
+          background: linear-gradient(145deg, rgba(168,85,247,0.15), rgba(168,85,247,0.08));
+          box-shadow: 
+            inset 3px 3px 6px rgba(0,0,0,0.3),
+            0 0 12px rgba(168,85,247,0.1);
+        }
+
+        /* Submit button */
+        .neu-submit {
+          background: linear-gradient(145deg, #1e1e32, #16162a);
+          color: #e0e0e0;
           border-radius: 9999px;
-          background: #fff;
-          display: flex; align-items: center; justify-content: center;
-          /* Soft shadow to lift it off the card surface */
-          box-shadow: 0 10px 25px rgba(0,0,0,0.05);
-          border: 4px solid #fff;
+          border: 1px solid rgba(255,255,255,0.04);
+          box-shadow: 
+            8px 8px 20px rgba(0,0,0,0.5),
+            -6px -6px 16px rgba(255,255,255,0.02);
+          font-weight: 800; 
+          letter-spacing: .16em; 
+          text-transform: uppercase;
+          cursor: pointer;
+          transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1);
         }
-        @media(min-width:768px){ .avatar-circle { width:100px; height:100px; } }
-        .avatar-inner {
+        .neu-submit:hover { 
+          transform: translateY(-3px); 
+          box-shadow: 
+            12px 16px 32px rgba(0,0,0,0.6),
+            -6px -6px 16px rgba(255,255,255,0.02),
+            0 0 40px rgba(168,85,247,0.15);
+          color: #a855f7;
+        }
+        .neu-submit svg { transition: transform 0.3s ease; }
+        .neu-submit:hover svg { transform: translate(6px, -6px); stroke: #a855f7; }
+
+        /* Avatar */
+        .neu-avatar {
+          width: 80px; height: 80px;
+          border-radius: 9999px;
+          background: linear-gradient(145deg, #1e1e32, #16162a);
+          display: flex; align-items: center; justify-content: center;
+          box-shadow: 
+            8px 8px 20px rgba(0,0,0,0.5),
+            -6px -6px 16px rgba(255,255,255,0.02);
+          border: 2px solid rgba(255,255,255,0.04);
+        }
+        @media(min-width:768px){ .neu-avatar { width:100px; height:100px; } }
+        .neu-avatar-inner {
           width: 68%; height: 68%; border-radius: 9999px;
-          background: #000; /* black background so logo (light) is visible */
+          background: linear-gradient(145deg, #111122, #181830);
           display: flex; align-items: center; justify-content: center;
-          box-shadow: inset 0 4px 10px rgba(255,255,255,0.03);
+          box-shadow: inset 3px 3px 8px rgba(0,0,0,0.4), inset -2px -2px 6px rgba(255,255,255,0.02);
         }
-        .avatar-inner img { width: 72%; height: auto; object-fit: contain; display:block; }
+        .neu-avatar-inner img { width: 72%; height: auto; object-fit: contain; display:block; }
 
-        /* Additional styling for avatar on larger screens handled in main block now */
-
-        .neumorph-field--light {
-          background: linear-gradient(180deg,#ffffff,#f3f6fb);
-          color: #0b1220;
-          border-radius: 9999px;
-          border: 1px solid rgba(2,6,23,0.06);
-          box-shadow: inset 6px 8px 18px rgba(2,6,23,0.06), inset -6px -6px 12px rgba(255,255,255,0.9);
-          transition: box-shadow .16s ease, transform .12s ease, border-color .12s ease;
+        /* Step badges */
+        .neu-badge {
+          background: linear-gradient(145deg, #7c3aed, #6d28d9);
+          box-shadow: 
+            4px 4px 12px rgba(0,0,0,0.4),
+            0 0 20px rgba(168,85,247,0.15);
         }
-        .neumorph-field--light::placeholder { color: rgba(11,17,32,0.4); font-style: normal; }
-        .neumorph-field--light:focus { outline: none; box-shadow: 0 10px 30px rgba(168,85,247,0.06), inset 2px 2px 8px rgba(2,6,23,0.04); border-color: rgba(168,85,247,0.14); transform: translateY(-1px); }
 
-        .neumorph-submit--light {
-          background: linear-gradient(180deg,#ffffff,#eef3fb);
-          color: #0b1220;
-          border-radius: 9999px;
-          padding: 16px 36px;
-          border: 1px solid rgba(2,6,23,0.06);
-          box-shadow: 8px 20px 50px rgba(2,6,23,0.06), inset -2px -2px 8px rgba(255,255,255,0.9);
-          font-weight: 800; letter-spacing: .16em; text-transform: uppercase;
+        /* Select dropdown dark options */
+        select.neu-field option {
+          background: #1a1a2e;
+          color: #e0e0e0;
         }
-        .neumorph-submit--light svg { transition: transform 0.3s ease, stroke 0.3s ease; }
-        .neumorph-submit--light:hover { transform: translateY(-3px); box-shadow: 12px 28px 68px rgba(2,6,23,0.08); }
-        .neumorph-submit--light:hover svg { transform: translate(6px, -6px); stroke: #a855f7; }
-
-        /* service tiles — light variant inside the card */
-        .neumorph-card--light .service-select-btn {
-          background: linear-gradient(180deg,#ffffff,#f6f8fb); color: #0b1220;
-          border: 1px solid rgba(2,6,23,0.06); box-shadow: 8px 18px 40px rgba(2,6,23,0.04), -4px -4px 10px rgba(255,255,255,0.85);
-        }
-        .neumorph-card--light .service-select-btn:hover { transform: translateY(-6px); box-shadow: 12px 26px 54px rgba(2,6,23,0.06); }
-        .neumorph-card--light .service-select-btn .p-2 { background: #f3f6fb; border-radius: .75rem; box-shadow: inset -2px -2px 6px rgba(255,255,255,0.9); }
-
-        /* social buttons row */
-        /* .social-row { display:flex; gap:12px; align-items:center; justify-content:center; margin-top:12px; }
-        .social-btn { background: linear-gradient(180deg,#ffffff,#f3f6fb); border:1px solid rgba(2,6,23,0.06); color:#0b1220; padding:10px 14px; border-radius:12px; box-shadow: 6px 12px 30px rgba(2,6,23,0.04); display:inline-flex; gap:8px; align-items:center; font-weight:700; } */
     </style>
-
-
 </head>
 <body class="bg-[#08070b] text-white min-h-screen">
   <div id="navbar-container"></div>
   <main class="min-h-screen">
-    <div class="bg-[#08070b] text-white min-h-screen pt-24 md:pt-48 pb-20 md:pb-32 relative overflow-hidden">
-      <div class="absolute inset-0 bg-mesh opacity-30 pointer-events-none"></div>
-      <div class="absolute top-0 left-0 w-full h-[400px] md:h-[800px] bg-gradient-to-b from-white/10 to-transparent pointer-events-none"></div>
-      <div class="absolute bottom-0 right-0 w-[600px] h-[600px] bg-purple-500/10 blur-[200px] rounded-full pointer-events-none"></div>
-      <div class="max-w-screen-2xl mx-auto px-6 md:px-12 relative z-10">
-        <section class="py-16 md:py-48 bg-white/5 backdrop-blur-3xl rounded-[2rem] md:rounded-[6rem] border border-white/20 mb-16 md:mb-48 px-6 md:px-32 relative overflow-hidden group shadow-2xl" style="opacity: 1; transform: none;">
-          <div class="absolute inset-0 bg-[radial-gradient(circle_at_top_right,rgba(255,255,255,0.1)_0%,transparent_60%)]"></div>
-          <div class="grid grid-cols-1 lg:grid-cols-2 gap-10 md:gap-24 items-center relative z-10 text-center lg:text-left">
-            <h2 class="porsche-font text-3xl md:text-[7rem] leading-[0.9] tracking-tighter italic">Let’s Bring Your <br><span class="text-white drop-shadow-[0_0_30px_rgba(255,255,255,0.4)]">Vision</span> <span class="text-purple-400">to Life</span></h2>
-            <div class="space-y-8 md:space-y-14">
-              <p class="text-zinc-200 text-lg md:text-3xl font-light italic leading-relaxed md:pl-10 lg:border-l-4 border-white">Ready to elevate your vehicle? Complete the intake below and our specialists will reach out shortly.</p>
-              <a href="tel:2102014999" class="btn-solid inline-block bg-white text-black border-none uppercase tracking-[0.4em] md:tracking-[0.5em] text-[9px] md:text-[12px] font-black px-10 md:px-20 py-5 md:py-8 rounded-full shadow-2xl transition-all duration-500 w-full sm:w-auto text-center">Call Direct Line</a>
-            </div>
+    <div class="text-white min-h-screen pt-24 md:pt-48 pb-20 md:pb-32 relative overflow-hidden" style="background: url('Quote_Background.png') center center / cover no-repeat scroll #08070b;">
+      <!-- Optimized overlay for performance -->
+      <div class="absolute inset-0 bg-black/40 pointer-events-none"></div>
+      <div class="absolute inset-0 bg-mesh opacity-20 pointer-events-none"></div>
+      <div class="absolute top-0 left-0 w-full h-[400px] md:h-[800px] bg-gradient-to-b from-black/30 to-transparent pointer-events-none"></div>
+      <div class="absolute bottom-0 right-0 w-[600px] h-[600px] bg-purple-500/10 blur-[120px] rounded-full pointer-events-none"></div>
+
+      <div class="max-w-screen-2xl mx-auto px-4 md:px-12 relative z-10">
+
+        <!-- HERO CTA -->
+        <section class="neu-card py-12 md:py-32 px-6 md:px-24 mb-12 md:mb-32 relative overflow-hidden" style="opacity: 1; transform: none;">
+          <div class="absolute top-0 right-0 w-[400px] h-[400px] bg-purple-500/5 blur-[150px] rounded-full pointer-events-none"></div>
+          <div class="flex flex-col items-center text-center relative z-10 gap-8 md:gap-14">
+            <h2 class="porsche-font text-3xl md:text-[7rem] leading-[0.9] tracking-tighter italic text-white">Let's Bring Your <br><span class="text-white drop-shadow-[0_0_30px_rgba(255,255,255,0.2)]">Vision</span> <span class="text-purple-400">to Life</span></h2>
+            <a href="tel:2102014999" class="btn-solid inline-block uppercase tracking-[0.4em] md:tracking-[0.5em] text-[9px] md:text-[12px] font-black px-10 md:px-20 py-5 md:py-8 rounded-full shadow-2xl transition-all duration-500 w-full sm:w-auto text-center">Call Direct Line</a>
           </div>
         </section>
-        <section id="contact-form" class="max-w-5xl mx-auto relative px-2">
-          <div class="neumorph-card--light rounded-[2rem] md:rounded-[6rem] border border-white/10 p-6 md:p-12 relative group">
-            <div class="relative z-10" style="opacity: 1;">
-              <div class="flex flex-col items-center text-center mb-6 md:mb-12">
-                <!-- Avatar inside the card flow -->
-                <div class="avatar-circle mb-8 mx-auto">
-                  <div class="avatar-inner">
-                    <img src="https://ogautocc.com/ElevatedWraps/logo.PNG" alt="Elevated Auto Wraps logo" loading="lazy" decoding="async">
-                  </div>
-                </div>
-                <h1 class="porsche-font text-2xl md:text-5xl text-zinc-900 mb-2 md:mb-4 italic leading-none uppercase tracking-tight">Let’s <span class="text-purple-500">work together</span></h1>
-                <p class="text-sm md:text-base text-zinc-500">Ready to elevate your vehicle? Complete the intake below and our specialists will reach out shortly.</p>
+
+        <!-- FORM -->
+        <section id="contact-form" class="max-w-5xl mx-auto relative">
+          <div class="neu-card p-5 sm:p-8 md:p-16 relative overflow-hidden">
+            <div class="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[600px] h-[600px] bg-purple-500/[0.03] blur-[200px] rounded-full pointer-events-none"></div>
+
+            <div class="relative z-10">
+              <!-- Header -->
+              <div class="flex flex-col items-center text-center mb-10 md:mb-16">
+                <img src="https://ogautocc.com/ElevatedWraps/logo.PNG" alt="Elevated Auto Wraps logo" loading="lazy" decoding="async" class="w-20 md:w-28 mb-6 md:mb-8">
+                <h1 class="porsche-font text-2xl md:text-5xl text-white mb-3 md:mb-4 italic leading-none uppercase tracking-tight">Let's <span class="text-purple-400">work together</span></h1>
+                <p class="text-sm md:text-base text-zinc-400 max-w-md leading-relaxed">Ready to elevate your vehicle? Complete the intake below and our specialists will reach out shortly.</p>
               </div>
-              <form class="space-y-6 md:space-y-8">
-                <div class="space-y-6 md:space-y-10">
-                  <div class="flex items-center gap-4 md:gap-8">
-                    <div class="w-8 h-8 md:w-14 md:h-14 rounded-full bg-purple-600 text-white flex items-center justify-center font-black italic text-xs md:text-lg shadow-xl">01</div>
-                    <h3 class="text-[9px] md:text-[14px] font-black uppercase tracking-[0.4em] md:tracking-[0.5em] text-zinc-900">Contact Identity</h3>
+
+              <!-- Form -->
+              <form class="space-y-10 md:space-y-14">
+                <!-- 01: Contact Identity -->
+                <div class="space-y-6 md:space-y-8">
+                  <div class="flex items-center gap-4 md:gap-6">
+                    <div class="neu-badge w-8 h-8 md:w-12 md:h-12 rounded-full text-white flex items-center justify-center font-black italic text-xs md:text-base">01</div>
+                    <h3 class="text-[9px] md:text-[13px] font-black uppercase tracking-[0.4em] md:tracking-[0.5em] text-zinc-300">Contact Identity</h3>
                   </div>
-                  <div class="grid grid-cols-1 md:grid-cols-2 gap-6 md:gap-12">
-                    <div class="space-y-4">
-                      <div class="flex items-center gap-4 mb-1">
-                        <label class="text-[9px] text-zinc-600 uppercase font-black tracking-[0.3em] md:tracking-[0.4em] block pl-1">First Name <span class="text-purple-600">*</span></label>
-                      </div>
-                      <div class="relative group">
-                        <input required class="w-full neumorph-field--light rounded-xl md:rounded-3xl p-4 md:p-6 text-zinc-900 text-base focus:border-purple-500 outline-none transition-all italic font-light pl-6 md:pl-8" placeholder="EX: JOHN" type="text">
-                      </div>
+                  <div class="grid grid-cols-1 md:grid-cols-2 gap-5 md:gap-8">
+                    <div class="space-y-3">
+                      <label class="text-[9px] text-zinc-500 uppercase font-black tracking-[0.3em] md:tracking-[0.4em] block pl-1">First Name <span class="text-purple-400">*</span></label>
+                      <input required class="w-full neu-field rounded-xl md:rounded-2xl p-4 md:p-5 text-sm md:text-base italic font-light pl-5 md:pl-6" placeholder="John" type="text">
                     </div>
-                    <div class="space-y-4">
-                      <div class="flex items-center gap-4 mb-1">
-                        <label class="text-[9px] text-zinc-600 uppercase font-black tracking-[0.3em] md:tracking-[0.4em] block pl-1">Last Name <span class="text-purple-600">*</span></label>
-                      </div>
-                      <div class="relative group">
-                        <input required class="w-full neumorph-field--light rounded-xl md:rounded-3xl p-4 md:p-6 text-zinc-900 text-base focus:border-purple-500 outline-none transition-all italic font-light pl-6 md:pl-8" placeholder="EX: DOE" type="text">
-                      </div>
+                    <div class="space-y-3">
+                      <label class="text-[9px] text-zinc-500 uppercase font-black tracking-[0.3em] md:tracking-[0.4em] block pl-1">Last Name <span class="text-purple-400">*</span></label>
+                      <input required class="w-full neu-field rounded-xl md:rounded-2xl p-4 md:p-5 text-sm md:text-base italic font-light pl-5 md:pl-6" placeholder="Doe" type="text">
                     </div>
-                    <div class="space-y-4">
-                      <div class="flex items-center gap-4 mb-1">
-                        <label class="text-[9px] text-zinc-600 uppercase font-black tracking-[0.3em] md:tracking-[0.4em] block pl-1">Email Address <span class="text-purple-600">*</span></label>
-                      </div>
+                    <div class="space-y-3">
+                      <label class="text-[9px] text-zinc-500 uppercase font-black tracking-[0.3em] md:tracking-[0.4em] block pl-1">Email Address <span class="text-purple-400">*</span></label>
                       <div class="relative group">
-                        <div class="absolute left-6 md:left-8 top-1/2 -translate-y-1/2 text-zinc-600 group-focus-within:text-purple-500 transition-colors pointer-events-none">
-                          <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="lucide lucide-mail w-4 h-4" aria-hidden="true"><path d="m22 7-8.991 5.727a2 2 0 0 1-2.009 0L2 7"></path><rect x="2" y="4" width="20" height="16" rx="2"></rect></svg>
+                        <div class="absolute left-4 md:left-5 top-1/2 -translate-y-1/2 text-zinc-600 group-focus-within:text-purple-400 transition-colors pointer-events-none">
+                          <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="w-4 h-4"><path d="m22 7-8.991 5.727a2 2 0 0 1-2.009 0L2 7"></path><rect x="2" y="4" width="20" height="16" rx="2"></rect></svg>
                         </div>
-                        <input required class="w-full neumorph-field--light rounded-xl md:rounded-3xl p-4 md:p-6 text-zinc-900 text-base focus:border-purple-500 outline-none transition-all italic font-light pl-12 md:pl-20" placeholder="EX: CLIENT@DOMAIN.COM" type="email">
+                        <input required class="w-full neu-field rounded-xl md:rounded-2xl p-4 md:p-5 text-sm md:text-base italic font-light pl-10 md:pl-12" placeholder="client@domain.com" type="email">
                       </div>
                     </div>
-                    <div class="space-y-4">
-                      <div class="flex items-center gap-4 mb-1">
-                        <label class="text-[9px] text-zinc-600 uppercase font-black tracking-[0.3em] md:tracking-[0.4em] block pl-1">Phone Number </label>
-                      </div>
+                    <div class="space-y-3">
+                      <label class="text-[9px] text-zinc-500 uppercase font-black tracking-[0.3em] md:tracking-[0.4em] block pl-1">Phone Number</label>
                       <div class="relative group">
-                        <div class="absolute left-6 md:left-8 top-1/2 -translate-y-1/2 text-zinc-600 group-focus-within:text-purple-500 transition-colors pointer-events-none">
-                          <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="lucide lucide-phone w-4 h-4" aria-hidden="true"><path d="M13.832 16.568a1 1 0 0 0 1.213-.303l.355-.465A2 2 0 0 1 17 15h3a2 2 0 0 1 2 2v3a2 2 0 0 1-2 2A18 18 0 0 1 2 4a2 2 0 0 1 2-2h3a2 2 0 0 1 2 2v3a2 2 0 0 1-.8 1.6l-.468.351a1 1 0 0 0-.292 1.233 14 14 0 0 0 6.392 6.384"></path></svg>
+                        <div class="absolute left-4 md:left-5 top-1/2 -translate-y-1/2 text-zinc-600 group-focus-within:text-purple-400 transition-colors pointer-events-none">
+                          <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="w-4 h-4"><path d="M13.832 16.568a1 1 0 0 0 1.213-.303l.355-.465A2 2 0 0 1 17 15h3a2 2 0 0 1 2 2v3a2 2 0 0 1-2 2A18 18 0 0 1 2 4a2 2 0 0 1 2-2h3a2 2 0 0 1 2 2v3a2 2 0 0 1-.8 1.6l-.468.351a1 1 0 0 0-.292 1.233 14 14 0 0 0 6.392 6.384"></path></svg>
                         </div>
-                        <input class="w-full neumorph-field--light rounded-xl md:rounded-3xl p-4 md:p-6 text-zinc-900 text-base focus:border-purple-500 outline-none transition-all italic font-light pl-12 md:pl-20" placeholder="EX: (210) 201-4999" type="tel">
+                        <input class="w-full neu-field rounded-xl md:rounded-2xl p-4 md:p-5 text-sm md:text-base italic font-light pl-10 md:pl-12" placeholder="(210) 201-4999" type="tel">
                       </div>
                     </div>
                   </div>
                 </div>
-                <div class="space-y-6 md:space-y-10">
-                  <div class="flex items-center gap-4 md:gap-8">
-                    <div class="w-8 h-8 md:w-14 md:h-14 rounded-full bg-purple-600 text-white flex items-center justify-center font-black italic text-xs md:text-lg shadow-xl">02</div>
-                    <h3 class="text-[9px] md:text-[14px] font-black uppercase tracking-[0.4em] md:tracking-[0.5em] text-zinc-900">Services Required</h3>
+
+                <!-- 02: Services Required -->
+                <div class="space-y-6 md:space-y-8">
+                  <div class="flex items-center gap-4 md:gap-6">
+                    <div class="neu-badge w-8 h-8 md:w-12 md:h-12 rounded-full text-white flex items-center justify-center font-black italic text-xs md:text-base">02</div>
+                    <h3 class="text-[9px] md:text-[13px] font-black uppercase tracking-[0.4em] md:tracking-[0.5em] text-zinc-300">Services Required</h3>
                   </div>
-                  <div class="grid grid-cols-1 sm:grid-cols-2 gap-4 md:gap-8">
-                    <button type="button" class="service-select-btn flex items-center justify-between p-5 md:p-8 rounded-2xl md:rounded-3xl border transition-all duration-700 bg-white/10 border-white/20 text-zinc-900 hover:border-white/40 hover:bg-white/20" data-service="PAINT PROTECTION FILM">
-                      <span class="text-[9px] md:text-[12px] font-black uppercase tracking-[0.2em] md:tracking-[0.3em]">PAINT PROTECTION FILM</span>
-                      <div class="p-2 md:p-4 rounded-xl transition-colors duration-700 bg-white/10">
-                        <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="lucide lucide-shield w-5 h-5 md:w-8 md:h-8" aria-hidden="true"><path d="M20 13c0 5-3.5 7.5-7.66 8.95a1 1 0 0 1-.67-.01C7.5 20.5 4 18 4 13V6a1 1 0 0 1 1-1c2 0 4.5-1.2 6.24-2.72a1.17 1.17 0 0 1 1.52 0C14.51 3.81 17 5 19 5a1 1 0 0 1 1 1z"></path></svg>
+                  <div class="grid grid-cols-1 sm:grid-cols-2 gap-4 md:gap-6">
+                    <button type="button" class="neu-service-btn flex items-center justify-between p-4 md:p-6" data-service="PAINT PROTECTION FILM">
+                      <span class="text-[9px] md:text-[11px] font-black uppercase tracking-[0.2em] md:tracking-[0.3em]">Paint Protection Film</span>
+                      <div class="icon-well p-2 md:p-3">
+                        <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="w-5 h-5 md:w-6 md:h-6"><path d="M20 13c0 5-3.5 7.5-7.66 8.95a1 1 0 0 1-.67-.01C7.5 20.5 4 18 4 13V6a1 1 0 0 1 1-1c2 0 4.5-1.2 6.24-2.72a1.17 1.17 0 0 1 1.52 0C14.51 3.81 17 5 19 5a1 1 0 0 1 1 1z"></path></svg>
                       </div>
                     </button>
-                    <button type="button" class="service-select-btn flex items-center justify-between p-5 md:p-8 rounded-2xl md:rounded-3xl border transition-all duration-700 bg-white/10 border-white/20 text-zinc-900 hover:border-white/40 hover:bg-white/20" data-service="VINYL WRAPS">
-                      <span class="text-[9px] md:text-[12px] font-black uppercase tracking-[0.2em] md:tracking-[0.3em]">VINYL WRAPS</span>
-                      <div class="p-2 md:p-4 rounded-xl transition-colors duration-700 bg-white/10">
-                        <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="lucide lucide-palette w-5 h-5 md:w-8 md:h-8" aria-hidden="true"><path d="M12 22a1 1 0 0 1 0-20 10 9 0 0 1 10 9 5 5 0 0 1-5 5h-2.25a1.75 1.75 0 0 0-1.4 2.8l.3.4a1.75 1.75 0 0 1-1.4 2.8z"></path><circle cx="13.5" cy="6.5" r=".5" fill="currentColor"></circle><circle cx="17.5" cy="10.5" r=".5" fill="currentColor"></circle><circle cx="6.5" cy="12.5" r=".5" fill="currentColor"></circle><circle cx="8.5" cy="7.5" r=".5" fill="currentColor"></circle></svg>
+                    <button type="button" class="neu-service-btn flex items-center justify-between p-4 md:p-6" data-service="VINYL WRAPS">
+                      <span class="text-[9px] md:text-[11px] font-black uppercase tracking-[0.2em] md:tracking-[0.3em]">Vinyl Wraps</span>
+                      <div class="icon-well p-2 md:p-3">
+                        <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="w-5 h-5 md:w-6 md:h-6"><path d="M12 22a1 1 0 0 1 0-20 10 9 0 0 1 10 9 5 5 0 0 1-5 5h-2.25a1.75 1.75 0 0 0-1.4 2.8l.3.4a1.75 1.75 0 0 1-1.4 2.8z"></path><circle cx="13.5" cy="6.5" r=".5" fill="currentColor"></circle><circle cx="17.5" cy="10.5" r=".5" fill="currentColor"></circle><circle cx="6.5" cy="12.5" r=".5" fill="currentColor"></circle><circle cx="8.5" cy="7.5" r=".5" fill="currentColor"></circle></svg>
                       </div>
                     </button>
-                    <button type="button" class="service-select-btn flex items-center justify-between p-5 md:p-8 rounded-2xl md:rounded-3xl border transition-all duration-700 bg-white/10 border-white/20 text-zinc-900 hover:border-white/40 hover:bg-white/20" data-service="WINDOW TINT">
-                      <span class="text-[9px] md:text-[12px] font-black uppercase tracking-[0.2em] md:tracking-[0.3em]">WINDOW TINT</span>
-                      <div class="p-2 md:p-4 rounded-xl transition-colors duration-700 bg-white/10">
-                        <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="lucide lucide-sun w-5 h-5 md:w-8 md:h-8" aria-hidden="true"><circle cx="12" cy="12" r="4"></circle><path d="M12 2v2"></path><path d="M12 20v2"></path><path d="m4.93 4.93 1.41 1.41"></path><path d="m17.66 17.66 1.41 1.41"></path><path d="M2 12h2"></path><path d="M20 12h2"></path><path d="m6.34 17.66-1.41 1.41"></path><path d="m19.07 4.93-1.41 1.41"></path></svg>
+                    <button type="button" class="neu-service-btn flex items-center justify-between p-4 md:p-6" data-service="WINDOW TINT">
+                      <span class="text-[9px] md:text-[11px] font-black uppercase tracking-[0.2em] md:tracking-[0.3em]">Window Tint</span>
+                      <div class="icon-well p-2 md:p-3">
+                        <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="w-5 h-5 md:w-6 md:h-6"><circle cx="12" cy="12" r="4"></circle><path d="M12 2v2"></path><path d="M12 20v2"></path><path d="m4.93 4.93 1.41 1.41"></path><path d="m17.66 17.66 1.41 1.41"></path><path d="M2 12h2"></path><path d="M20 12h2"></path><path d="m6.34 17.66-1.41 1.41"></path><path d="m19.07 4.93-1.41 1.41"></path></svg>
                       </div>
                     </button>
-                    <button type="button" class="service-select-btn flex items-center justify-between p-5 md:p-8 rounded-2xl md:rounded-3xl border transition-all duration-700 bg-white/10 border-white/20 text-zinc-900 hover:border-white/40 hover:bg-white/20" data-service="AUTO DETAIL">
-                      <span class="text-[9px] md:text-[12px] font-black uppercase tracking-[0.2em] md:tracking-[0.3em]">AUTO DETAIL</span>
-                      <div class="p-2 md:p-4 rounded-xl transition-colors duration-700 bg-white/10">
-                        <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="lucide lucide-sparkles w-5 h-5 md:w-8 md:h-8" aria-hidden="true"><path d="M11.017 2.814a1 1 0 0 1 1.966 0l1.051 5.558a2 2 0 0 0 1.594 1.594l5.558 1.051a1 1 0 0 1 0 1.966l-5.558 1.051a2 2 0 0 0-1.594 1.594l-1.051 5.558a1 1 0 0 1-1.966 0l-1.051-5.558a2 2 0 0 0-1.594-1.594l-5.558-1.051a1 1 0 0 1 0-1.966l5.558-1.051a2 2 0 0 0 1.594-1.594z"></path><path d="M20 2v4"></path><path d="M22 4h-4"></path><circle cx="4" cy="20" r="2"></circle></svg>
+                    <button type="button" class="neu-service-btn flex items-center justify-between p-4 md:p-6" data-service="AUTO DETAIL">
+                      <span class="text-[9px] md:text-[11px] font-black uppercase tracking-[0.2em] md:tracking-[0.3em]">Auto Detail</span>
+                      <div class="icon-well p-2 md:p-3">
+                        <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="w-5 h-5 md:w-6 md:h-6"><path d="M11.017 2.814a1 1 0 0 1 1.966 0l1.051 5.558a2 2 0 0 0 1.594 1.594l5.558 1.051a1 1 0 0 1 0 1.966l-5.558 1.051a2 2 0 0 0-1.594 1.594l-1.051 5.558a1 1 0 0 1-1.966 0l-1.051-5.558a2 2 0 0 0-1.594-1.594l-5.558-1.051a1 1 0 0 1 0-1.966l5.558-1.051a2 2 0 0 0 1.594-1.594z"></path><path d="M20 2v4"></path><path d="M22 4h-4"></path><circle cx="4" cy="20" r="2"></circle></svg>
                       </div>
                     </button>
-                    <button type="button" class="service-select-btn flex items-center justify-between p-5 md:p-8 rounded-2xl md:rounded-3xl border transition-all duration-700 bg-white/10 border-white/20 text-zinc-900 hover:border-white/40 hover:bg-white/20 col-span-1 sm:col-span-2 md:col-span-1" data-service="OTHER">
-                      <span class="text-[9px] md:text-[12px] font-black uppercase tracking-[0.2em] md:tracking-[0.3em]">OTHER</span>
-                      <div class="p-2 md:p-4 rounded-xl transition-colors duration-700 bg-white/10">
-                        <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="lucide lucide-plus w-5 h-5 md:w-8 md:h-8" aria-hidden="true"><path d="M5 12h14"></path><path d="M12 5v14"></path></svg>
+                    <button type="button" class="neu-service-btn flex items-center justify-between p-4 md:p-6 sm:col-span-2" data-service="OTHER">
+                      <span class="text-[9px] md:text-[11px] font-black uppercase tracking-[0.2em] md:tracking-[0.3em]">Other</span>
+                      <div class="icon-well p-2 md:p-3">
+                        <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="w-5 h-5 md:w-6 md:h-6"><path d="M5 12h14"></path><path d="M12 5v14"></path></svg>
                       </div>
                     </button>
                   </div>
                   <input type="hidden" name="services" id="services-input">
-                  <script>
-                    document.addEventListener('DOMContentLoaded', () => {
-                      const serviceButtons = document.querySelectorAll('.service-select-btn');
-                      const servicesInput = document.getElementById('services-input');
-                      const selectedServices = new Set();
-                  
-                      serviceButtons.forEach(btn => {
-                        btn.addEventListener('click', () => {
-                          const serviceName = btn.getAttribute('data-service');
-                          const isSelected = btn.classList.contains('border-purple-500');
-                          
-                          if (isSelected) {
-                             // Deselect
-                             btn.classList.remove('border-purple-500', 'bg-purple-500/10');
-                             btn.classList.add('border-white/20', 'bg-white/10'); 
-                             
-                             // Reset icon background
-                             const iconContainer = btn.querySelector('div');
-                             if(iconContainer) {
-                               iconContainer.classList.remove('bg-purple-500/20', 'text-purple-400');
-                               iconContainer.classList.add('bg-white/10');
-                             }
-                             
-                             // Reset text color if needed, currently white
-                             
-                             selectedServices.delete(serviceName);
-                          } else {
-                             // Select
-                             btn.classList.remove('border-white/20', 'bg-white/10');
-                             btn.classList.add('border-purple-500', 'bg-purple-500/10');
-                             
-                             // Highlight icon background
-                             const iconContainer = btn.querySelector('div');
-                             if(iconContainer) {
-                               iconContainer.classList.remove('bg-white/10');
-                               iconContainer.classList.add('bg-purple-500/20', 'text-purple-400');
-                             }
+                </div>
 
-                             selectedServices.add(serviceName);
-                          }
-                          
-                          // Update hidden input
-                          servicesInput.value = Array.from(selectedServices).join(', ');
-                          console.log('Services selected:', servicesInput.value);
-                        });
-                      });
-                    });
-                  </script>
-                </div>
-                <div class="space-y-6 md:space-y-10">
-                  <div class="flex items-center gap-4 md:gap-8">
-                    <div class="w-8 h-8 md:w-14 md:h-14 rounded-full bg-purple-600 text-white flex items-center justify-center font-black italic text-xs md:text-lg shadow-xl">03</div>
-                    <h3 class="text-[9px] md:text-[14px] font-black uppercase tracking-[0.4em] md:tracking-[0.5em] text-zinc-900">Project Details</h3>
+                <!-- 03: Project Details -->
+                <div class="space-y-6 md:space-y-8">
+                  <div class="flex items-center gap-4 md:gap-6">
+                    <div class="neu-badge w-8 h-8 md:w-12 md:h-12 rounded-full text-white flex items-center justify-center font-black italic text-xs md:text-base">03</div>
+                    <h3 class="text-[9px] md:text-[13px] font-black uppercase tracking-[0.4em] md:tracking-[0.5em] text-zinc-300">Project Details</h3>
                   </div>
-                  <div class="grid grid-cols-1 md:grid-cols-2 gap-6 md:gap-12">
-                    <div class="space-y-4">
-                      <div class="flex items-center gap-4 mb-1">
-                        <label class="text-[9px] text-zinc-600 uppercase font-black tracking-[0.3em] md:tracking-[0.4em] block pl-1">Preferred Date </label>
-                      </div>
+                  <div class="grid grid-cols-1 md:grid-cols-2 gap-5 md:gap-8">
+                    <div class="space-y-3">
+                      <label class="text-[9px] text-zinc-500 uppercase font-black tracking-[0.3em] md:tracking-[0.4em] block pl-1">Preferred Date</label>
                       <div class="relative group">
-                        <div class="absolute left-6 md:left-8 top-1/2 -translate-y-1/2 text-zinc-600 group-focus-within:text-purple-500 transition-colors pointer-events-none">
-                          <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="lucide lucide-calendar w-4 h-4" aria-hidden="true"><path d="M8 2v4"></path><path d="M16 2v4"></path><rect width="18" height="18" x="3" y="4" rx="2"></rect><path d="M3 10h18"></path></svg>
+                        <div class="absolute left-4 md:left-5 top-1/2 -translate-y-1/2 text-zinc-600 group-focus-within:text-purple-400 transition-colors pointer-events-none">
+                          <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="w-4 h-4"><path d="M8 2v4"></path><path d="M16 2v4"></path><rect width="18" height="18" x="3" y="4" rx="2"></rect><path d="M3 10h18"></path></svg>
                         </div>
-                        <input class="w-full neumorph-field--light rounded-xl md:rounded-3xl p-4 md:p-6 text-zinc-900 text-base focus:border-purple-500 outline-none transition-all italic font-light pl-12 md:pl-20" type="date">
+                        <input class="w-full neu-field rounded-xl md:rounded-2xl p-4 md:p-5 text-sm md:text-base italic font-light pl-10 md:pl-12" type="date">
                       </div>
                     </div>
-                    <div class="space-y-4">
-                      <div class="flex items-center gap-4 mb-1">
-                        <label class="text-[9px] text-zinc-600 uppercase font-black tracking-[0.3em] md:tracking-[0.4em] block pl-1">Estimated Budget </label>
-                      </div>
+                    <div class="space-y-3">
+                      <label class="text-[9px] text-zinc-500 uppercase font-black tracking-[0.3em] md:tracking-[0.4em] block pl-1">Estimated Budget</label>
                       <div class="relative group">
-                        <div class="absolute left-6 md:left-8 top-1/2 -translate-y-1/2 text-zinc-600 group-focus-within:text-purple-500 transition-colors pointer-events-none">
-                          <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="lucide lucide-dollar-sign w-4 h-4" aria-hidden="true"><line x1="12" x2="12" y1="2" y2="22"></line><path d="M17 5H9.5a3.5 3.5 0 0 0 0 7h5a3.5 3.5 0 0 1 0 7H6"></path></svg>
+                        <div class="absolute left-4 md:left-5 top-1/2 -translate-y-1/2 text-zinc-600 group-focus-within:text-purple-400 transition-colors pointer-events-none">
+                          <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="w-4 h-4"><line x1="12" x2="12" y1="2" y2="22"></line><path d="M17 5H9.5a3.5 3.5 0 0 0 0 7h5a3.5 3.5 0 0 1 0 7H6"></path></svg>
                         </div>
-                        <input class="w-full neumorph-field--light rounded-xl md:rounded-3xl p-4 md:p-6 text-zinc-900 text-base focus:border-purple-500 outline-none transition-all italic font-light pl-12 md:pl-20" placeholder="EX: $2,500 - $5,000" type="text">
+                        <input class="w-full neu-field rounded-xl md:rounded-2xl p-4 md:p-5 text-sm md:text-base italic font-light pl-10 md:pl-12" placeholder="$2,500 - $5,000" type="text">
                       </div>
                     </div>
-                    <div class="space-y-4 md:col-span-2">
-                      <label class="text-[9px] text-zinc-600 uppercase font-black tracking-[0.3em] md:tracking-[0.4em] block pl-1">How did you hear about us?</label>
+                    <div class="space-y-3 md:col-span-2">
+                      <label class="text-[9px] text-zinc-500 uppercase font-black tracking-[0.3em] md:tracking-[0.4em] block pl-1">How did you hear about us?</label>
                       <div class="relative group">
-                        <select class="w-full neumorph-field--light rounded-xl md:rounded-3xl p-4 md:p-6 text-zinc-900 text-base focus:border-purple-500 outline-none transition-all appearance-none italic font-light cursor-pointer">
-                          <option class="bg-white text-black" value="">Select Source</option>
-                          <option class="bg-white text-black" value="instagram">Instagram</option>
-                          <option class="bg-white text-black" value="facebook">Facebook</option>
-                          <option class="bg-white text-black" value="tiktok">TikTok</option>
-                          <option class="bg-white text-black" value="referral">Word of Mouth / Referral</option>
-                          <option class="bg-white text-black" value="google">Google Search</option>
-                          <option class="bg-white text-black" value="other">Other</option>
+                        <select class="w-full neu-field rounded-xl md:rounded-2xl p-4 md:p-5 text-sm md:text-base italic font-light cursor-pointer appearance-none">
+                          <option value="">Select Source</option>
+                          <option value="instagram">Instagram</option>
+                          <option value="facebook">Facebook</option>
+                          <option value="tiktok">TikTok</option>
+                          <option value="referral">Word of Mouth / Referral</option>
+                          <option value="google">Google Search</option>
+                          <option value="other">Other</option>
                         </select>
-                        <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="lucide lucide-chevron-down absolute right-6 md:right-8 top-1/2 -translate-y-1/2 w-4 h-4 md:w-5 md:h-5 text-zinc-600 pointer-events-none group-focus-within:text-purple-500 transition-colors" aria-hidden="true"><path d="m6 9 6 6 6-6"></path></svg>
+                        <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="absolute right-4 md:right-5 top-1/2 -translate-y-1/2 w-4 h-4 md:w-5 md:h-5 text-zinc-500 pointer-events-none group-focus-within:text-purple-400 transition-colors"><path d="m6 9 6 6 6-6"></path></svg>
                       </div>
                     </div>
-                    <div class="md:col-span-2 space-y-4">
-                      <label class="text-[9px] text-zinc-600 uppercase font-black tracking-[0.3em] md:tracking-[0.4em] block pl-1">Message (required)</label>
-                      <textarea required rows="5" placeholder="TELL US ABOUT YOUR VEHICLE GOALS..." class="w-full neumorph-field--light rounded-[1.5rem] md:rounded-[3rem] p-4 md:p-6 text-zinc-900 text-base focus:border-purple-500 outline-none transition-all italic font-light resize-none leading-relaxed"></textarea>
+                    <div class="md:col-span-2 space-y-3">
+                      <label class="text-[9px] text-zinc-500 uppercase font-black tracking-[0.3em] md:tracking-[0.4em] block pl-1">Message (required)</label>
+                      <textarea required rows="5" placeholder="Tell us about your vehicle goals..." class="w-full neu-field rounded-2xl md:rounded-3xl p-4 md:p-5 text-sm md:text-base italic font-light resize-none leading-relaxed"></textarea>
                     </div>
                   </div>
                 </div>
-                <div class="pt-8 md:pt-10">
-                  <button type="submit" class="neumorph-submit--light w-full py-4 md:py-10 rounded-full flex items-center justify-center gap-4 md:gap-6" tabindex="0">SUBMIT <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="lucide lucide-send w-5 h-5 md:w-6 md:h-6 transition-transform" aria-hidden="true"><path d="M14.536 21.686a.5.5 0 0 0 .937-.024l6.5-19a.496.496 0 0 0-.635-.635l-19 6.5a.5.5 0 0 0-.024.937l7.93 3.18a2 2 0 0 1 1.112 1.11z"></path><path d="m21.854 2.147-10.94 10.939"></path></svg></button>
+
+                <!-- Submit -->
+                <div class="pt-4 md:pt-8">
+                  <button type="submit" class="neu-submit w-full py-5 md:py-8 rounded-full flex items-center justify-center gap-4 md:gap-6 text-xs md:text-sm" tabindex="0">
+                    SUBMIT 
+                    <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="w-5 h-5 md:w-6 md:h-6"><path d="M14.536 21.686a.5.5 0 0 0 .937-.024l6.5-19a.496.496 0 0 0-.635-.635l-19 6.5a.5.5 0 0 0-.024.937l7.93 3.18a2 2 0 0 1 1.112 1.11z"></path><path d="m21.854 2.147-10.94 10.939"></path></svg>
+                  </button>
                 </div>
               </form>
             </div>
           </div>
         </section>
+
       </div>
     </div>
   </main>
+
   <div id="footer-container"></div>
+
   <script>
-    // Dynamic navbar inclusion
     fetch('navbar.html')
       .then(res => res.text())
-      .then(html => {
-        document.getElementById('navbar-container').innerHTML = html;
-      });
-    // Dynamic footer inclusion
+      .then(html => { document.getElementById('navbar-container').innerHTML = html; });
     fetch('footer.html')
       .then(res => res.text())
       .then(html => {
         document.getElementById('footer-container').innerHTML = html;
-        if (window.UnicornStudio) {
-          window.UnicornStudio.init();
-        }
+        if (window.UnicornStudio) { window.UnicornStudio.init(); }
       });
   </script>
   <script>
-    // UnicornStudio initialization
     (function(){
       var u = window.UnicornStudio;
       if(u && u.init){
-        if(document.readyState === "loading"){
-          document.addEventListener("DOMContentLoaded", function(){u.init()});
-        }else{
-          u.init();
-        }
+        if(document.readyState === "loading"){ document.addEventListener("DOMContentLoaded", function(){u.init()}); }
+        else { u.init(); }
       }else{
         window.UnicornStudio = {isInitialized:!1};
         var i = document.createElement("script");
         i.src = "https://cdn.jsdelivr.net/gh/hiunicornstudio/unicornstudio.js@v2.0.5/dist/unicornStudio.umd.js";
         i.onload = function(){
-          if(document.readyState === "loading"){
-            document.addEventListener("DOMContentLoaded", function(){UnicornStudio.init()});
-          }else{
-            UnicornStudio.init();
-          }
+          if(document.readyState === "loading"){ document.addEventListener("DOMContentLoaded", function(){UnicornStudio.init()}); }
+          else { UnicornStudio.init(); }
         };
         (document.head||document.body).appendChild(i);
       }
     })();
   </script>
   <script>
+    document.addEventListener('DOMContentLoaded', () => {
       // Auto-wrap text in buttons for the border gradient effect
-      document.addEventListener('DOMContentLoaded', () => {
-        document.querySelectorAll('.btn-solid').forEach(btn => {
-           if(!btn.querySelector('span')) {
-               const text = btn.innerText;
-               btn.innerHTML = `<span class="relative z-10 flex items-center justify-center gap-2">${text}</span>`;
-           }
+      document.querySelectorAll('.btn-solid').forEach(btn => {
+         if(!btn.querySelector('span')) {
+             const text = btn.innerText;
+             btn.innerHTML = '<span class="relative z-10 flex items-center justify-center gap-2">' + text + '</span>';
+         }
+      });
+
+      // Service button selection logic
+      const serviceButtons = document.querySelectorAll('.neu-service-btn');
+      const servicesInput = document.getElementById('services-input');
+      const selectedServices = new Set();
+
+      serviceButtons.forEach(btn => {
+        btn.addEventListener('click', () => {
+          const serviceName = btn.getAttribute('data-service');
+          const isSelected = btn.classList.contains('selected');
+          
+          if (isSelected) {
+            btn.classList.remove('selected');
+            btn.querySelector('span').classList.remove('text-purple-400');
+            btn.querySelector('.icon-well svg').style.stroke = '';
+            selectedServices.delete(serviceName);
+          } else {
+            btn.classList.add('selected');
+            btn.querySelector('span').classList.add('text-purple-400');
+            btn.querySelector('.icon-well svg').style.stroke = '#a855f7';
+            selectedServices.add(serviceName);
+          }
+          
+          servicesInput.value = Array.from(selectedServices).join(', ');
         });
       });
+    });
   </script>
 </body>
 </html>
