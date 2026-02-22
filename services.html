@@ -305,14 +305,14 @@
           height: 850px;
           flex-shrink: 0;
           transform-origin: center center;
-          backface-visibility: hidden;
-          -webkit-backface-visibility: hidden;
+          will-change: transform, opacity;
+          /* Use translate3d(0,0,0) to force a high-res GPU layer from the start */
+          transform: translate3d(0,0,0);
         }
-        /* Only promote to GPU layer on desktop — mobile can't handle the memory */
-        @media (min-width: 769px) {
-          #title-zoom-inner {
-            will-change: transform, opacity;
-          }
+
+        /* Ensure the Unicorn canvas inside renders at full res */
+        #unicorn-embed-container canvas {
+          image-rendering: auto;
         }
 
         /* ── Mobile CSS Fallback Title ── */
@@ -359,7 +359,7 @@
       <div id="title-zoom-section" class="relative z-10" style="height: 300vh;">
         <div id="title-zoom-pin" class="sticky top-0 w-full h-screen flex items-center justify-center overflow-hidden">
           <!-- Desktop: Unicorn Studio WebGL title (hidden on mobile) -->
-          <div id="title-zoom-inner" style="transform: scale(0.15); opacity: 0;">
+          <div id="title-zoom-inner" style="transform: scale(0.2); opacity: 0;">
             <div id="unicorn-embed-container" data-us-project="cb1pg5ymSzmJuCnPEkTP" style="width: 1920px; height: 850px;"></div>
           </div>
           <!-- Mobile: Lightweight CSS fallback title -->
@@ -923,15 +923,13 @@
             trigger: titleZoomSection,
             start: "top top",
             end: "bottom top",
-            scrub: 0.6,
+            scrub: isMobileDevice ? 0.6 : true,  // Desktop: direct 1:1 scroll-to-frame (no lag/stutter)
             pin: false, // CSS sticky handles pinning
           }
         });
 
         if (isMobileDevice) {
           // Mobile: lighter animation — smaller scale range, no extreme zoom
-          // Scale from 0.5 → 1.2 → 2.5 (instead of 0.15 → 1 → 5)
-          // This keeps GPU memory usage low
           zoomTl.fromTo(zoomTarget,
             { scale: 0.5, opacity: 0, transformOrigin: "center center" },
             { scale: 1.2, opacity: 1, ease: "power2.inOut", duration: 0.4, force3D: true }
@@ -943,16 +941,18 @@
             { scale: 2.5, opacity: 0, ease: "power2.in", duration: 0.45, force3D: true }
           );
         } else {
-          // Desktop: full premium animation with Unicorn Studio
+          // Desktop: premium animation with Unicorn Studio
+          // Scale 0.2→1 (zoom in), hold, then 1→3 (zoom past + fade out)
+          // Max scale capped at 3 to avoid GPU thrashing at extreme sizes
           zoomTl.fromTo(zoomTarget,
-            { scale: 0.15, opacity: 0, transformOrigin: "center center" },
-            { scale: 1, opacity: 1, ease: "power2.inOut", duration: 0.4, force3D: true }
+            { scale: 0.2, opacity: 0, transformOrigin: "center center" },
+            { scale: 1, opacity: 1, ease: "power1.inOut", duration: 0.4, force3D: true }
           );
           zoomTl.to(zoomTarget,
-            { scale: 1, duration: 0.1, ease: "none" }
+            { scale: 1, duration: 0.15, ease: "none" }
           );
           zoomTl.to(zoomTarget,
-            { scale: 5, opacity: 0, ease: "power2.in", duration: 0.5, force3D: true }
+            { scale: 3, opacity: 0, ease: "power1.in", duration: 0.45, force3D: true }
           );
         }
 
