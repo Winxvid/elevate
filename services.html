@@ -370,33 +370,13 @@
         </div>
       </div>
       <script>
-        // Conditionally load Unicorn Studio ONLY on desktop to prevent mobile GPU crashes
+        // Load Unicorn Studio on all devices (needed for footer social icons).
+        // On mobile, only the large title embed is removed to save GPU memory.
         (function() {
           var isMobileDevice = window.innerWidth <= 768;
-          if (!isMobileDevice) {
-            // Desktop: load Unicorn Studio
-            var u = window.UnicornStudio;
-            if (u && u.init) {
-              if (document.readyState === "loading") {
-                document.addEventListener("DOMContentLoaded", function(){ u.init(); });
-              } else {
-                u.init();
-              }
-            } else {
-              window.UnicornStudio = { isInitialized: false };
-              var i = document.createElement("script");
-              i.src = "https://cdn.jsdelivr.net/gh/hiunicornstudio/unicornstudio.js@v2.0.5/dist/unicornStudio.umd.js";
-              i.onload = function() {
-                if (document.readyState === "loading") {
-                  document.addEventListener("DOMContentLoaded", function(){ UnicornStudio.init(); });
-                } else {
-                  UnicornStudio.init();
-                }
-              };
-              (document.head || document.body).appendChild(i);
-            }
-          } else {
-            // Mobile: remove the Unicorn embed entirely to free memory
+
+          // Mobile: remove the large title WebGL embed to free GPU memory
+          if (isMobileDevice) {
             var embed = document.getElementById('unicorn-embed-container');
             if (embed) embed.remove();
             // Show fallback
@@ -405,6 +385,28 @@
             // Hide the desktop inner wrapper
             var inner = document.getElementById('title-zoom-inner');
             if (inner) inner.style.display = 'none';
+          }
+
+          // Load Unicorn Studio library on ALL devices (for footer social icons)
+          var u = window.UnicornStudio;
+          if (u && u.init) {
+            if (document.readyState === "loading") {
+              document.addEventListener("DOMContentLoaded", function(){ u.init(); });
+            } else {
+              u.init();
+            }
+          } else {
+            window.UnicornStudio = { isInitialized: false };
+            var i = document.createElement("script");
+            i.src = "https://cdn.jsdelivr.net/gh/hiunicornstudio/unicornstudio.js@v2.0.5/dist/unicornStudio.umd.js";
+            i.onload = function() {
+              if (document.readyState === "loading") {
+                document.addEventListener("DOMContentLoaded", function(){ UnicornStudio.init(); });
+              } else {
+                UnicornStudio.init();
+              }
+            };
+            (document.head || document.body).appendChild(i);
           }
         })();
       </script>
@@ -837,8 +839,8 @@
       .then(res => res.text())
       .then(html => {
         document.getElementById('footer-container').innerHTML = html;
-        // Only re-init Unicorn Studio on desktop (it's not loaded on mobile)
-        if (window.innerWidth > 768 && window.UnicornStudio && window.UnicornStudio.isInitialized !== false) {
+        // Re-init Unicorn Studio so footer social icons render
+        if (window.UnicornStudio && window.UnicornStudio.init) {
           window.UnicornStudio.init();
         }
       });
