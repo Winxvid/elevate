@@ -276,43 +276,138 @@
     <!-- 2. SERVICES GALLERY SECTION (Unicorn Title + Cards) -->
     <div class="bg-black relative">
       <!-- Background Effects (clipped to prevent horizontal overflow) -->
-      <div class="absolute inset-0 overflow-hidden pointer-events-none z-0">
+      <!-- NOTE: On mobile, these large blur elements are hidden to save GPU memory -->
+      <div class="absolute inset-0 overflow-hidden pointer-events-none z-0 hidden md:block">
         <div class="absolute inset-0 bg-mesh opacity-50"></div>
         <div class="absolute top-0 left-1/4 w-[1200px] h-[1200px] bg-purple-500/15 blur-[300px] rounded-full"></div>
         <div class="absolute top-1/2 -right-[500px] w-[1000px] h-[1000px] bg-white/10 blur-[300px] rounded-full"></div>
         <div class="absolute -bottom-[400px] -left-[400px] w-[800px] h-[800px] bg-purple-300/10 blur-[250px] rounded-full"></div>
+      </div>
+      <!-- Mobile: lighter background effect -->
+      <div class="absolute inset-0 overflow-hidden pointer-events-none z-0 block md:hidden">
+        <div class="absolute inset-0 bg-mesh opacity-30"></div>
+        <div class="absolute top-1/4 left-1/4 w-[300px] h-[300px] bg-purple-500/10 blur-[100px] rounded-full"></div>
       </div>
 
       <!-- ═══════════════════════════════════════════════════════
            UNICORN TITLE ZOOM — Scroll-driven scale animation
            Pins the title, scales from tiny to massive, then
            fades out before revealing the service cards.
+           
+           MOBILE: Unicorn Studio WebGL is disabled to prevent
+           GPU memory crashes. A lightweight CSS fallback is
+           shown instead with the same zoom animation.
            ═══════════════════════════════════════════════════════ -->
       <style>
-        /* Unicorn embed renders at full native res; GSAP scales the wrapper.
-           This keeps the WebGL canvas crisp at every zoom level. */
+        /* Desktop: Unicorn embed renders at full native res; GSAP scales the wrapper. */
         #title-zoom-inner {
-          /* Size the wrapper to the native Unicorn dimensions */
           width: 1920px;
           height: 850px;
           flex-shrink: 0;
           transform-origin: center center;
-          /* GPU layer — avoids repaints during scale */
-          will-change: transform, opacity;
           backface-visibility: hidden;
           -webkit-backface-visibility: hidden;
         }
-        /* On very small screens, keep the embed at native res but let
-           the initial GSAP scale(0.15) handle how big it appears. */
+        /* Only promote to GPU layer on desktop — mobile can't handle the memory */
+        @media (min-width: 769px) {
+          #title-zoom-inner {
+            will-change: transform, opacity;
+          }
+        }
+
+        /* ── Mobile CSS Fallback Title ── */
+        #title-zoom-fallback {
+          display: none; /* hidden by default — shown on mobile via JS */
+          width: 100%;
+          height: 100%;
+          align-items: center;
+          justify-content: center;
+          flex-direction: column;
+          text-align: center;
+          gap: 0.5rem;
+          transform-origin: center center;
+          backface-visibility: hidden;
+          -webkit-backface-visibility: hidden;
+        }
+        #title-zoom-fallback .fallback-line {
+          font-family: 'Archivo', sans-serif;
+          font-weight: 900;
+          font-style: italic;
+          text-transform: uppercase;
+          letter-spacing: -0.03em;
+          line-height: 0.85;
+          background: linear-gradient(135deg, #ffffff 0%, #a855f7 50%, #e9d5ff 100%);
+          -webkit-background-clip: text;
+          -webkit-text-fill-color: transparent;
+          background-clip: text;
+        }
+        #title-zoom-fallback .fallback-line:first-child {
+          font-size: clamp(2.5rem, 12vw, 5rem);
+        }
+        #title-zoom-fallback .fallback-line:last-child {
+          font-size: clamp(2rem, 10vw, 4rem);
+          opacity: 0.7;
+        }
+
+        /* Mobile: reduce scroll height since animation is lighter */
+        @media (max-width: 768px) {
+          #title-zoom-section {
+            height: 200vh !important;
+          }
+        }
       </style>
       <div id="title-zoom-section" class="relative z-10" style="height: 300vh;">
         <div id="title-zoom-pin" class="sticky top-0 w-full h-screen flex items-center justify-center overflow-hidden">
+          <!-- Desktop: Unicorn Studio WebGL title (hidden on mobile) -->
           <div id="title-zoom-inner" style="transform: scale(0.15); opacity: 0;">
-            <div data-us-project="cb1pg5ymSzmJuCnPEkTP" style="width: 1920px; height: 850px;"></div>
-            <script type="text/javascript">!function(){var u=window.UnicornStudio;if(u&&u.init){if(document.readyState==="loading"){document.addEventListener("DOMContentLoaded",function(){u.init()})}else{u.init()}}else{window.UnicornStudio={isInitialized:!1};var i=document.createElement("script");i.src="https://cdn.jsdelivr.net/gh/hiunicornstudio/unicornstudio.js@v2.0.5/dist/unicornStudio.umd.js",i.onload=function(){if(document.readyState==="loading"){document.addEventListener("DOMContentLoaded",function(){UnicornStudio.init()})}else{UnicornStudio.init()}},(document.head||document.body).appendChild(i)}}();</script>
+            <div id="unicorn-embed-container" data-us-project="cb1pg5ymSzmJuCnPEkTP" style="width: 1920px; height: 850px;"></div>
+          </div>
+          <!-- Mobile: Lightweight CSS fallback title -->
+          <div id="title-zoom-fallback" style="transform: scale(0.5); opacity: 0;">
+            <span class="fallback-line">WHAT WE</span>
+            <span class="fallback-line">OFFER</span>
           </div>
         </div>
       </div>
+      <script>
+        // Conditionally load Unicorn Studio ONLY on desktop to prevent mobile GPU crashes
+        (function() {
+          var isMobileDevice = window.innerWidth <= 768;
+          if (!isMobileDevice) {
+            // Desktop: load Unicorn Studio
+            var u = window.UnicornStudio;
+            if (u && u.init) {
+              if (document.readyState === "loading") {
+                document.addEventListener("DOMContentLoaded", function(){ u.init(); });
+              } else {
+                u.init();
+              }
+            } else {
+              window.UnicornStudio = { isInitialized: false };
+              var i = document.createElement("script");
+              i.src = "https://cdn.jsdelivr.net/gh/hiunicornstudio/unicornstudio.js@v2.0.5/dist/unicornStudio.umd.js";
+              i.onload = function() {
+                if (document.readyState === "loading") {
+                  document.addEventListener("DOMContentLoaded", function(){ UnicornStudio.init(); });
+                } else {
+                  UnicornStudio.init();
+                }
+              };
+              (document.head || document.body).appendChild(i);
+            }
+          } else {
+            // Mobile: remove the Unicorn embed entirely to free memory
+            var embed = document.getElementById('unicorn-embed-container');
+            if (embed) embed.remove();
+            // Show fallback
+            var fallback = document.getElementById('title-zoom-fallback');
+            if (fallback) fallback.style.display = 'flex';
+            // Hide the desktop inner wrapper
+            var inner = document.getElementById('title-zoom-inner');
+            if (inner) inner.style.display = 'none';
+          }
+        })();
+      </script>
       
       <section class="offer-section relative pt-32 md:pt-48 pb-20 md:pb-24 bg-transparent z-10">
         <style>
@@ -450,8 +545,15 @@
           .gallery-modal .modal-scrim {
             position: absolute; inset: 0;
             background: rgba(0,0,0,0.85);
-            backdrop-filter: blur(20px); -webkit-backdrop-filter: blur(20px);
+            backdrop-filter: blur(10px); -webkit-backdrop-filter: blur(10px);
             opacity: 0;
+          }
+          /* Reduce blur on mobile to save GPU memory */
+          @media (max-width: 768px) {
+            .gallery-modal .modal-scrim {
+              backdrop-filter: none; -webkit-backdrop-filter: none;
+              background: rgba(0,0,0,0.92);
+            }
           }
 
           /* Contained image frame — opacity/transform controlled by GSAP */
@@ -735,7 +837,8 @@
       .then(res => res.text())
       .then(html => {
         document.getElementById('footer-container').innerHTML = html;
-        if (window.UnicornStudio) {
+        // Only re-init Unicorn Studio on desktop (it's not loaded on mobile)
+        if (window.innerWidth > 768 && window.UnicornStudio && window.UnicornStudio.isInitialized !== false) {
           window.UnicornStudio.init();
         }
       });
@@ -799,10 +902,15 @@
 
       const titleZoomSection = document.getElementById('title-zoom-section');
       const titleZoomInner = document.getElementById('title-zoom-inner');
+      const titleZoomFallback = document.getElementById('title-zoom-fallback');
       const galleryGrid = document.getElementById('gallery-grid');
       const galleryCards = document.querySelectorAll('.gallery-card');
 
-      if (titleZoomSection && titleZoomInner) {
+      const isMobileDevice = window.innerWidth <= 768;
+      // Pick the correct zoom target based on device
+      const zoomTarget = isMobileDevice ? titleZoomFallback : titleZoomInner;
+
+      if (titleZoomSection && zoomTarget) {
 
         // Set initial state for cards — hidden, shifted down
         gsap.set(galleryCards, { y: 100, opacity: 0 });
@@ -818,26 +926,35 @@
           }
         });
 
-        // Phase 1: Fade in + scale from 0.15 → 1.0 (first 40% of scroll)
-        // The element is 1920×850 native — at scale(0.15) it appears ~288px wide
-        // At scale(1) it fills the viewport. This keeps the canvas at full res.
-        zoomTl.fromTo(titleZoomInner,
-          { scale: 0.15, opacity: 0, transformOrigin: "center center" },
-          { scale: 1, opacity: 1, ease: "power2.inOut", duration: 0.4, force3D: true }
-        );
-
-        // Phase 2: Hold briefly at full scale (40% → 50%)
-        zoomTl.to(titleZoomInner,
-          { scale: 1, duration: 0.1, ease: "none" }
-        );
-
-        // Phase 3: Scale up massive + fade out (50% → 100%)
-        zoomTl.to(titleZoomInner,
-          { scale: 5, opacity: 0, ease: "power2.in", duration: 0.5, force3D: true }
-        );
+        if (isMobileDevice) {
+          // Mobile: lighter animation — smaller scale range, no extreme zoom
+          // Scale from 0.5 → 1.2 → 2.5 (instead of 0.15 → 1 → 5)
+          // This keeps GPU memory usage low
+          zoomTl.fromTo(zoomTarget,
+            { scale: 0.5, opacity: 0, transformOrigin: "center center" },
+            { scale: 1.2, opacity: 1, ease: "power2.inOut", duration: 0.4, force3D: true }
+          );
+          zoomTl.to(zoomTarget,
+            { scale: 1.2, duration: 0.15, ease: "none" }
+          );
+          zoomTl.to(zoomTarget,
+            { scale: 2.5, opacity: 0, ease: "power2.in", duration: 0.45, force3D: true }
+          );
+        } else {
+          // Desktop: full premium animation with Unicorn Studio
+          zoomTl.fromTo(zoomTarget,
+            { scale: 0.15, opacity: 0, transformOrigin: "center center" },
+            { scale: 1, opacity: 1, ease: "power2.inOut", duration: 0.4, force3D: true }
+          );
+          zoomTl.to(zoomTarget,
+            { scale: 1, duration: 0.1, ease: "none" }
+          );
+          zoomTl.to(zoomTarget,
+            { scale: 5, opacity: 0, ease: "power2.in", duration: 0.5, force3D: true }
+          );
+        }
 
         // ── Cards reveal: triggered when the gallery grid scrolls into view ──
-        // Uses its own ScrollTrigger so cards appear when centered on screen
         gsap.to(galleryCards, {
           y: 0,
           opacity: 1,

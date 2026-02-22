@@ -21,7 +21,7 @@
           <a href="https://www.instagram.com/elevated.autowraps?utm_source=ig_web_button_share_sheet&amp;igsh=ZDNlZDc0MzIxNw==" target="_blank" rel="noopener noreferrer" class="block w-20 h-20 sm:w-28 sm:h-28 md:w-40 md:h-40 hover:scale-105 transition-all duration-700 relative group rounded-full bg-white/5 border border-white/5 hover:border-purple-500/50 flex items-center justify-center overflow-hidden">
             <div 
               data-us-project="nWuS0ZQ7DbPPtoG7eNq5"
-              class="absolute inset-0 z-10 pointer-events-none"
+              class="unicorn-social-embed absolute inset-0 z-10 pointer-events-none"
               style="width: 100%; height: 100%;">
             </div>
             <i class="fa-brands fa-instagram text-xl md:text-3xl text-zinc-700 group-hover:text-purple-400 transition-colors duration-700 z-0"></i>
@@ -30,7 +30,7 @@
           <a href="https://www.facebook.com/profile.php?id=61568499445264" target="_blank" rel="noopener noreferrer" class="block w-20 h-20 sm:w-28 sm:h-28 md:w-40 md:h-40 hover:scale-105 transition-all duration-700 relative group rounded-full bg-white/5 border border-white/5 hover:border-purple-500/50 flex items-center justify-center overflow-hidden">
             <div 
               data-us-project="cvyNGU9RGqiGEasGxjEx"
-              class="absolute inset-0 z-10 pointer-events-none"
+              class="unicorn-social-embed absolute inset-0 z-10 pointer-events-none"
               style="width: 100%; height: 100%;">
             </div>
             <i class="fa-brands fa-facebook text-xl md:text-3xl text-zinc-700 group-hover:text-purple-400 transition-colors duration-700 z-0"></i>
@@ -40,12 +40,24 @@
             <div 
               data-us-project="cmcad6yCrnXNrYzzXjUl"
               data-us-production="true"
-              class="absolute inset-0 z-10 pointer-events-none"
+              class="unicorn-social-embed absolute inset-0 z-10 pointer-events-none"
               style="width: 100%; height: 100%;">
             </div>
             <i class="fa-brands fa-tiktok text-xl md:text-3xl text-zinc-700 group-hover:text-purple-400 transition-colors duration-700 z-0"></i>
           </a>
         </div>
+        <!-- On mobile, remove Unicorn Studio social embeds to prevent GPU memory crashes -->
+        <script>
+          (function() {
+            if (window.innerWidth <= 768) {
+              document.querySelectorAll('.unicorn-social-embed').forEach(function(el) {
+                el.removeAttribute('data-us-project');
+                el.removeAttribute('data-us-production');
+                el.innerHTML = '';
+              });
+            }
+          })();
+        </script>
       </div>
       <div class="w-full max-w-5xl grid grid-cols-1 md:grid-cols-3 gap-12 md:gap-16 mb-20 md:mb-32 text-center items-start">
         <div class="space-y-3 md:space-y-6">
