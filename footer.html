@@ -46,18 +46,6 @@
             <i class="fa-brands fa-tiktok text-xl md:text-3xl text-zinc-700 group-hover:text-purple-400 transition-colors duration-700 z-0"></i>
           </a>
         </div>
-        <!-- On mobile, remove Unicorn Studio social embeds to prevent GPU memory crashes -->
-        <script>
-          (function() {
-            if (window.innerWidth <= 768) {
-              document.querySelectorAll('.unicorn-social-embed').forEach(function(el) {
-                el.removeAttribute('data-us-project');
-                el.removeAttribute('data-us-production');
-                el.innerHTML = '';
-              });
-            }
-          })();
-        </script>
       </div>
       <div class="w-full max-w-5xl grid grid-cols-1 md:grid-cols-3 gap-12 md:gap-16 mb-20 md:mb-32 text-center items-start">
         <div class="space-y-3 md:space-y-6">
