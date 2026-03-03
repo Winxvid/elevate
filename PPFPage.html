@@ -162,6 +162,43 @@
 
 </head>
 <body class="bg-[#08070b] text-white antialiased">
+  <!-- Preloader Overlay -->
+  <div id="preloader">
+      <img src="Elevated_preloader.GIF" class="h-32 md:h-48 w-auto mb-8" alt="Elevated Wraps Loading...">
+      <div class="w-48 h-[1px] bg-white/10 relative overflow-hidden">
+          <div class="absolute inset-0 bg-purple-500 animate-[loading_2s_ease-in-out_infinite]"></div>
+      </div>
+  </div>
+  <style>
+    @keyframes loading {
+      0% { transform: translateX(-100%); }
+      50% { transform: translateX(100%); }
+      100% { transform: translateX(100%); }
+    }
+    #preloader {
+      position: fixed;
+      inset: 0;
+      background: #08070b;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      z-index: 9999;
+      transition: opacity 0.8s cubic-bezier(0.16, 1, 0.3, 1), visibility 0.8s;
+    }
+    #preloader.hidden {
+      opacity: 0;
+      visibility: hidden;
+    }
+  </style>
+  <script>
+    window.addEventListener('load', () => {
+      const preloader = document.getElementById('preloader');
+      setTimeout(() => {
+        preloader.classList.add('hidden');
+      }, 1000);
+    });
+  </script>
   <div id="navbar-container"></div>
   <main class="min-h-screen">
     <section class="relative h-[100dvh] w-full flex items-center justify-center overflow-hidden bg-black">
@@ -254,7 +291,7 @@
             </div>
             <div class="rounded-[2rem] md:rounded-[3rem] overflow-hidden border border-white/10 aspect-square relative group shadow-2xl" style="opacity: 1; transform: none;">
               <div class="absolute inset-0 w-full h-full overflow-hidden rounded-[2rem] md:rounded-[3rem]">
-                <img class="ken-burns w-full h-full object-cover grayscale-[0.3] transition-all duration-[2s] group-hover:grayscale-0" alt="PPF Installation" src="https://ogautocc.com/ElevatedWraps/Paint_Protection_Film.jpg">
+                <img class="ken-burns w-full h-full object-cover grayscale-[0.3] transition-all duration-[2s] group-hover:grayscale-0" alt="PPF Installation" src="PPF_image.jpg">
                 <div class="absolute inset-0 bg-gradient-to-t from-black/80 via-transparent to-transparent"></div>
               </div>
             </div>

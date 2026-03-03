@@ -258,6 +258,43 @@
     </style>
 </head>
 <body class="bg-[#08070b] text-white min-h-screen">
+  <!-- Preloader Overlay -->
+  <div id="preloader">
+      <img src="Elevated_preloader.GIF" class="h-32 md:h-48 w-auto mb-8" alt="Elevated Wraps Loading...">
+      <div class="w-48 h-[1px] bg-white/10 relative overflow-hidden">
+          <div class="absolute inset-0 bg-purple-500 animate-[loading_2s_ease-in-out_infinite]"></div>
+      </div>
+  </div>
+  <style>
+    @keyframes loading {
+      0% { transform: translateX(-100%); }
+      50% { transform: translateX(100%); }
+      100% { transform: translateX(100%); }
+    }
+    #preloader {
+      position: fixed;
+      inset: 0;
+      background: #08070b;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      z-index: 9999;
+      transition: opacity 0.8s cubic-bezier(0.16, 1, 0.3, 1), visibility 0.8s;
+    }
+    #preloader.hidden {
+      opacity: 0;
+      visibility: hidden;
+    }
+  </style>
+  <script>
+    window.addEventListener('load', () => {
+      const preloader = document.getElementById('preloader');
+      setTimeout(() => {
+        preloader.classList.add('hidden');
+      }, 1000);
+    });
+  </script>
   <div id="navbar-container"></div>
   <main class="min-h-screen">
     <div class="text-white min-h-screen pt-24 md:pt-48 pb-20 md:pb-32 relative overflow-hidden" style="background: url('Quote_Background.png') center center / cover no-repeat scroll #08070b;">
@@ -286,7 +323,7 @@
             <div class="relative z-10">
               <!-- Header -->
               <div class="flex flex-col items-center text-center mb-10 md:mb-16">
-                <img src="https://ogautocc.com/ElevatedWraps/logo.PNG" alt="Elevated Auto Wraps logo" loading="lazy" decoding="async" class="w-20 md:w-28 mb-6 md:mb-8">
+                <img src="logo.png" alt="Elevated Auto Wraps logo" loading="lazy" decoding="async" class="w-20 md:w-28 mb-6 md:mb-8">
                 <h1 class="porsche-font text-2xl md:text-5xl text-white mb-3 md:mb-4 italic leading-none uppercase tracking-tight">Let's <span class="text-purple-400">work together</span></h1>
                 <p class="text-sm md:text-base text-zinc-400 max-w-md leading-relaxed">Ready to elevate your vehicle? Complete the intake below and our specialists will reach out shortly.</p>
               </div>
