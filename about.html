@@ -248,12 +248,8 @@
               </div>
             </div>
             <div class="lg:col-span-5 space-y-6 md:space-y-10">
-              <div class="aspect-[4/5] rounded-[2.5rem] md:rounded-[4rem] overflow-hidden border border-zinc-200 relative group shadow-2xl pixel-image-wrapper" style="opacity: 1; transform: none;">
-                <div class="pixel-image-container w-full h-full relative flex flex-wrap bg-zinc-900" 
-                     data-src="about.jpg" 
-                     data-rows="4" 
-                     data-cols="6">
-                </div>
+              <div class="aspect-[4/5] rounded-[2.5rem] md:rounded-[4rem] overflow-hidden border border-zinc-200 relative group shadow-2xl" style="opacity: 1; transform: none;">
+                <video class="w-full h-full object-cover" src="About_video.mp4" autoplay muted loop playsinline></video>
                 <div class="absolute inset-0 bg-gradient-to-t from-black/60 via-transparent to-white/10 pointer-events-none z-20"></div>
               </div>
               <a href="https://www.instagram.com/mirandareyes_007" target="_blank" rel="noopener noreferrer" class="flex items-center justify-between p-8 md:p-10 bg-zinc-900 text-white rounded-[2rem] md:rounded-[3rem] hover:bg-purple-600 hover:text-white transition-all group relative overflow-hidden font-black uppercase tracking-[0.4em] text-[10px] md:text-xs shadow-2xl" style="opacity: 1; transform: none;">
@@ -264,6 +260,389 @@
           </div>
         </div>
       </div>
+    </section>
+
+    <!-- Image Carousel Section -->
+    <section class="w-full py-16 md:py-24 bg-black">
+      <div class="max-w-7xl mx-auto px-6 mb-10 md:mb-14">
+        <span id="pc-label" class="text-purple-500 uppercase tracking-[0.3em] text-[9px] md:text-[10px] font-black block mb-3" style="transition:opacity 0.4s,transform 0.4s;">Behind the craft</span>
+        <h2 id="pc-title" class="porsche-font text-4xl md:text-6xl text-white leading-none" style="transition:opacity 0.4s,transform 0.4s;">In The <span class="text-white/40">Field.</span></h2>
+      </div>
+
+      <style>
+        #parallax-carousel {
+          display: flex;
+          overflow-x: scroll;
+          scroll-snap-type: x mandatory;
+          -webkit-overflow-scrolling: touch;
+          align-items: center;
+          padding-top: 80px;
+          padding-bottom: 80px;
+          cursor: grab;
+          user-select: none;
+          -webkit-user-select: none;
+        }
+        #parallax-carousel::-webkit-scrollbar { display: none; }
+        #parallax-carousel { -ms-overflow-style: none; scrollbar-width: none; }
+
+        .pc-card {
+          flex-shrink: 0;
+          width: 300px;
+          height: 420px;
+          margin-left: -48px;
+          margin-right: -48px;
+          border-radius: 32px;
+          overflow: hidden;
+          position: relative;
+          background: #111;
+          scroll-snap-align: center;
+          will-change: transform;
+          cursor: pointer;
+        }
+        @media (max-width: 640px) {
+          .pc-card { width: 230px; height: 340px; margin-left: -34px; margin-right: -34px; }
+        }
+
+        .pc-card img {
+          position: absolute;
+          width: 130%;
+          height: 100%;
+          left: -15%;
+          top: 0;
+          object-fit: cover;
+          transform: translateX(0px);
+          will-change: transform;
+          pointer-events: none;
+        }
+
+        /* Layer 2 — Reflection: diagonal glare that tracks opposite to image */
+        .pc-reflection {
+          position: absolute; inset: 0;
+          background: linear-gradient(
+            125deg,
+            transparent 20%,
+            rgba(255,255,255,0.18) 45%,
+            rgba(255,255,255,0.06) 55%,
+            transparent 80%
+          );
+          mix-blend-mode: overlay;
+          pointer-events: none;
+          z-index: 2;
+          will-change: transform;
+        }
+
+        /* Layer 3 — Dim overlay: fades out at center */
+        .pc-overlay {
+          position: absolute; inset: 0;
+          background: #000;
+          opacity: 0.65;
+          pointer-events: none;
+          z-index: 3;
+        }
+
+        /* ── Shared-Element fullscreen overlay ── */
+        #pc-fullscreen {
+          position: fixed; inset: 0;
+          z-index: 9999;
+          display: none;
+          align-items: center;
+          justify-content: center;
+          background: #000;
+          overflow: hidden;
+          transform-origin: center center;
+        }
+        #pc-fullscreen img {
+          width: 100%; height: 100%;
+          object-fit: cover;
+          pointer-events: none;
+          display: block;
+        }
+        #pc-fs-close {
+          position: absolute; top: 20px; right: 20px;
+          width: 44px; height: 44px; border-radius: 50%;
+          background: rgba(255,255,255,0.12);
+          backdrop-filter: blur(10px);
+          border: 1px solid rgba(255,255,255,0.2);
+          color: #fff; font-size: 24px; line-height: 1;
+          cursor: pointer; display: flex; align-items: center; justify-content: center;
+          transition: background 0.2s;
+          z-index: 2;
+        }
+        #pc-fs-close:hover { background: #a855f7; }
+      </style>
+
+      <!-- Shared-element fullscreen -->
+      <div id="pc-fullscreen">
+        <button id="pc-fs-close" aria-label="Close">×</button>
+        <img id="pc-fs-img" src="" alt="">
+      </div>
+
+      <div style="overflow:hidden;">
+      <div id="parallax-carousel">
+        <div class="pc-card">
+          <img src="carousel_1.jpg" alt="Miranda at work" draggable="false">
+          <div class="pc-reflection"></div><div class="pc-overlay"></div>
+        </div>
+        <div class="pc-card">
+          <img src="carousel_2.jpg" alt="Miranda at work" draggable="false">
+          <div class="pc-reflection"></div><div class="pc-overlay"></div>
+        </div>
+        <div class="pc-card">
+          <img src="carousel_3.jpg" alt="Miranda at work" draggable="false">
+          <div class="pc-reflection"></div><div class="pc-overlay"></div>
+        </div>
+        <div class="pc-card">
+          <img src="carousel_4.jpg" alt="Miranda at work" draggable="false">
+          <div class="pc-reflection"></div><div class="pc-overlay"></div>
+        </div>
+        <div class="pc-card">
+          <img src="carousel_5.jpg" alt="Miranda at work" draggable="false">
+          <div class="pc-reflection"></div><div class="pc-overlay"></div>
+        </div>
+        <div class="pc-card">
+          <img src="carousel_6.jpg" alt="Miranda at work" draggable="false">
+          <div class="pc-reflection"></div><div class="pc-overlay"></div>
+        </div>
+        <div class="pc-card">
+          <img src="carousel_7.jpg" alt="Miranda at work" draggable="false">
+          <div class="pc-reflection"></div><div class="pc-overlay"></div>
+        </div>
+        <div class="pc-card">
+          <img src="carousel_8.jpg" alt="Miranda at work" draggable="false">
+          <div class="pc-reflection"></div><div class="pc-overlay"></div>
+        </div>
+      </div>
+
+      </div><!-- /overflow:hidden wrapper -->
+      <div id="pc-dots" class="flex justify-center gap-2 mt-8"></div>
+
+      <script>
+        (function () {
+          const container  = document.getElementById('parallax-carousel');
+          const dotsWrap   = document.getElementById('pc-dots');
+          const fsOverlay  = document.getElementById('pc-fullscreen');
+          const fsImg      = document.getElementById('pc-fs-img');
+          const fsClose    = document.getElementById('pc-fs-close');
+          const pcLabel    = document.getElementById('pc-label');
+          const pcTitle    = document.getElementById('pc-title');
+          const cards      = Array.from(container.querySelectorAll('.pc-card'));
+
+          /* ── Dots ── */
+          cards.forEach((_, i) => {
+            const d = document.createElement('button');
+            d.style.cssText = 'height:8px;border-radius:9999px;border:none;cursor:pointer;padding:0;transition:width 0.3s,background 0.3s;';
+            d.style.width      = i === 0 ? '24px' : '8px';
+            d.style.background = i === 0 ? '#a855f7' : 'rgba(255,255,255,0.2)';
+            d.addEventListener('click', () => snapTo(i));
+            dotsWrap.appendChild(d);
+          });
+
+          /* ── Padding: center first/last cards ── */
+          function updatePadding() {
+            const half = container.clientWidth / 2 - cards[0].offsetWidth / 2;
+            container.style.paddingLeft  = half + 'px';
+            container.style.paddingRight = half + 'px';
+          }
+
+          function snapTo(i) {
+            container.style.scrollSnapType = '';
+            const pad = parseFloat(container.style.paddingLeft) || 0;
+            container.scrollTo({ left: cards[i].offsetLeft - pad, behavior: 'smooth' });
+          }
+
+          function nearestIndex() {
+            const cx = container.scrollLeft + container.clientWidth / 2;
+            let near = 0, dist = Infinity;
+            cards.forEach((c, i) => {
+              const d = Math.abs(c.offsetLeft + c.offsetWidth / 2 - cx);
+              if (d < dist) { dist = d; near = i; }
+            });
+            return near;
+          }
+
+          function clamp(v, a, b) { return Math.max(a, Math.min(b, v)); }
+          function map(v, i0, i1, o0, o1) { return o0 + (o1 - o0) * clamp((v - i0) / (i1 - i0), 0, 1); }
+
+          function getStep() {
+            return cards.length > 1 ? cards[1].offsetLeft - cards[0].offsetLeft : cards[0].offsetWidth;
+          }
+
+          let activeDot = 0;
+
+          function tick() {
+            const cx   = container.scrollLeft + container.clientWidth / 2;
+            const step = getStep() || 1;
+            const dots = dotsWrap.querySelectorAll('button');
+            const near = nearestIndex();
+
+            cards.forEach((card) => {
+              const img        = card.querySelector('img');
+              const reflection = card.querySelector('.pc-reflection');
+              const overlay    = card.querySelector('.pc-overlay');
+
+              const cc   = card.offsetLeft + card.offsetWidth / 2;
+              const prog = clamp((cc - cx) / step, -1.2, 1.2);  // -1=left, 0=center, +1=right
+              const abs  = Math.abs(prog);
+
+              /* ── 3D tilt directly on card ── */
+              const ry     = -prog * 12;
+              const sc     = map(abs, 0, 1, 1, 0.82);
+              const shadow = map(abs, 0, 1, 40, 10);
+              card.style.transform = `perspective(1000px) rotateY(${ry}deg) scale(${sc})`;
+              card.style.zIndex    = String(Math.round(map(abs, 0, 1, 100, 1)));
+              card.style.filter    = `drop-shadow(0 ${shadow}px ${shadow * 2}px rgba(0,0,0,${map(abs,0,1,0.55,0.2)}))`;
+
+              /* ── Image: 2D horizontal parallax, always fills the card ── */
+              const imgW = card.offsetWidth;
+              const imgX = -prog * imgW * 0.12;
+              img.style.transform = `translateX(${imgX}px)`;
+
+              /* ── Layer 3 (Reflection): SAME direction as scroll (0.4 ratio), fades at edges ── */
+              const refX  = prog * imgW * 0.40;                 // 0.4 ratio, same direction
+              const refOp = map(abs, 0, 1, 0.9, 0.1);          // brightest at center
+              reflection.style.transform = `translateX(${refX}px)`;
+              reflection.style.opacity   = String(refOp);
+
+              /* ── Dim overlay: clear at center, dark at edges ── */
+              const opa = abs < 0.3 ? map(abs, 0, 0.3, 0, 0.45) : map(abs, 0.3, 1, 0.45, 0.75);
+              overlay.style.opacity = String(opa);
+            });
+
+            if (near !== activeDot && dots.length) {
+              dots[activeDot].style.width      = '8px';
+              dots[activeDot].style.background = 'rgba(255,255,255,0.2)';
+              dots[near].style.width           = '24px';
+              dots[near].style.background      = '#a855f7';
+              activeDot = near;
+            }
+          }
+
+          container.addEventListener('scroll', tick, { passive: true });
+
+          /* ── Drag via Pointer Events (mouse + touch unified) ── */
+          let pointerDown = false, pointerStartX = 0, scrollStart = 0, totalDelta = 0, downCard = null;
+
+          container.addEventListener('pointerdown', e => {
+            pointerDown   = true;
+            pointerStartX = e.clientX;
+            scrollStart   = container.scrollLeft;
+            totalDelta    = 0;
+            downCard      = e.target.closest('.pc-card');
+            container.style.scrollSnapType = 'none'; // disable snap mid-drag
+            container.setPointerCapture(e.pointerId);
+            container.style.cursor = 'grabbing';
+          });
+
+          container.addEventListener('pointermove', e => {
+            if (!pointerDown) return;
+            totalDelta = e.clientX - pointerStartX;
+            container.scrollLeft = scrollStart - totalDelta;
+            tick();
+          });
+
+          container.addEventListener('pointerup', () => {
+            if (!pointerDown) return;
+            pointerDown = false;
+            container.style.cursor = 'grab';
+
+            if (Math.abs(totalDelta) < 8 && downCard) {
+              // Tap/click → open shared-element expansion
+              openCard(downCard);
+              container.style.scrollSnapType = '';
+            } else {
+              // Drag → snap to nearest
+              const nearest = nearestIndex();
+              const pad = parseFloat(container.style.paddingLeft) || 0;
+              container.style.scrollSnapType = '';
+              container.scrollTo({ left: cards[nearest].offsetLeft - pad, behavior: 'smooth' });
+            }
+          });
+
+          container.addEventListener('pointercancel', () => {
+            pointerDown = false;
+            container.style.cursor = 'grab';
+            container.style.scrollSnapType = '';
+          });
+
+          /* ── Shared-Element Expansion ── */
+          let storedRect    = null;
+          let expandAnim    = null;
+          const SPRING      = 'cubic-bezier(0.16, 1, 0.3, 1)';   // Apple quintic spring
+          const SPRING_OUT  = 'cubic-bezier(0.4, 0, 0.8, 0.3)';
+
+          function openCard(card) {
+            storedRect = card.getBoundingClientRect();
+            fsImg.src  = card.querySelector('img').getAttribute('src');
+
+            const cx = storedRect.left + storedRect.width  / 2 - window.innerWidth  / 2;
+            const cy = storedRect.top  + storedRect.height / 2 - window.innerHeight / 2;
+            const sx = storedRect.width  / window.innerWidth;
+            const sy = storedRect.height / window.innerHeight;
+
+            fsOverlay.style.display      = 'flex';
+            fsOverlay.style.borderRadius = '32px';
+
+            expandAnim = fsOverlay.animate([
+              { transform: `translate(${cx}px, ${cy}px) scale(${sx}, ${sy})`, borderRadius: '32px', opacity: 0.92 },
+              { transform: 'translate(0,0) scale(1,1)',                        borderRadius: '0px',  opacity: 1   }
+            ], { duration: 560, easing: SPRING, fill: 'forwards' });
+
+            // Header fades + slides up simultaneously
+            pcLabel.style.opacity   = '0';
+            pcLabel.style.transform = 'translateY(-20px)';
+            pcTitle.style.opacity   = '0';
+            pcTitle.style.transform = 'translateY(-20px)';
+
+            document.body.style.overflow = 'hidden';
+          }
+
+          function closeCard() {
+            if (!storedRect) return;
+
+            const cx = storedRect.left + storedRect.width  / 2 - window.innerWidth  / 2;
+            const cy = storedRect.top  + storedRect.height / 2 - window.innerHeight / 2;
+            const sx = storedRect.width  / window.innerWidth;
+            const sy = storedRect.height / window.innerHeight;
+
+            if (expandAnim) expandAnim.cancel();
+
+            const closeAnim = fsOverlay.animate([
+              { transform: 'translate(0,0) scale(1,1)',                        borderRadius: '0px',  opacity: 1  },
+              { transform: `translate(${cx}px, ${cy}px) scale(${sx}, ${sy})`, borderRadius: '32px', opacity: 0  }
+            ], { duration: 380, easing: SPRING_OUT, fill: 'forwards' });
+
+            closeAnim.onfinish = () => {
+              fsOverlay.style.display = 'none';
+              fsImg.src    = '';
+              storedRect   = null;
+              expandAnim   = null;
+            };
+
+            // Restore header
+            pcLabel.style.opacity   = '';
+            pcLabel.style.transform = '';
+            pcTitle.style.opacity   = '';
+            pcTitle.style.transform = '';
+
+            document.body.style.overflow = '';
+          }
+
+          fsClose.addEventListener('click', e => { e.stopPropagation(); closeCard(); });
+          fsOverlay.addEventListener('click', closeCard);
+          document.addEventListener('keydown', e => { if (e.key === 'Escape') closeCard(); });
+
+          /* ── Init ── */
+          function init() {
+            updatePadding();
+            const pad = parseFloat(container.style.paddingLeft) || 0;
+            container.scrollLeft = cards[0].offsetLeft - pad;
+            tick();
+          }
+
+          window.addEventListener('resize', () => { updatePadding(); tick(); });
+          if (document.readyState === 'complete') { init(); } else { window.addEventListener('load', init); }
+        })();
+      </script>
     </section>
   </main>
 
