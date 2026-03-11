@@ -291,10 +291,7 @@
           height: 420px;
           margin-left: -48px;
           margin-right: -48px;
-          border-radius: 32px;
-          overflow: hidden;
           position: relative;
-          background: #111;
           scroll-snap-align: center;
           will-change: transform;
           cursor: pointer;
@@ -303,15 +300,31 @@
           .pc-card { width: 230px; height: 340px; margin-left: -34px; margin-right: -34px; }
         }
 
+        .pc-card-inner {
+          position: absolute;
+          inset: 0;
+          border-radius: 32px;
+          overflow: hidden;
+          background: #111;
+        }
+
+        .pc-img-wrap {
+          position: absolute;
+          width: 160%;
+          height: 100%;
+          left: -30%;
+          top: 0;
+          will-change: transform;
+        }
+
         .pc-card img {
           position: absolute;
-          width: 130%;
+          width: 100%;
           height: 100%;
-          left: -15%;
+          left: 0;
           top: 0;
           object-fit: cover;
-          transform: translateX(0px);
-          will-change: transform;
+          object-position: center;
           pointer-events: none;
         }
 
@@ -335,7 +348,7 @@
         .pc-overlay {
           position: absolute; inset: 0;
           background: #000;
-          opacity: 0.65;
+          opacity: 0.35;
           pointer-events: none;
           z-index: 3;
         }
@@ -353,7 +366,7 @@
         }
         #pc-fullscreen img {
           width: 100%; height: 100%;
-          object-fit: cover;
+          object-fit: contain;
           pointer-events: none;
           display: block;
         }
@@ -380,36 +393,52 @@
       <div style="overflow:hidden;">
       <div id="parallax-carousel">
         <div class="pc-card">
-          <img src="carousel_1.jpg" alt="Miranda at work" draggable="false">
-          <div class="pc-reflection"></div><div class="pc-overlay"></div>
+          <div class="pc-card-inner">
+            <div class="pc-img-wrap"><img src="carousel_1.jpg" alt="Miranda at work" draggable="false"></div>
+            <div class="pc-reflection"></div><div class="pc-overlay"></div>
+          </div>
         </div>
         <div class="pc-card">
-          <img src="carousel_2.jpg" alt="Miranda at work" draggable="false">
-          <div class="pc-reflection"></div><div class="pc-overlay"></div>
+          <div class="pc-card-inner">
+            <div class="pc-img-wrap"><img src="carousel_2.jpg" alt="Miranda at work" draggable="false"></div>
+            <div class="pc-reflection"></div><div class="pc-overlay"></div>
+          </div>
         </div>
         <div class="pc-card">
-          <img src="carousel_3.jpg" alt="Miranda at work" draggable="false">
-          <div class="pc-reflection"></div><div class="pc-overlay"></div>
+          <div class="pc-card-inner">
+            <div class="pc-img-wrap"><img src="carousel_3.jpg" alt="Miranda at work" draggable="false"></div>
+            <div class="pc-reflection"></div><div class="pc-overlay"></div>
+          </div>
         </div>
         <div class="pc-card">
-          <img src="carousel_4.jpg" alt="Miranda at work" draggable="false">
-          <div class="pc-reflection"></div><div class="pc-overlay"></div>
+          <div class="pc-card-inner">
+            <div class="pc-img-wrap"><img src="carousel_4.jpg" alt="Miranda at work" draggable="false"></div>
+            <div class="pc-reflection"></div><div class="pc-overlay"></div>
+          </div>
         </div>
         <div class="pc-card">
-          <img src="carousel_5.jpg" alt="Miranda at work" draggable="false">
-          <div class="pc-reflection"></div><div class="pc-overlay"></div>
+          <div class="pc-card-inner">
+            <div class="pc-img-wrap"><img src="carousel_5.jpg" alt="Miranda at work" draggable="false"></div>
+            <div class="pc-reflection"></div><div class="pc-overlay"></div>
+          </div>
         </div>
         <div class="pc-card">
-          <img src="carousel_6.jpg" alt="Miranda at work" draggable="false">
-          <div class="pc-reflection"></div><div class="pc-overlay"></div>
+          <div class="pc-card-inner">
+            <div class="pc-img-wrap"><img src="carousel_6.jpg" alt="Miranda at work" draggable="false"></div>
+            <div class="pc-reflection"></div><div class="pc-overlay"></div>
+          </div>
         </div>
         <div class="pc-card">
-          <img src="carousel_7.jpg" alt="Miranda at work" draggable="false">
-          <div class="pc-reflection"></div><div class="pc-overlay"></div>
+          <div class="pc-card-inner">
+            <div class="pc-img-wrap"><img src="carousel_7.jpg" alt="Miranda at work" draggable="false"></div>
+            <div class="pc-reflection"></div><div class="pc-overlay"></div>
+          </div>
         </div>
         <div class="pc-card">
-          <img src="carousel_8.jpg" alt="Miranda at work" draggable="false">
-          <div class="pc-reflection"></div><div class="pc-overlay"></div>
+          <div class="pc-card-inner">
+            <div class="pc-img-wrap"><img src="carousel_8.jpg" alt="Miranda at work" draggable="false"></div>
+            <div class="pc-reflection"></div><div class="pc-overlay"></div>
+          </div>
         </div>
       </div>
 
@@ -476,7 +505,7 @@
             const near = nearestIndex();
 
             cards.forEach((card) => {
-              const img        = card.querySelector('img');
+              const imgWrap    = card.querySelector('.pc-img-wrap');
               const reflection = card.querySelector('.pc-reflection');
               const overlay    = card.querySelector('.pc-overlay');
 
@@ -492,10 +521,10 @@
               card.style.zIndex    = String(Math.round(map(abs, 0, 1, 100, 1)));
               card.style.filter    = `drop-shadow(0 ${shadow}px ${shadow * 2}px rgba(0,0,0,${map(abs,0,1,0.55,0.2)}))`;
 
-              /* ── Image: 2D horizontal parallax, always fills the card ── */
-              const imgW = card.offsetWidth;
-              const imgX = -prog * imgW * 0.12;
-              img.style.transform = `translateX(${imgX}px)`;
+              /* ── Layer 2 (Image): OPPOSITE direction at 0.2 ratio — "window" depth effect ── */
+              const imgW  = card.offsetWidth;
+              const imgX = -prog * imgW * 0.20;
+              imgWrap.style.transform = `translateX(${imgX}px)`;
 
               /* ── Layer 3 (Reflection): SAME direction as scroll (0.4 ratio), fades at edges ── */
               const refX  = prog * imgW * 0.40;                 // 0.4 ratio, same direction
@@ -504,7 +533,7 @@
               reflection.style.opacity   = String(refOp);
 
               /* ── Dim overlay: clear at center, dark at edges ── */
-              const opa = abs < 0.3 ? map(abs, 0, 0.3, 0, 0.45) : map(abs, 0.3, 1, 0.45, 0.75);
+              const opa = abs < 0.3 ? map(abs, 0, 0.3, 0, 0.25) : map(abs, 0.3, 1, 0.25, 0.55);
               overlay.style.opacity = String(opa);
             });
 
