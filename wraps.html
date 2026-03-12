@@ -169,7 +169,7 @@
   <!-- Preloader -->
   <div id="preloader" class="fixed inset-0 z-[9999] bg-black flex flex-col items-center justify-center overflow-hidden transition-opacity duration-700">
     <div class="relative flex flex-col items-center">
-      <img src="Elevated_preloader.GIF" class="h-32 md:h-48 w-auto mb-8" alt="Elevated Wraps Loading...">
+      <img src="assets/Elevated_preloader.GIF" class="h-32 md:h-48 w-auto mb-8" alt="Elevated Wraps Loading...">
       <div class="w-48 h-[1px] bg-zinc-900 relative overflow-hidden">
         <div class="absolute inset-0 bg-gradient-to-r from-transparent via-purple-500 to-transparent w-full h-full animate-[loading_1.5s_ease-in-out_infinite] -translate-x-full"></div>
       </div>
@@ -264,13 +264,15 @@
       </style>
       <section class="relative h-[80vh] md:h-[90vh] flex items-center justify-center overflow-hidden z-10">
         <div class="absolute inset-0 z-0">
-          <img id="hero-image" class="w-full h-full object-cover grayscale-[0.5] ken-burns" alt="Vinyl Wrap Hero" src="https://images.squarespace-cdn.com/content/v1/67053ead069230112a5e9280/1754852806663-U048MFIKZOJJ2PXCIE4P/unsplash-image-8MXNZCgAah0.jpg" style="opacity: 0;">
+          <video id="hero-image" class="w-full h-full object-cover" autoplay muted loop playsinline style="opacity: 0;">
+            <source src="assets/Wrap_video.mp4" type="video/mp4">
+          </video>
           <div class="absolute inset-0 bg-gradient-to-b from-black/10 via-transparent to-black z-10"></div>
         </div>
         <div class="relative z-20 text-center px-6 pt-12">
           <div style="opacity: 1; transform: none;">
-            <span class="text-purple-500 uppercase tracking-[0.5em] md:tracking-[0.8em] text-[8px] md:text-[10px] font-black block mb-6 md:mb-8 drop-shadow-xl" style="opacity: 1;">Transform Your Ride. Make a Statement.</span>
-            <h1 class="porsche-font text-5xl md:text-[11rem] leading-none text-white italic tracking-tighter">Vinyl <span class="text-purple-500 drop-shadow-[0_0_30px_rgba(168,85,247,0.2)]">Wraps.</span></h1>
+            <h1 class="porsche-font text-5xl md:text-[11rem] leading-none text-white italic tracking-tighter mb-6 md:mb-10">Vinyl <span class="text-purple-500 drop-shadow-[0_0_30px_rgba(168,85,247,0.2)]">Wraps.</span></h1>
+            <p class="text-white/80 uppercase tracking-[0.3em] md:tracking-[0.5em] text-sm md:text-xl font-semibold drop-shadow-xl">Transform Your Ride.&nbsp; Make a Statement.</p>
           </div>
         </div>
       </section>
@@ -288,7 +290,7 @@
               <div class="rounded-[2rem] md:rounded-[3rem] overflow-hidden border border-white/10 shadow-2xl relative group aspect-video bg-black/50">
                 <div class="absolute inset-0 bg-purple-500/10 group-hover:bg-transparent transition-colors z-10 pointer-events-none"></div>
                 <video autoplay muted loop playsinline class="w-full h-full object-cover opacity-90 group-hover:opacity-100 transition-opacity duration-700">
-                  <source src="Vinyl_wrap_video.mp4" type="video/mp4">
+                  <source src="assets/Vinyl_wrap_video.mp4" type="video/mp4">
                 </video>
               </div>
 
@@ -459,7 +461,7 @@
       </section>
       <section class="py-24 md:py-48 text-center bg-black relative z-10 overflow-hidden">
         <div class="absolute inset-0 z-0">
-          <img src="Vinyl_wrap_statement.png" alt="Statement Background" class="w-full h-full object-cover opacity-40 ken-burns">
+          <img src="assets/Vinyl_wrap_statement.png" alt="Statement Background" class="w-full h-full object-cover opacity-40 ken-burns">
           <div class="absolute inset-0 bg-black/60"></div>
         </div>
         <div class="absolute inset-0 bg-[radial-gradient(circle_at_center,rgba(168,85,247,0.2)_0%,transparent_80%)] pointer-events-none z-0"></div>
