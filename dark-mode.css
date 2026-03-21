@@ -1,0 +1,611 @@
+/* ═══════════════════════════════════════════════════════════════
+   FLUID DARK MODE — Inspired by FluidDarkMode (AGSL shader reveal)
+   Noise-warped polygon reveal + canvas ripple/glow wave front
+   ═══════════════════════════════════════════════════════════════ */
+
+/* ── View Transition — disable defaults, JS drives polygon clip ── */
+::view-transition-old(root) {
+  animation: none;
+  mix-blend-mode: normal;
+  z-index: -1;
+}
+
+::view-transition-new(root) {
+  animation: none;
+  mix-blend-mode: normal;
+  /* Start hidden — JS polygon animation takes over immediately */
+  clip-path: inset(100%);
+}
+
+/* ── Fluid Canvas Overlay (glow + ripple rings) ── */
+#fluid-dark-mode-canvas {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100vw;
+  height: 100vh;
+  z-index: 2147483646;
+  pointer-events: none;
+}
+
+/* ── Toggle Button ── */
+.fluid-dark-toggle {
+  position: relative;
+  width: 44px;
+  height: 44px;
+  border-radius: 50%;
+  border: 1px solid rgba(255, 255, 255, 0.15);
+  background: rgba(255, 255, 255, 0.05);
+  backdrop-filter: blur(10px);
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1);
+  outline: none;
+  -webkit-tap-highlight-color: transparent;
+  overflow: hidden;
+  flex-shrink: 0;
+}
+
+.fluid-dark-toggle:hover {
+  border-color: rgba(168, 85, 247, 0.4);
+  background: rgba(168, 85, 247, 0.1);
+  box-shadow: 0 0 20px rgba(168, 85, 247, 0.2);
+  transform: scale(1.08);
+}
+
+.fluid-dark-toggle:active {
+  transform: scale(0.95);
+}
+
+.fluid-dark-toggle .toggle-icon {
+  font-size: 18px;
+  transition: transform 0.5s cubic-bezier(0.4, 0, 0.2, 1), opacity 0.3s ease;
+  line-height: 1;
+}
+
+.fluid-dark-toggle .toggle-icon.sun {
+  position: absolute;
+  opacity: 0;
+  transform: rotate(-90deg) scale(0.5);
+}
+
+.fluid-dark-toggle .toggle-icon.moon {
+  opacity: 1;
+  transform: rotate(0deg) scale(1);
+}
+
+[data-theme="light"] .fluid-dark-toggle {
+  border-color: rgba(0, 0, 0, 0.15);
+  background: rgba(0, 0, 0, 0.05);
+}
+
+[data-theme="light"] .fluid-dark-toggle:hover {
+  border-color: rgba(124, 58, 237, 0.4);
+  background: rgba(124, 58, 237, 0.1);
+  box-shadow: 0 0 20px rgba(124, 58, 237, 0.2);
+}
+
+[data-theme="light"] .fluid-dark-toggle .toggle-icon.sun {
+  opacity: 1;
+  transform: rotate(0deg) scale(1);
+}
+
+[data-theme="light"] .fluid-dark-toggle .toggle-icon.moon {
+  opacity: 0;
+  transform: rotate(90deg) scale(0.5);
+}
+
+/* ═══════════════════════════════════════════════════════════════
+   LIGHT THEME — Complete Design System
+
+   Palette:
+   ┌─ Backgrounds ────────────────────────────────────────────────┐
+   │  Page base   #faf9fd  Pearl white (trace purple warmth)      │
+   │  Alt section #f1edf9  Soft lavender pearl                    │
+   │  Card        #e9e3f4  Elevated card surface                  │
+   │  Deep card   #ddd7ef  Inset / nested surfaces                │
+   └──────────────────────────────────────────────────────────────┘
+   ┌─ Typography ─────────────────────────────────────────────────┐
+   │  Heading     #0e0c1a  Near-black, warm purple base           │
+   │  Body        #2e2949  Deep purple-gray, premium paragraphs   │
+   │  Secondary   #4e4872  Muted readable text  ~6.5:1 contrast   │
+   └──────────────────────────────────────────────────────────────┘
+   ┌─ Accents ────────────────────────────────────────────────────┐
+   │  Purple hi   #7c3aed  Heading highlights, links              │
+   │  Purple deep #6d28d9  Hover, eyebrows                        │
+   └──────────────────────────────────────────────────────────────┘
+
+   Photo/video sections with dark overlays keep their white text —
+   those are intentional dark islands within the light page.
+   ═══════════════════════════════════════════════════════════════ */
+
+/* ── Page background: atmospheric pearl lavender ── */
+[data-theme="light"] body {
+  background:
+    radial-gradient(circle at 15% 0%,   rgba(124, 58, 237, 0.10) 0%, transparent 45%),
+    radial-gradient(circle at 85% 5%,   rgba(168, 85, 247, 0.07) 0%, transparent 40%),
+    radial-gradient(circle at 50% 100%, rgba(109, 40, 217, 0.06) 0%, transparent 55%),
+    linear-gradient(165deg, #faf9fd 0%, #f4f0fb 45%, #ede8f7 100%) !important;
+  background-color: #faf9fd !important;
+  color: #0e0c1a !important;
+}
+
+/* ── Navbar: intentionally kept dark — clean contrast strip ── */
+[data-theme="light"] #main-nav {
+  background: rgba(8, 6, 18, 0.80) !important;
+  backdrop-filter: blur(24px) saturate(180%) !important;
+  border-bottom-color: rgba(255, 255, 255, 0.06) !important;
+}
+[data-theme="light"] #main-nav a,
+[data-theme="light"] #main-nav span,
+[data-theme="light"] #main-nav .text-white {
+  color: white !important;
+}
+[data-theme="light"] #main-nav .text-purple-400 { color: #c084fc !important; }
+
+/* Toggle button sits inside dark navbar — keep its own light-mode look */
+[data-theme="light"] .fluid-dark-toggle {
+  border-color: rgba(255, 255, 255, 0.20) !important;
+  background: rgba(255, 255, 255, 0.08) !important;
+}
+[data-theme="light"] .fluid-dark-toggle:hover {
+  border-color: rgba(168, 85, 247, 0.50) !important;
+  background: rgba(168, 85, 247, 0.15) !important;
+  box-shadow: 0 0 20px rgba(168, 85, 247, 0.25) !important;
+}
+[data-theme="light"] .fluid-dark-toggle .toggle-icon.sun  { opacity: 1;  transform: rotate(0deg) scale(1); }
+[data-theme="light"] .fluid-dark-toggle .toggle-icon.moon { opacity: 0;  transform: rotate(90deg) scale(0.5); }
+
+/* ══════════════════════════════════════════════════════════════
+   TYPOGRAPHY — global text colour overrides
+   white / near-white classes are invisible on #faf9fd without these.
+   ══════════════════════════════════════════════════════════════ */
+
+[data-theme="light"] .text-white       { color: #0e0c1a !important; }
+[data-theme="light"] .text-white\/80   { color: rgba(14, 12, 26, 0.72) !important; }
+[data-theme="light"] .text-white\/50   { color: rgba(14, 12, 26, 0.40) !important; }
+[data-theme="light"] .text-white\/40   { color: rgba(14, 12, 26, 0.32) !important; }
+
+/* zinc-100/200/300 designed for dark bgs — invisible on light */
+[data-theme="light"] .text-zinc-100    { color: #2e2949 !important; }
+[data-theme="light"] .text-zinc-200    { color: #2e2949 !important; }
+[data-theme="light"] .text-zinc-300    { color: #2e2949 !important; }
+/* zinc-400 (#a1a1aa = 2.4:1 on #faf9fd) — fails WCAG AA, override */
+[data-theme="light"] .text-zinc-400    { color: #4e4872 !important; }
+/* zinc-500 ≈ 4.9:1  zinc-600 ≈ 9.8:1 — already readable, no override */
+
+/* Purple: deepen for light-bg contrast */
+[data-theme="light"] .text-purple-300  { color: #7c3aed !important; }
+[data-theme="light"] .text-purple-400  { color: #7c3aed !important; }
+[data-theme="light"] .text-purple-500  { color: #6d28d9 !important; }
+
+/* Encrypted / scramble accent spans */
+[data-theme="light"] .encrypted-inline { color: #7c3aed !important; }
+
+/* ── Hero title "ELEVATED AUTO" — stone silver ── */
+[data-theme="light"] .hero h1,
+[data-theme="light"] .hero h1 .text-white { color: #b4afc6 !important; }
+
+/* ══════════════════════════════════════════════════════════════
+   PHOTO & VIDEO SECTIONS — restore white text
+   These sections have dark overlays that are NOT overridden,
+   so backgrounds stay dark. White text is correct here.
+   ══════════════════════════════════════════════════════════════ */
+
+/* Index: parallax-cta (photo background) */
+[data-theme="light"] #parallax-cta .text-white      { color: white !important; }
+[data-theme="light"] #parallax-cta .text-white\/80  { color: rgba(255, 255, 255, 0.80) !important; }
+[data-theme="light"] #parallax-cta .text-white\/50  { color: rgba(255, 255, 255, 0.50) !important; }
+[data-theme="light"] #parallax-cta .text-zinc-300   { color: rgba(230, 225, 245, 0.85) !important; }
+[data-theme="light"] #parallax-cta .text-zinc-400   { color: rgba(210, 200, 235, 0.75) !important; }
+[data-theme="light"] #parallax-cta .text-purple-400 { color: #c084fc !important; }
+[data-theme="light"] #parallax-cta .text-purple-500 { color: #a855f7 !important; }
+
+/* Video hero sections — services.html & wraps.html */
+[data-theme="light"] section:has(> video) .text-white      { color: white !important; }
+[data-theme="light"] section:has(> video) .text-white\/80  { color: rgba(255, 255, 255, 0.80) !important; }
+[data-theme="light"] section:has(> video) .text-white\/50  { color: rgba(255, 255, 255, 0.50) !important; }
+[data-theme="light"] section:has(> video) .text-zinc-100   { color: rgba(255, 255, 255, 0.92) !important; }
+[data-theme="light"] section:has(> video) .text-zinc-300   { color: rgba(230, 225, 245, 0.85) !important; }
+[data-theme="light"] section:has(> video) .text-zinc-400   { color: rgba(210, 200, 235, 0.75) !important; }
+[data-theme="light"] section:has(> video) .text-purple-400 { color: #c084fc !important; }
+[data-theme="light"] section:has(> video) .text-purple-500 { color: #a855f7 !important; }
+
+/* Sections with 60% dark photo overlay */
+[data-theme="light"] section:has(> div.bg-black\/60) .text-white      { color: white !important; }
+[data-theme="light"] section:has(> div.bg-black\/60) .text-white\/80  { color: rgba(255, 255, 255, 0.80) !important; }
+[data-theme="light"] section:has(> div.bg-black\/60) .text-white\/50  { color: rgba(255, 255, 255, 0.50) !important; }
+[data-theme="light"] section:has(> div.bg-black\/60) .text-zinc-100   { color: rgba(255, 255, 255, 0.92) !important; }
+[data-theme="light"] section:has(> div.bg-black\/60) .text-zinc-300   { color: rgba(230, 225, 245, 0.85) !important; }
+[data-theme="light"] section:has(> div.bg-black\/60) .text-zinc-400   { color: rgba(210, 200, 235, 0.75) !important; }
+[data-theme="light"] section:has(> div.bg-black\/60) .text-purple-400 { color: #c084fc !important; }
+[data-theme="light"] section:has(> div.bg-black\/60) .text-purple-500 { color: #a855f7 !important; }
+
+/* Sections with 55% dark photo overlay */
+[data-theme="light"] section:has(> div.bg-black\/55) .text-white      { color: white !important; }
+[data-theme="light"] section:has(> div.bg-black\/55) .text-white\/50  { color: rgba(255, 255, 255, 0.50) !important; }
+[data-theme="light"] section:has(> div.bg-black\/55) .text-zinc-300   { color: rgba(230, 225, 245, 0.85) !important; }
+[data-theme="light"] section:has(> div.bg-black\/55) .text-purple-400 { color: #c084fc !important; }
+
+/* Quote hero background-image section */
+[data-theme="light"] [style*="Quote_Background"] .text-white      { color: white !important; }
+[data-theme="light"] [style*="Quote_Background"] .text-white\/50  { color: rgba(255, 255, 255, 0.50) !important; }
+[data-theme="light"] [style*="Quote_Background"] .text-zinc-300   { color: rgba(230, 225, 245, 0.85) !important; }
+[data-theme="light"] [style*="Quote_Background"] .text-purple-400 { color: #c084fc !important; }
+
+/* ══════════════════════════════════════════════════════════════
+   SECTION BACKGROUNDS
+   Note: bg-black/20, /40, /55, /60 are photo overlays — NOT overridden.
+   ══════════════════════════════════════════════════════════════ */
+
+[data-theme="light"] .bg-\[\#08070b\]  { background-color: #faf9fd !important; }
+
+/* bg-black: only non-overlay uses (not absolute/fixed positioned overlay divs) */
+[data-theme="light"] .bg-black:not(.absolute):not(.fixed):not([style]) {
+  background-color: #f1edf9 !important;
+}
+
+[data-theme="light"] .bg-zinc-950      { background-color: #e8e2f2 !important; }
+[data-theme="light"] .bg-zinc-900      { background-color: #ede8f5 !important; }
+
+/* Atmospheric purple blobs */
+[data-theme="light"] .bg-purple-500\/15,
+[data-theme="light"] .bg-purple-600\/10 { background-color: rgba(124, 58, 237, 0.07) !important; }
+[data-theme="light"] .bg-purple-500\/10  { background-color: rgba(124, 58, 237, 0.05) !important; }
+[data-theme="light"] .bg-purple-500\/5   { background-color: rgba(124, 58, 237, 0.03) !important; }
+
+/* White-alpha blobs (glow accents in dark mode — invert for light) */
+[data-theme="light"] .bg-white\/5       { background-color: rgba(14, 12, 26, 0.04) !important; }
+[data-theme="light"] .bg-white\/10      { background-color: rgba(14, 12, 26, 0.06) !important; }
+
+/* Mesh background */
+[data-theme="light"] .bg-mesh {
+  background-image:
+    radial-gradient(at 0%   0%,   rgba(124, 58, 237, 0.05) 0px, transparent 50%),
+    radial-gradient(at 100% 0%,   rgba(168, 85, 247, 0.08) 0px, transparent 50%),
+    radial-gradient(at 100% 100%, rgba(124, 58, 237, 0.05) 0px, transparent 50%),
+    radial-gradient(at 0%   100%, rgba(168, 85, 247, 0.08) 0px, transparent 50%) !important;
+}
+
+/* Inline style dark backgrounds */
+[data-theme="light"] [style*="background-color: #08070b"],
+[data-theme="light"] [style*="background-color: rgb(8, 7, 11)"] {
+  background-color: #faf9fd !important;
+}
+
+/* Gradient fade bars */
+[data-theme="light"] .bg-gradient-to-b.from-\[\#08070b\] {
+  background: linear-gradient(to bottom, #faf9fd, transparent, #faf9fd) !important;
+}
+
+/* ══════════════════════════════════════════════════════════════
+   SURFACES — cards, glass panels
+   ══════════════════════════════════════════════════════════════ */
+
+[data-theme="light"] .glass-panel {
+  background: rgba(255, 255, 255, 0.72) !important;
+  border-color: rgba(124, 58, 237, 0.12) !important;
+  backdrop-filter: blur(20px) !important;
+}
+[data-theme="light"] .scroll-animation-card {
+  background-color: #ddd7ef !important;
+  border-color: rgba(124, 58, 237, 0.12) !important;
+}
+[data-theme="light"] .bg-white\/60 {
+  background: rgba(255, 255, 255, 0.88) !important;
+}
+
+/* ══════════════════════════════════════════════════════════════
+   BORDERS
+   ══════════════════════════════════════════════════════════════ */
+
+[data-theme="light"] .border-white\/5       { border-color: rgba(14, 12, 26, 0.07) !important; }
+[data-theme="light"] .border-white\/10      { border-color: rgba(14, 12, 26, 0.10) !important; }
+[data-theme="light"] .border-white\/30      { border-color: rgba(14, 12, 26, 0.18) !important; }
+[data-theme="light"] .border-purple-500\/20 { border-color: rgba(124, 58, 237, 0.20) !important; }
+
+/* ══════════════════════════════════════════════════════════════
+   SHADOWS & FILTERS
+   ══════════════════════════════════════════════════════════════ */
+
+[data-theme="light"] .drop-shadow-\[0_10px_40px_rgba\(0\,0\,0\,1\)\] {
+  filter: drop-shadow(0 10px 30px rgba(14, 12, 26, 0.18)) !important;
+}
+[data-theme="light"] .drop-shadow-\[0_0_60px_rgba\(168\,85\,247\,0\.5\)\] {
+  filter: drop-shadow(0 0 40px rgba(124, 58, 237, 0.22)) !important;
+}
+[data-theme="light"] .shadow-2xl {
+  box-shadow: 0 25px 50px -12px rgba(14, 12, 26, 0.12) !important;
+}
+
+/* ══════════════════════════════════════════════════════════════
+   BUTTONS
+   ══════════════════════════════════════════════════════════════ */
+
+[data-theme="light"] .btn-solid {
+  color: #6d28d9 !important;
+  border-color: rgba(109, 40, 217, 0.25) !important;
+  box-shadow: 0 0 12px rgba(109, 40, 217, 0.10) !important;
+}
+[data-theme="light"] .btn-solid::after {
+  background: #faf9fd !important;
+}
+[data-theme="light"] .btn-solid:hover {
+  color: #4c1d95 !important;
+  box-shadow: 0 0 40px rgba(109, 40, 217, 0.35) !important;
+}
+
+/* ══════════════════════════════════════════════════════════════
+   MOBILE MENU
+   ══════════════════════════════════════════════════════════════ */
+
+[data-theme="light"] #mobile-menu {
+  background: linear-gradient(160deg, #faf9fd 0%, #ede8f7 100%) !important;
+}
+[data-theme="light"] #mobile-menu .absolute.inset-0.bg-black {
+  background: transparent !important;
+}
+[data-theme="light"] #mobile-menu .mobile-link {
+  color: #0e0c1a !important;
+}
+[data-theme="light"] #mobile-menu .roll-inner > span:last-child {
+  color: #7c3aed !important;
+}
+[data-theme="light"] #mobile-menu a:not(.mobile-link) {
+  color: #4e4872 !important;
+}
+
+/* ══════════════════════════════════════════════════════════════
+   HERO CANVAS
+   ══════════════════════════════════════════════════════════════ */
+
+[data-theme="light"] #hero-canvas {
+  filter: brightness(1.12) saturate(0.88) contrast(0.95);
+}
+
+/* ══════════════════════════════════════════════════════════════
+   PRELOADER
+   ══════════════════════════════════════════════════════════════ */
+
+[data-theme="light"] #preloader {
+  background-color: #faf9fd !important;
+}
+
+/* ══════════════════════════════════════════════════════════════
+   FOOTER
+   ══════════════════════════════════════════════════════════════ */
+
+[data-theme="light"] footer.bg-black:not(.absolute):not(.fixed) {
+  background: linear-gradient(to bottom, #ede8f5 0%, #e4ddf0 100%) !important;
+}
+[data-theme="light"] footer .text-white             { color: #0e0c1a !important; }
+[data-theme="light"] footer .text-zinc-100          { color: #2e2949 !important; }
+[data-theme="light"] footer .text-zinc-300          { color: #2e2949 !important; }
+[data-theme="light"] footer .text-zinc-400          { color: #4e4872 !important; }
+[data-theme="light"] footer .text-zinc-500          { color: #4e4872 !important; }
+[data-theme="light"] footer .text-zinc-600          { color: #4e4872 !important; }
+[data-theme="light"] footer .text-purple-500        { color: #6d28d9 !important; }
+[data-theme="light"] footer a.text-white:hover      { color: #6d28d9 !important; }
+[data-theme="light"] footer .bg-zinc-900\/50        { background-color: rgba(124, 58, 237, 0.06) !important; }
+[data-theme="light"] footer .bg-zinc-800            { background-color: rgba(14, 12, 26, 0.12) !important; }
+[data-theme="light"] footer .border-white\/5        { border-color: rgba(124, 58, 237, 0.15) !important; }
+[data-theme="light"] footer .bg-white\/5            { background-color: rgba(124, 58, 237, 0.06) !important; }
+
+/* ══════════════════════════════════════════════════════════════
+   ABOUT PAGE — gradient background
+   ══════════════════════════════════════════════════════════════ */
+
+[data-theme="light"] .bg-gradient-to-b.from-white {
+  background: linear-gradient(to bottom,
+    #faf9fd 0%,
+    rgba(168, 85, 247, 0.08) 25%,
+    rgba(109, 40, 217, 0.07) 45%,
+    #faf9fd 60%) !important;
+}
+
+/* ══════════════════════════════════════════════════════════════
+   PPF PAGE — package cards & CTA
+   ══════════════════════════════════════════════════════════════ */
+
+/* .pulse-purple colour is zinc-400 which fails on light bg */
+[data-theme="light"] .pulse-purple { color: #4e4872 !important; }
+
+/* ── Hero: full-viewport WebGL canvas — keep section dark ──
+   The [data-us-project] embed renders a dark animation covering
+   100vw × 100vh. White text must stay white or it sinks into
+   the dark canvas and becomes unreadable. */
+[data-theme="light"] section:has([data-us-project]) {
+  background-color: #08070b !important;
+}
+[data-theme="light"] section:has([data-us-project]) .text-white      { color: white !important; }
+[data-theme="light"] section:has([data-us-project]) .text-white\/40  { color: rgba(255, 255, 255, 0.40) !important; }
+[data-theme="light"] section:has([data-us-project]) .text-white\/50  { color: rgba(255, 255, 255, 0.50) !important; }
+[data-theme="light"] section:has([data-us-project]) .text-purple-300 { color: #c084fc !important; }
+[data-theme="light"] section:has([data-us-project]) .btn-solid       { color: #a855f7 !important; }
+
+/* Package cards (Full Front / Track Pack / Full Body) —
+   div.grid.bg-zinc-950/80 is the surface wrapper. Make it a glass card. */
+[data-theme="light"] .grid.bg-zinc-950\/80 {
+  background: rgba(255, 255, 255, 0.88) !important;
+  border: 1px solid rgba(124, 58, 237, 0.12) !important;
+  backdrop-filter: blur(20px) !important;
+  box-shadow:
+    0 25px 60px rgba(14, 12, 26, 0.08),
+    0 0 0 1px rgba(124, 58, 237, 0.08) !important;
+}
+/* "Interactive 3D Preview" pill button — lighten for the new card bg */
+[data-theme="light"] .grid.bg-zinc-950\/80 .bg-black\/60 {
+  background: rgba(124, 58, 237, 0.07) !important;
+  border-color: rgba(124, 58, 237, 0.15) !important;
+}
+/* divider line inside card */
+[data-theme="light"] .grid.bg-zinc-950\/80 .border-white\/10 {
+  border-color: rgba(124, 58, 237, 0.15) !important;
+}
+/* "Consultation Required" & package description text — dark on light card */
+[data-theme="light"] .grid.bg-zinc-950\/80 .text-white   { color: #0e0c1a !important; }
+[data-theme="light"] .grid.bg-zinc-950\/80 .text-zinc-400 { color: #4e4872 !important; }
+[data-theme="light"] .grid.bg-zinc-950\/80 .text-zinc-600 { color: #4e4872 !important; }
+
+/* Bottom CTA section (bg-zinc-950/80 on a <section>) has a photo bg +
+   purple glow overlay — keep it dark and restore white text. */
+[data-theme="light"] section.bg-zinc-950\/80 {
+  background: rgba(9, 9, 11, 0.80) !important;
+}
+[data-theme="light"] section.bg-zinc-950\/80 .text-white      { color: white !important; }
+[data-theme="light"] section.bg-zinc-950\/80 .border-white\/5 { border-color: rgba(255, 255, 255, 0.05) !important; }
+
+/* ══════════════════════════════════════════════════════════════
+   QUOTE PAGE — form card & inputs
+   ══════════════════════════════════════════════════════════════ */
+
+[data-theme="light"] .neu-card {
+  background: linear-gradient(145deg,
+    rgba(255, 255, 255, 0.94),
+    rgba(241, 237, 249, 0.97)) !important;
+  border-color: rgba(124, 58, 237, 0.14) !important;
+  box-shadow:
+    0 20px 60px rgba(14, 12, 26, 0.10),
+    0 0 0 1px rgba(124, 58, 237, 0.10) !important;
+}
+
+/* Quote hero wrapper keeps white text for the photo background, but the
+   glass cards inside it need the light-mode text palette restored. */
+[data-theme="light"] [style*="Quote_Background"] .neu-card .text-white      { color: #0e0c1a !important; }
+[data-theme="light"] [style*="Quote_Background"] .neu-card .text-white\/80  { color: rgba(14, 12, 26, 0.72) !important; }
+[data-theme="light"] [style*="Quote_Background"] .neu-card .text-white\/50  { color: rgba(14, 12, 26, 0.40) !important; }
+[data-theme="light"] [style*="Quote_Background"] .neu-card .text-zinc-300   { color: #2e2949 !important; }
+[data-theme="light"] [style*="Quote_Background"] .neu-card .text-zinc-400   { color: #4e4872 !important; }
+[data-theme="light"] [style*="Quote_Background"] .neu-card .text-zinc-500   { color: #71717a !important; }
+[data-theme="light"] [style*="Quote_Background"] .neu-card .text-zinc-600   { color: #71717a !important; }
+[data-theme="light"] [style*="Quote_Background"] .neu-card .text-purple-400 { color: #7c3aed !important; }
+
+[data-theme="light"] input,
+[data-theme="light"] select,
+[data-theme="light"] textarea {
+  background: rgba(255, 255, 255, 0.96) !important;
+  color: #0e0c1a !important;
+  border-color: rgba(124, 58, 237, 0.20) !important;
+}
+[data-theme="light"] input:focus,
+[data-theme="light"] select:focus,
+[data-theme="light"] textarea:focus {
+  border-color: rgba(109, 40, 217, 0.50) !important;
+  box-shadow: 0 0 0 3px rgba(109, 40, 217, 0.08) !important;
+  outline: none !important;
+}
+[data-theme="light"] input::placeholder,
+[data-theme="light"] textarea::placeholder { color: #9390aa !important; }
+[data-theme="light"] select option {
+  background: #faf9fd !important;
+  color: #0e0c1a !important;
+}
+
+/* Undo the page-level dark-mode calendar icon filter for light inputs. */
+[data-theme="light"] input[type="date"]::-webkit-calendar-picker-indicator {
+  filter: none !important;
+  opacity: 0.5;
+  cursor: pointer;
+}
+
+/* Input-leading icons */
+[data-theme="light"] .neu-card .text-zinc-600 { color: #9390aa !important; }
+
+[data-theme="light"] .neu-service-btn {
+  background: rgba(255, 255, 255, 0.88) !important;
+  border-color: rgba(124, 58, 237, 0.18) !important;
+  color: #2e2949 !important;
+  box-shadow: 0 4px 12px rgba(14, 12, 26, 0.06) !important;
+}
+[data-theme="light"] .neu-service-btn:hover,
+[data-theme="light"] .neu-service-btn.active,
+[data-theme="light"] .neu-service-btn.selected {
+  background: rgba(124, 58, 237, 0.10) !important;
+  border-color: rgba(109, 40, 217, 0.40) !important;
+  color: #6d28d9 !important;
+}
+[data-theme="light"] .neu-service-btn .icon-well {
+  background: rgba(124, 58, 237, 0.08) !important;
+  box-shadow: none !important;
+}
+[data-theme="light"] .neu-service-btn:hover .icon-well,
+[data-theme="light"] .neu-service-btn.selected .icon-well,
+[data-theme="light"] .neu-service-btn.active .icon-well {
+  background: rgba(109, 40, 217, 0.14) !important;
+}
+
+[data-theme="light"] .neu-submit {
+  background: linear-gradient(145deg, #f1edf9, #e6dff5) !important;
+  color: #0e0c1a !important;
+  border-color: rgba(124, 58, 237, 0.18) !important;
+  box-shadow:
+    6px 6px 16px rgba(14, 12, 26, 0.08),
+    -4px -4px 12px rgba(255, 255, 255, 0.90) !important;
+}
+[data-theme="light"] .neu-submit:hover {
+  color: #7c3aed !important;
+  box-shadow:
+    8px 12px 28px rgba(14, 12, 26, 0.12),
+    0 0 40px rgba(124, 58, 237, 0.18) !important;
+}
+[data-theme="light"] .neu-submit:hover svg { stroke: #7c3aed !important; }
+
+/* ══════════════════════════════════════════════════════════════
+   WRAPS PAGE
+   ══════════════════════════════════════════════════════════════ */
+
+/* ── Feature boxes: COLOR CHANGE / GRAPHICS / LIVERIES ──
+   bg-zinc-950/50 is semi-transparent near-black; over light bg it
+   blends to a muddy mid-gray where zinc-500 text is invisible. */
+[data-theme="light"] .bg-zinc-950\/50 {
+  background-color: rgba(233, 227, 244, 0.75) !important;
+  border-color: rgba(124, 58, 237, 0.14) !important;
+}
+[data-theme="light"] .bg-zinc-950\/20 {
+  background-color: rgba(233, 227, 244, 0.30) !important;
+}
+
+/* ── 3D collection cards ──
+   Each card is a full-bleed photo + bg-black/40 overlay (not overridden).
+   Title (z-20 over photo) and description pill need white text. */
+[data-theme="light"] .three-d-card .text-white       { color: white !important; }
+[data-theme="light"] .three-d-card .text-white\/80   { color: rgba(255, 255, 255, 0.80) !important; }
+[data-theme="light"] .three-d-card .text-zinc-200    { color: rgba(255, 255, 255, 0.88) !important; }
+[data-theme="light"] .three-d-card .border-white\/10 { border-color: rgba(255, 255, 255, 0.10) !important; }
+
+/* ══════════════════════════════════════════════════════════════
+   SERVICES PAGE — gallery cards & modal
+   Cards have their own inline dark background + .card-scrim gradient —
+   those are untouched by light mode. The section wrapper can be light.
+   The Unicorn Studio WebGL renders its own pixels; CSS can't affect it.
+   ══════════════════════════════════════════════════════════════ */
+
+/* Gallery card text — white over their own dark photo scrims */
+[data-theme="light"] .gallery-card .text-white      { color: white !important; }
+[data-theme="light"] .gallery-card .text-white\/80  { color: rgba(255, 255, 255, 0.80) !important; }
+[data-theme="light"] .gallery-card .card-label      { color: #a855f7 !important; }
+
+/* Modal — full-screen photo with dark overlay */
+[data-theme="light"] #gallery-modal .text-white     { color: white !important; }
+[data-theme="light"] #gallery-modal .text-white\/80 { color: rgba(255, 255, 255, 0.80) !important; }
+[data-theme="light"] #gallery-modal .text-purple-400{ color: #c084fc !important; }
+
+/* ══════════════════════════════════════════════════════════════
+   SMOOTH TRANSITIONS (non-view-transition elements)
+   ══════════════════════════════════════════════════════════════ */
+
+body,
+.glass-panel,
+.btn-solid,
+.scroll-animation-card,
+.neu-card,
+input, select, textarea {
+  transition:
+    background-color 0.35s ease,
+    background 0.35s ease,
+    color 0.35s ease,
+    border-color 0.35s ease,
+    box-shadow 0.35s ease !important;
+}
