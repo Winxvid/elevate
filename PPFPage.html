@@ -162,43 +162,6 @@
     <script src="dark-mode.js"></script>
 </head>
 <body class="bg-[#08070b] text-white antialiased">
-  <!-- Preloader Overlay -->
-  <div id="preloader">
-      <img src="assets/Elevated_preloader.GIF" class="h-32 md:h-48 w-auto mb-8" alt="Elevated Wraps Loading...">
-      <div class="w-48 h-[1px] bg-white/10 relative overflow-hidden">
-          <div class="absolute inset-0 bg-purple-500 animate-[loading_2s_ease-in-out_infinite]"></div>
-      </div>
-  </div>
-  <style>
-    @keyframes loading {
-      0% { transform: translateX(-100%); }
-      50% { transform: translateX(100%); }
-      100% { transform: translateX(100%); }
-    }
-    #preloader {
-      position: fixed;
-      inset: 0;
-      background: #08070b;
-      display: flex;
-      flex-direction: column;
-      align-items: center;
-      justify-content: center;
-      z-index: 9999;
-      transition: opacity 0.8s cubic-bezier(0.16, 1, 0.3, 1), visibility 0.8s;
-    }
-    #preloader.hidden {
-      opacity: 0;
-      visibility: hidden;
-    }
-  </style>
-  <script>
-    window.addEventListener('load', () => {
-      const preloader = document.getElementById('preloader');
-      setTimeout(() => {
-        preloader.classList.add('hidden');
-      }, 1000);
-    });
-  </script>
   <div id="navbar-container"></div>
   <main class="min-h-screen">
     <section class="relative h-[100dvh] w-full flex items-center justify-center overflow-hidden bg-black">
