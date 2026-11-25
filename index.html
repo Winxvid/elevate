@@ -198,7 +198,26 @@
         opacity: 1;
       }
     }
-  </style>
+
+    /* Mobile: solid black behind the hero until the user scrolls past it */
+    @media (max-width: 767px) {
+      html.hero-active,
+      body.hero-active {
+        background: #000 !important;
+        background-image: none !important;
+      }
+      .hero,
+      .hero > section {
+        background: #000 !important;
+      }
+      .hero > div:not(#hero-canvas) {
+        display: none !important;
+      }
+      #hero-canvas {
+        height: 100dvh !important;
+        background: #000;
+      }
+    }
   </style>
   <!-- GSAP and ScrollTrigger -->
   <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.5/gsap.min.js"></script>
@@ -216,7 +235,8 @@
   <link rel="stylesheet" href="dark-mode.css">
   <script src="dark-mode.js"></script>
 </head>
-<body>
+<body class="hero-active">
+  <script>document.documentElement.classList.add('hero-active');</script>
   <!-- Preloader -->
   <div id="preloader" class="fixed inset-0 z-[9999] bg-black flex flex-col items-center justify-center overflow-hidden transition-opacity duration-700">
     <div class="relative flex flex-col items-center">
@@ -468,7 +488,8 @@
         const img = images[frameToShow];
         if (img) {
           // Fill canvas with dark background to match site bg on letterbox areas
-          ctx.fillStyle = '#08070b';
+          const isMobile = heroCanvas.width < 768;
+          ctx.fillStyle = isMobile ? '#000' : '#08070b';
           ctx.fillRect(0, 0, heroCanvas.width, heroCanvas.height);
           
           const canvasRatio = heroCanvas.width / heroCanvas.height;
@@ -478,7 +499,6 @@
 
           // On mobile (narrow/portrait screens), use "contain" so the full image is visible
           // On desktop (wide screens), use "cover" for immersive fullscreen feel
-          const isMobile = heroCanvas.width < 768;
 
           if (isMobile) {
             // "Contain" — fit entire image within canvas, no cropping
@@ -544,6 +564,16 @@
           end: '+=250%', 
           pin: true,
           anticipatePin: 1,
+          onUpdate: self => {
+            const active = self.progress < 1;
+            document.documentElement.classList.toggle('hero-active', active);
+            document.body.classList.toggle('hero-active', active);
+          },
+          onRefresh: self => {
+            const active = self.progress < 1;
+            document.documentElement.classList.toggle('hero-active', active);
+            document.body.classList.toggle('hero-active', active);
+          }
         }
       });
 
