@@ -188,6 +188,11 @@
 [data-theme="light"] .hero h1,
 [data-theme="light"] .hero h1 .text-white { color: #b4afc6 !important; }
 
+/* Hero tagline sits on the dark canvas — keep it light */
+[data-theme="light"] .hero .hero-content > div .text-white,
+[data-theme="light"] .hero .hero-content > div.text-white,
+[data-theme="light"] .hero .hero-content > div.text-white span { color: #e4e0f0 !important; }
+
 /* ══════════════════════════════════════════════════════════════
    PHOTO & VIDEO SECTIONS — restore white text
    These sections have dark overlays that are NOT overridden,
