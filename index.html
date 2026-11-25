@@ -213,7 +213,8 @@
         display: none !important;
       }
       #hero-canvas {
-        height: 100dvh !important;
+        height: 100vh !important;
+        height: 100lvh !important;
         background: #000;
       }
     }
@@ -474,85 +475,111 @@
     // Hero Image Sequence
     const heroCanvas = document.getElementById('hero-canvas');
     if (heroCanvas) {
-      const ctx = heroCanvas.getContext('2d');
+      const ctx = heroCanvas.getContext('2d', { alpha: false });
       const frameCount = 145;
-      const images = [];
-      let imagesLoaded = 0;
+      const frames = new Array(frameCount).fill(null);
       const playhead = { frame: 0 };
+      let cssWidth = 0;
+      let cssHeight = 0;
+      let lastDrawn = -1;
 
       const currentFrame = index => `hero/${(index + 1).toString().padStart(5, '0')}.png`;
 
-      const renderHero = () => {
-        let frameToShow = Math.round(playhead.frame);
-        const img = images[frameToShow];
-        if (img) {
-          // Fill canvas with dark background to match site bg on letterbox areas
-          const isMobile = heroCanvas.width < 768;
-          ctx.fillStyle = isMobile ? '#000' : '#08070b';
-          ctx.fillRect(0, 0, heroCanvas.width, heroCanvas.height);
-          
-          const canvasRatio = heroCanvas.width / heroCanvas.height;
-          const imgRatio = img.width / img.height;
-          
-          let drawWidth, drawHeight, offsetX, offsetY;
-
-          // On mobile (narrow/portrait screens), use "contain" so the full image is visible
-          // On desktop (wide screens), use "cover" for immersive fullscreen feel
-
-          if (isMobile) {
-            // "Contain" — fit entire image within canvas, no cropping
-            if (canvasRatio > imgRatio) {
-              // Canvas is wider — fit to height, center horizontally
-              drawHeight = heroCanvas.height;
-              drawWidth = heroCanvas.height * imgRatio;
-              offsetX = (heroCanvas.width - drawWidth) / 2;
-              offsetY = 0;
-            } else {
-              // Canvas is taller — fit to width, position image toward top
-              drawWidth = heroCanvas.width;
-              drawHeight = heroCanvas.width / imgRatio;
-              offsetX = 0;
-              // Push image toward top third instead of dead center for better composition
-              offsetY = (heroCanvas.height - drawHeight) * 0.3;
-            }
-          } else {
-            // "Cover" — fill canvas completely, crop as needed (desktop)
-            if (canvasRatio > imgRatio) {
-              drawWidth = heroCanvas.width;
-              drawHeight = heroCanvas.width / imgRatio;
-              offsetX = 0;
-              offsetY = (heroCanvas.height - drawHeight) / 2;
-            } else {
-              drawHeight = heroCanvas.height;
-              drawWidth = heroCanvas.height * imgRatio;
-              offsetX = (heroCanvas.width - drawWidth) / 2;
-              offsetY = 0;
-            }
-          }
-
-          ctx.drawImage(img, offsetX, offsetY, drawWidth, drawHeight);
-        }
+      // Canvas bitmap always matches its on-screen size (x devicePixelRatio) so nothing is stretched
+      const sizeCanvas = () => {
+        const rect = heroCanvas.getBoundingClientRect();
+        const dpr = Math.min(window.devicePixelRatio || 1, 2);
+        cssWidth = rect.width;
+        cssHeight = rect.height;
+        heroCanvas.width = Math.round(rect.width * dpr);
+        heroCanvas.height = Math.round(rect.height * dpr);
+        ctx.imageSmoothingEnabled = true;
+        ctx.imageSmoothingQuality = 'high';
+        lastDrawn = -1;
       };
 
-      for (let i = 0; i < frameCount; i++) {
+      const renderHero = () => {
+        const target = Math.round(playhead.frame);
+        if (target === lastDrawn) return;
+
+        // Fall back to the nearest earlier frame that has finished loading
+        let idx = target;
+        while (idx > 0 && !frames[idx]) idx--;
+        const img = frames[idx];
+        if (!img) return;
+        lastDrawn = target;
+
+        const w = heroCanvas.width;
+        const h = heroCanvas.height;
+        const isMobile = cssWidth < 768;
+        ctx.fillStyle = isMobile ? '#000' : '#08070b';
+        ctx.fillRect(0, 0, w, h);
+
+        const canvasRatio = w / h;
+        const imgRatio = img.width / img.height;
+        let drawWidth, drawHeight, offsetX, offsetY;
+
+        if (isMobile) {
+          // "Contain" — whole image visible, positioned toward the top third
+          if (canvasRatio > imgRatio) {
+            drawHeight = h;
+            drawWidth = h * imgRatio;
+            offsetX = (w - drawWidth) / 2;
+            offsetY = 0;
+          } else {
+            drawWidth = w;
+            drawHeight = w / imgRatio;
+            offsetX = 0;
+            offsetY = (h - drawHeight) * 0.3;
+          }
+        } else {
+          // "Cover" — fill the canvas, crop as needed
+          if (canvasRatio > imgRatio) {
+            drawWidth = w;
+            drawHeight = w / imgRatio;
+            offsetX = 0;
+            offsetY = (h - drawHeight) / 2;
+          } else {
+            drawHeight = h;
+            drawWidth = h * imgRatio;
+            offsetX = (w - drawWidth) / 2;
+            offsetY = 0;
+          }
+        }
+
+        // Round to whole pixels to avoid soft/shimmering edges between frames
+        ctx.drawImage(img, Math.round(offsetX), Math.round(offsetY), Math.round(drawWidth), Math.round(drawHeight));
+      };
+
+      // Decode each frame up front (ImageBitmap) so scrolling never waits on image decoding
+      const loadFrame = i => {
         const img = new Image();
-        img.src = currentFrame(i);
+        img.decoding = 'async';
         img.onload = () => {
-          imagesLoaded++;
-          if (imagesLoaded === frameCount) {
-            renderHero();
+          const done = bitmap => {
+            frames[i] = bitmap;
+            if (i === Math.round(playhead.frame) || i === 0) { lastDrawn = -1; renderHero(); }
+          };
+          if (window.createImageBitmap) {
+            createImageBitmap(img).then(done).catch(() => done(img));
+          } else {
+            done(img);
           }
         };
-        images.push(img);
-      }
+        img.src = currentFrame(i);
+      };
+      for (let i = 0; i < frameCount; i++) loadFrame(i);
 
-      heroCanvas.width = window.innerWidth;
-      heroCanvas.height = window.innerHeight;
+      sizeCanvas();
+      renderHero();
 
+      // Ignore small height changes (mobile address bar show/hide) so the canvas never re-scales mid-scroll
       window.addEventListener('resize', () => {
-        heroCanvas.width = window.innerWidth;
-        heroCanvas.height = window.innerHeight;
-        renderHero();
+        const rect = heroCanvas.getBoundingClientRect();
+        if (Math.abs(rect.width - cssWidth) > 1 || Math.abs(rect.height - cssHeight) > 150) {
+          sizeCanvas();
+          renderHero();
+        }
       });
 
       const heroTl = gsap.timeline({
